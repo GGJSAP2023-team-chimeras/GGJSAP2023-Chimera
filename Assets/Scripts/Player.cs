@@ -126,6 +126,7 @@ public class Player : MonoBehaviour
             //各種座用軸の速度を求める
             float xSpeed = GetXSpeed();
             float ySpeed = GetYSpeed();
+            Debug.Log(ySpeed);
             //アニメーション設定
             //SetAnimation();
             rb.velocity = new Vector2(xSpeed, ySpeed);
@@ -134,14 +135,11 @@ public class Player : MonoBehaviour
         {
             rb.velocity = new Vector2(0, gravityPower);
         }
+        Debug.Log(isGround);
     }
     private void OnMove(InputAction.CallbackContext context)
     {
         movePos = context.ReadValue<Vector2>();
-        if (context.canceled)
-        {
-            movePos = Vector2.zero;
-        }
     }
     /// <summary>
     /// X成分で必要な計算をし、速度を返す。

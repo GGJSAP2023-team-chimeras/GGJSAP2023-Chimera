@@ -45,7 +45,7 @@ public class GroundCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D Collision)
     {
-        if (Collision.tag == groundTag)
+        if (Collision.gameObject.CompareTag(groundTag))
         {
             isGroundExit = true;
         }
