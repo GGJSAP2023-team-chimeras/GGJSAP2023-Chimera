@@ -18,6 +18,22 @@ namespace Manager
         // 前のルートが上から何番目か
         public int PrevRouteIndex = 0;
 
+        /// <summary>
+        /// シーン遷移で削除してほしくない
+        /// </summary>
+        protected override void Awake()
+        {
+            base.Awake();
+            if (this != Instance)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
+
         // mapuiから呼び出す
         public void InitMap()
         {
@@ -46,8 +62,6 @@ namespace Manager
 
         public void OnSceneLoaded(UnityEngine.SceneManagement.Scene nextScene, UnityEngine.SceneManagement.LoadSceneMode mode)
         {
-            Debug.Log(nextScene.name);
-            Debug.Log(mode);
             BattleSceneManager.Instance.InitBattleScene();
         }
 
@@ -58,13 +72,15 @@ namespace Manager
 
             // 層を進むとインクリメント
             ResultManager.Instance.NumOfLayers++;
+            // 現在のルート数を前のやつに
+            NumOfPrevRoutes = NumOfRoutes;
             // 選択したルートを保持
-            this.PrevRouteIndex = routeIndex;
+            PrevRouteIndex = routeIndex;
             // ルートによってボスのタイプを変更
             BattleSceneManager.Instance.BossEnemyType = Routes[routeIndex];
             // シーン遷移
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.ChangeScene(1);
+            SceneManager.ChangeScene(2);
         }
     }
 }

@@ -11,6 +11,22 @@ namespace Manager
         // FIXME: EnemyTypeŒ^‚É‚·‚é
         public int BossEnemyType;
 
+        /// <summary>
+        /// ƒV[ƒ“‘JˆÚ‚Åíœ‚µ‚Ä‚Ù‚µ‚­‚È‚¢
+        /// </summary>
+        protected override  void Awake()
+        {
+            base.Awake();
+            if (this != Instance)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
+        }
+
         public void InitBattleScene()
         {
             Debug.Log(BossEnemyType);
