@@ -31,6 +31,10 @@ public class MapUI : MonoBehaviour
         this.InitMapUI();
     }
 
+    /// <summary>
+    /// ルート選択がされたときの処理
+    /// </summary>
+    /// <param name="routeIdx">上から何個目か（0始まり）</param>
     public void OnPressRouteButton(int routeIdx)
     {
         Manager.MapManager.Instance.GoNext(routeIdx);
@@ -40,24 +44,49 @@ public class MapUI : MonoBehaviour
     {
         // 次のルート選択のボタン配置
         // 現在地点のやつにしたいので、xの調整
-        var positions = RouteButtonPositionsList[Manager.MapManager.Instance.NumOfRoutes - 1]
+        var routes = Manager.MapManager.Instance.NumOfRoutes;
+        var positions = RouteButtonPositionsList[routes - 1]
                         .Positions
                         .Select((v) => new Vector3(0, v.y, 0))
                         .ToArray();
-        for (int i = 0; i < positions.Length; i++)
+
+        // デフォルトでの選択状態を簡単に選択するために、逆順でforを回す
+        for (int i = positions.Length - 1; i >= 0; i--)
         {
             var idx = i;
-            var button = Instantiate(RouteButtonPrefab,
+            var buttonObj = Instantiate(RouteButtonPrefab,
                                         this.GetComponent<RectTransform>());
-            button.GetComponent<RectTransform>().anchoredPosition = positions[i];
-            button.GetComponent<Button>()
-                .onClick
-                .AddListener(() => OnPressRouteButton(idx));
-            // 最初のボタンを選択状態に
-            if (i == 0)
+            buttonObj.GetComponent<RectTransform>().anchoredPosition = positions[i];
+
+            var button = buttonObj.GetComponent<Button>();
+            button.onClick.AddListener(() => OnPressRouteButton(idx));
+
+            var prevRoutes = Manager.MapManager.Instance.NumOfPrevRoutes;
+
+            // 前のルートに応じたルート選択可能判定
+            var prevSelectRoute = Manager.MapManager.Instance.PrevRouteIndex;
+            if (prevRoutes == 3 && routes == 2)
             {
-                button.GetComponent<Button>().Select();
+                // i = i-1 or i だったらenaable
+                button.interactable = i == prevSelectRoute - 1 || i == prevSelectRoute;
             }
+            else if (prevRoutes == 2 && routes == 3)
+            {
+                // i = i or i+1 だったらenaable
+                button.interactable = i == prevSelectRoute || i == prevSelectRoute + 1;
+            }
+
+            // FIXME: 実装やばすぎ
+            if (button.interactable)
+            {
+                button.Select();
+            }
+        }
+
+        // 初回は前の節ないのでリターン
+        if (Manager.MapManager.Instance.NumOfPrevRoutes == 0)
+        {
+            return;
         }
         // 前の節を表示
         var prevPositions = RouteButtonPositionsList[Manager.MapManager.Instance.NumOfPrevRoutes - 1]

@@ -20,8 +20,8 @@ public class ResultUI : SingletonMonoBehaviour<ResultUI>
 
     public void ShowResult()
     {
-        // FIXME: scoreManagerからとってくる
-        scoreText.text = "5";
+        // 到達した層をスコアとして出す
+        scoreText.text = Manager.ResultManager.Instance.NumOfLayers.ToString();
         ResultUIObject.SetActive(true);
     }
 

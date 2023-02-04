@@ -14,7 +14,7 @@ namespace Manager
         public List<int> Routes;
 
         // 前のルートの個数
-        public int NumOfPrevRoutes = 1;
+        public int NumOfPrevRoutes = 0;
         // 前のルートが上から何番目か
         public int PrevRouteIndex = 0;
 
@@ -46,12 +46,22 @@ namespace Manager
                 // 5ステージごとに中ボス戦
                 NumOfRoutes = 1;
             }
+            else if(NumOfPrevRoutes == 2)
+            {
+                // 前のルートが2だったときは3
+                NumOfRoutes = 3;
+            }else if(NumOfPrevRoutes == 3)
+            {
+                // 前のルートが3だったときは2
+                NumOfRoutes = 2;
+            }
             else
             {
-                // 他はランダムに2か3
+                // それ以外はランダムに2か3
                 NumOfRoutes = Random.Range(2, 4);
             }
 
+            // それぞれのルートに敵のタイプを振り分け
             for (int i = 0; i < NumOfRoutes; i++)
             {
                 // FIXME: とりあえず3種類で決め打ち

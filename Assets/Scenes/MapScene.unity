@@ -217,7 +217,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NumOfRoutes: 3
   Routes: 
-  NumOfPrevRoutes: 1
+  NumOfPrevRoutes: 0
   PrevRouteIndex: 0
 --- !u!4 &266259355
 Transform:

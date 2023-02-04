@@ -17,6 +17,16 @@ public class StartUI : MonoBehaviour
         FirstSelectedButton.Select();
     }
 
+    /// <summary>
+    /// ƒQ[ƒ€‚Ì‰Šú‰»ˆ—
+    /// </summary>
+    public void InitGame()
+    {
+        Manager.ResultManager.Instance.NumOfLayers = 0;
+        Manager.MapManager.Instance.NumOfPrevRoutes = 0;
+        Manager.MapManager.Instance.PrevRouteIndex = 0;
+    }
+
     public void OnPressStartButton()
     {
         Manager.SceneManager.ChangeScene(1);

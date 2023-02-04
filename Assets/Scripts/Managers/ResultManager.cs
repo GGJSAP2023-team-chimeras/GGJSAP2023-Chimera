@@ -2,22 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResultManager : SingletonMonoBehaviour<ResultManager>
+namespace Manager
 {
-    /// <summary>
-    /// シーン遷移で削除してほしくない
-    /// </summary>
-    protected override void Awake()
+    public class ResultManager : SingletonMonoBehaviour<ResultManager>
     {
-        base.Awake();
-        if (this != Instance)
+        /// <summary>
+        /// シーン遷移で削除してほしくない
+        /// </summary>
+        protected override void Awake()
         {
-            Destroy(gameObject);
+            base.Awake();
+            if (this != Instance)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
         }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
+        public int NumOfLayers = 0;
     }
-    public int NumOfLayers = 0;
 }

@@ -32,6 +32,9 @@ namespace Manager
             Debug.Log(BossEnemyType);
         }
 
+        /// <summary>
+        /// ƒvƒŒƒCƒ„[‚ª”s–k‚µ‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚é
+        /// </summary>
         public void FinishGame()
         {
             ResultUI.Instance.ShowResult();
