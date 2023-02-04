@@ -21,7 +21,8 @@ public class ResultUI : SingletonMonoBehaviour<ResultUI>
     public void ShowResult()
     {
         // FIXME: scoreManager‚©‚ç‚Æ‚Á‚Ä‚­‚é
-        scoreText.text = "1";
+        scoreText.text = "5";
+        ResultUIObject.SetActive(true);
     }
 
     // ƒ^ƒCƒgƒ‹‚É–ß‚éˆ—
