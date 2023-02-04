@@ -44,7 +44,7 @@ namespace Manager
             }
         }
 
-        void SceneLoaded(UnityEngine.SceneManagement.Scene nextScene, UnityEngine.SceneManagement.LoadSceneMode mode)
+        public void OnSceneLoaded(UnityEngine.SceneManagement.Scene nextScene, UnityEngine.SceneManagement.LoadSceneMode mode)
         {
             Debug.Log(nextScene.name);
             Debug.Log(mode);
@@ -63,7 +63,7 @@ namespace Manager
             // ルートによってボスのタイプを変更
             BattleSceneManager.Instance.BossEnemyType = Routes[routeIndex];
             // シーン遷移
-            UnityEngine.SceneManagement.SceneManager.sceneLoaded += SceneLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.ChangeScene(1);
         }
     }
