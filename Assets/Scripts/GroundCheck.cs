@@ -2,53 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundCheck : MonoBehaviour
+namespace Players
 {
-    //地面のタグ
-    private string groundTag = "Ground";
-    //地面判定
-    private bool isGround = false;
-    //地面についている
-    private bool isGroundEnter, isGroundStay, isGroundExit;
-
-    public bool IsGround()
+    public class GroundCheck : MonoBehaviour
     {
-        if (isGroundEnter || isGroundStay)
-        {
-            isGround = true;
-        }
-        else if (isGroundExit)
-        {
-            isGround = false;
-        }
-        isGroundEnter = false;
-        isGroundStay = false;
-        isGroundExit = false;
-        return isGround;
-    }
+        //地面のタグ
+        private string groundTag = "Ground";
+        //地面判定
+        [SerializeField]
+        private bool isGround = false;
+        //地面についている
+        private bool isGroundEnter, isGroundStay, isGroundExit;
 
-    private void OnTriggerEnter2D(Collider2D Collision)
-    {
-        if (Collision.gameObject.CompareTag(groundTag))
+        public bool IsGround()
         {
-            isGroundEnter = true;
+            if (isGroundEnter || isGroundStay)
+            {
+                isGround = true;
+            }
+            else if (isGroundExit)
+            {
+                isGround = false;
+            }
+            isGroundEnter = false;
+            isGroundStay = false;
+            isGroundExit = false;
+            return isGround;
         }
-    }
 
-    private void OnTriggerStay2D(Collider2D Collision)
-    {
-        if (Collision.gameObject.CompareTag(groundTag))
+        private void OnTriggerEnter2D(Collider2D Collision)
         {
-            isGroundStay = true;
+            if (Collision.gameObject.CompareTag(groundTag))
+            {
+                isGroundEnter = true;
+            }
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D Collision)
-    {
-        if (Collision.gameObject.CompareTag(groundTag))
+        private void OnTriggerStay2D(Collider2D Collision)
         {
-            isGroundExit = true;
+            if (Collision.gameObject.CompareTag(groundTag))
+            {
+                isGroundStay = true;
+            }
         }
-    }
 
+        private void OnTriggerExit2D(Collider2D Collision)
+        {
+            if (Collision.gameObject.CompareTag(groundTag))
+            {
+                isGroundExit = true;
+            }
+        }
+
+    }
 }
