@@ -13,11 +13,11 @@ namespace BodyParts
         //体のどのパーツなのか
         [SerializeField] protected PartsType.BodyPartsType bodyPartsType;
         //頭の種類
-        [SerializeField] protected PartsType.HeadType headType = PartsType.HeadType.None;
+        [SerializeField] protected PartsType.EachPartsType headType = PartsType.EachPartsType.None;
         //身体の種類
-        [SerializeField] protected PartsType.BodyType bodyType = PartsType.BodyType.None;
+        [SerializeField] protected PartsType.EachPartsType bodyType = PartsType.EachPartsType.None;
         //足の種類
-        [SerializeField] protected PartsType.FootType footType = PartsType.FootType.None;
+        [SerializeField] protected PartsType.EachPartsType footType = PartsType.EachPartsType.None;
         //プレイヤー
         [SerializeField] protected Player player;
         // Start is called before the first frame update
@@ -54,20 +54,20 @@ namespace BodyParts
                     break;
             }
         }
-        public virtual void HeadSkill(PartsType.HeadType headType = PartsType.HeadType.None)
+        public virtual void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
-            if (headType == PartsType.HeadType.None) return;
-            //Debug.Log(headType.ToString());
+            if (headType == PartsType.EachPartsType.None) return;
+            Debug.Log(headType.ToString());
         }
-        public virtual void BodySkill(PartsType.BodyType bodyType = PartsType.BodyType.None)
+        public virtual void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
-            if (bodyType == PartsType.BodyType.None) return;
-            //Debug.Log(bodyType.ToString());
+            if (bodyType == PartsType.EachPartsType.None) return;
+            Debug.Log(bodyType.ToString());
         }
-        public virtual void FootSkill(PartsType.FootType footType = PartsType.FootType.None)
+        public virtual void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
         {
-            if (footType == PartsType.FootType.None) return;
-            //Debug.Log(footType.ToString());
+            if (footType == PartsType.EachPartsType.None) return;
+            Debug.Log(footType.ToString());
         }
     }
 }

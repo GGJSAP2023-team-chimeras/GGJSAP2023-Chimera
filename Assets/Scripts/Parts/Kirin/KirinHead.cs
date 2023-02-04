@@ -16,15 +16,15 @@ public class KirinHead : Parts
     {
         base.Update();
     }
-    public override void HeadSkill(PartsType.HeadType headType = PartsType.HeadType.None)
+    public override void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
     {
         base.HeadSkill(headType);
     }
-    public override void BodySkill(PartsType.BodyType bodyType = PartsType.BodyType.None)
+    public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
     {
         base.BodySkill(bodyType);
     }
-    public override void FootSkill(PartsType.FootType footType = PartsType.FootType.None)
+    public override void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
     {
         base.FootSkill(footType);
     }

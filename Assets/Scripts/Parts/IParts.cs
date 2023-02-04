@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IParts
 {
-    public  void HeadSkill(PartsType.HeadType headType = PartsType.HeadType.None);
-    public  void BodySkill(PartsType.BodyType bodyType = PartsType.BodyType.None);
-    public  void FootSkill(PartsType.FootType footType = PartsType.FootType.None);
+    public  void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None);
+    public  void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None);
+    public  void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None);
 }

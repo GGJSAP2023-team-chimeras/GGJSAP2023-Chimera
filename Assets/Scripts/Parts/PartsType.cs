@@ -13,29 +13,13 @@ namespace BodyParts
         {
             Head,Body,Foot
         }
-        //頭部の種類
-        public enum HeadType
+        //各部位の種類(もっと追加するかも)
+        public enum EachPartsType
         {
-            Kirin,    //麒麟
-            Kada,     //化蛇
-            Baku,     //獏
+            Kirin = 0,  //麒麟
+            Kada,       //化蛇
+            Baku,       //獏
             None
         }
-        //身体の種類
-        public enum BodyType
-        {
-            Kirin,    //麒麟
-            Kada,     //化蛇
-            Baku,     //獏
-            None
-        }
-        //脚部の種類
-        public enum FootType
-        {
-            Kirin,    //麒麟
-            Kada,     //化蛇
-            Baku,     //獏
-            None
-        }        
     }
 }
