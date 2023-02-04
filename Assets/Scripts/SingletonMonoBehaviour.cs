@@ -1,19 +1,19 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System;
 
 /// <summary>
-/// Singleton‚Í: SingletonMonoBehaviour<GameManager>(GameManager‚Ìê‡)‚Ì‚æ‚¤‚Ég‚¤
+/// Singletonã¯: SingletonMonoBehaviour<GameManager>(GameManagerã®å ´åˆ)ã®ã‚ˆã†ã«ä½¿ã†
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
-    //‚±‚ÌƒNƒ‰ƒX‚ğŒp³‚µ‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğİ’è‚µ‚Ä©•ªˆÈŠO‚Ì©•ª‚ÌƒNƒ‰ƒX‚ğ’T‚µA‚ ‚Á‚½ê‡‚Í©•ª‚ğÁ‚·B
+    //ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¨­å®šã—ã¦è‡ªåˆ†ä»¥å¤–ã®è‡ªåˆ†ã®ã‚¯ãƒ©ã‚¹ã‚’æ¢ã—ã€ã‚ã£ãŸå ´åˆã¯è‡ªåˆ†ã‚’æ¶ˆã™ã€‚
     private static T instance;
     public static T Instance
     {
         get
         {
-            //ƒCƒ“ƒXƒ^ƒ“ƒX¶¬‚³‚ê‚Ä‚¢‚È‚©‚Á‚½ê‡
+            //ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆã•ã‚Œã¦ã„ãªã‹ã£ãŸå ´åˆ
             if (instance == null)
             {
                 Type t = typeof(T);
@@ -21,7 +21,7 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
                 instance = (T)FindObjectOfType(t);
                 if (instance == null)
                 {
-                    Debug.LogError(t + " ‚ğƒAƒ^ƒbƒ`‚µ‚Ä‚¢‚éGameObject‚Í‚ ‚è‚Ü‚¹‚ñ");
+                    Debug.LogError(t + " ã‚’ã‚¢ã‚¿ãƒƒãƒã—ã¦ã„ã‚‹GameObjectã¯ã‚ã‚Šã¾ã›ã‚“");
                 }
             }
 
@@ -31,12 +31,12 @@ public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBe
 
     virtual protected void Awake()
     {
-        // ‘¼‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg‚ÉƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚é‚©’²‚×‚é
-        // ƒAƒ^ƒbƒ`‚³‚ê‚Ä‚¢‚éê‡‚Í”jŠü‚·‚éB
+        // ä»–ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã‚‹ã‹èª¿ã¹ã‚‹
+        // ã‚¢ã‚¿ãƒƒãƒã•ã‚Œã¦ã„ã‚‹å ´åˆã¯ç ´æ£„ã™ã‚‹ã€‚
         CheckInstance();
     }
     /// <summary>
-    /// ƒCƒ“ƒXƒ^ƒ“ƒX‚Ì—L–³R¸
+    /// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®æœ‰ç„¡å¯©æŸ»
     /// </summary>
     /// <returns></returns>
     protected bool CheckInstance()
