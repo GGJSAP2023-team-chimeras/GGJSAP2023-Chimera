@@ -9,7 +9,7 @@ namespace Manager
         public GameObject ResultUIObject;
 
         // FIXME: EnemyTypeŒ^‚É‚·‚é
-        public int BossEnemyType;
+        public BodyParts.PartsType.EachPartsType BossEnemyType;
 
         /// <summary>
         /// ƒV[ƒ“‘JˆÚ‚Åíœ‚µ‚Ä‚Ù‚µ‚­‚È‚¢

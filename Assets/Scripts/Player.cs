@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using BodyParts;
 using System;
+using System.Linq;
 
 namespace Players
 {
@@ -12,6 +13,14 @@ namespace Players
     /// </summary>
     public class Player : MonoBehaviour, IDamageble
     {
+        // 体の部位を設定
+        [SerializeField]
+        GameObject[] heads;
+        [SerializeField]
+        GameObject[] bodys;
+        [SerializeField]
+        GameObject[] legs;
+
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
         [Header("ジャンプ制限時間"), SerializeField] private float jumpLimitTime;
@@ -28,8 +37,8 @@ namespace Players
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private PartsType.EachPartsType[] bodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
         //体の部位のスプライト
-        [NamedArray(new string[] { "頭", "体", "脚" })]
-        [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
+        //[NamedArray(new string[] { "頭", "体", "脚" })]
+        //[SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
 
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
@@ -173,7 +182,7 @@ namespace Players
                     flashTime += Time.deltaTime;
                 }
             }
-            PartsPickUP();
+            //PartsPickUP();
         }
         void FixedUpdate()
         {
@@ -195,6 +204,7 @@ namespace Players
             {
                 rb.velocity = new Vector2(0, gravityPower);
             }
+            anim.SetBool("Ground", isGround);
         }
         private void OnMove(InputAction.CallbackContext context)
         {
@@ -214,7 +224,7 @@ namespace Players
         {
             if (context.started)
             {
-                if (!jumpStart)
+                if (!jumpStart && isJump)
                 {
                     jumpStart = true;
                     //ジャンプの音
@@ -225,6 +235,7 @@ namespace Players
                     doubleJump = true;
                 }
                 isJump = true;
+                anim.Play("Jump");
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
             }
         }
@@ -372,19 +383,19 @@ namespace Players
             isDown = false;
             isJump = false;
         }
-        private void PartsPickUP()
-        {
-            if (isFire)
-            {
-                if (spawnParts != null && pickUPPartsSprite != null)
-                {
-                    spriteBodyRenderer[(int)spawnParts.EnemySpawnPartsType].sprite = pickUPPartsSprite;
-                    spawnParts.IsDestroy = true;
-                    spawnParts = null;
-                }
-                isFire = false;
-            }
-        }
+        //private void PartsPickUP()
+        //{
+        //    if (isFire)
+        //    {
+        //        if (spawnParts != null && pickUPPartsSprite != null)
+        //        {
+        //            spriteBodyRenderer[(int)spawnParts.EnemySpawnPartsType].sprite = pickUPPartsSprite;
+        //            spawnParts.IsDestroy = true;
+        //            spawnParts = null;
+        //        }
+        //        isFire = false;
+        //    }
+        //}
         private void OnCollisionEnter2D(Collision2D collision)
         {
             //パーツ獲得しそう、決定ボタン押した
@@ -412,6 +423,33 @@ namespace Players
             yield return new WaitForSeconds(0.5f);
             anim.SetLayerWeight(1, 0f);
             anim.Play("ArmIdle");
+        }
+
+        public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
+        {
+            switch (bodyPartsType)
+            {
+                case PartsType.BodyPartsType.Head:
+                    for (int i = 0; i < heads.Length; i++)
+                    {
+                        heads[i].SetActive(i == (int)partsType);
+                    }
+                    break;
+                case PartsType.BodyPartsType.Body:
+                    for (int i = 0; i < heads.Length; i++)
+                    {
+                        bodys[i].SetActive(i == (int)partsType);
+                    }
+                    break;
+                case PartsType.BodyPartsType.Foot:
+                    for (int i = 0; i < heads.Length; i++)
+                    {
+                        legs[i].SetActive(i == (int)partsType);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
