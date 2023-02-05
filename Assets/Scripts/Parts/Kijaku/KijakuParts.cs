@@ -1,16 +1,15 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BodyParts;
 namespace BodyParts
 {
     /// <summary>
-    /// ‚±‚ÌƒNƒ‰ƒX‚ğ‚Â‚¯‚½ƒIƒuƒWƒFƒNƒg‚ÍƒvƒŒƒCƒ„[‚Ìq‚É“ü‚ê‚é
+    /// ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ã¤ã‘ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å­ã«å…¥ã‚Œã‚‹
     /// </summary>
-    public class KirinParts : Parts
+    public class KijakuParts : Parts
     {
-        //‘å‚«‚¢‰Œ‚Åƒ_ƒ[ƒW‚ğ—^‚¦‚éoŒ»‚³‚¹‚éƒIƒuƒWƒFƒNƒg
-        [SerializeField] private GameObject spawnSmogObject;
+        [SerializeField] private GameObject beamObject;
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -29,17 +28,12 @@ namespace BodyParts
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
             base.BodySkill(bodyType);
-            if (player.JumpStart)
-            {
-                var obj = Instantiate(spawnSmogObject, player.transform.position, Quaternion.identity);
-                Destroy(obj.gameObject, 0.3f);
-                player.JumpStart = false;
-            }
+            player.GravityPower = player.BeforeGravityPower * 1.25f;
         }
         public override void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
         {
             base.FootSkill(footType);
-            player.CanDoubleJump = true;
+            player.WalkSpeed = player.BeforeWalkSpeed * 1.25f;
         }
     }
 }

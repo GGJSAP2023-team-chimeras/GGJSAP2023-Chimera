@@ -89,15 +89,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Attack"",
-                    ""type"": ""Button"",
-                    ""id"": ""3921295b-4df1-4249-b419-5a81538b211e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -373,17 +364,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""FootSkill"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8257f20f-bc89-4afc-9b86-12c9e000ac92"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -978,7 +958,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         m_Player_HeadSkill = m_Player.FindAction("HeadSkill", throwIfNotFound: true);
         m_Player_BodySkill = m_Player.FindAction("BodySkill", throwIfNotFound: true);
         m_Player_FootSkill = m_Player.FindAction("FootSkill", throwIfNotFound: true);
-        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1057,7 +1036,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_HeadSkill;
     private readonly InputAction m_Player_BodySkill;
     private readonly InputAction m_Player_FootSkill;
-    private readonly InputAction m_Player_Attack;
     public struct PlayerActions
     {
         private @GGJSAP2023A m_Wrapper;
@@ -1069,7 +1047,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         public InputAction @HeadSkill => m_Wrapper.m_Player_HeadSkill;
         public InputAction @BodySkill => m_Wrapper.m_Player_BodySkill;
         public InputAction @FootSkill => m_Wrapper.m_Player_FootSkill;
-        public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1100,9 +1077,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 @FootSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFootSkill;
                 @FootSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFootSkill;
                 @FootSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFootSkill;
-                @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1128,9 +1102,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 @FootSkill.started += instance.OnFootSkill;
                 @FootSkill.performed += instance.OnFootSkill;
                 @FootSkill.canceled += instance.OnFootSkill;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
             }
         }
     }
@@ -1294,7 +1265,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         void OnHeadSkill(InputAction.CallbackContext context);
         void OnBodySkill(InputAction.CallbackContext context);
         void OnFootSkill(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

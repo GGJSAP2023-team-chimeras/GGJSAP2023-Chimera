@@ -126,10 +126,12 @@ namespace Enemys
                 SetState(EnemyState.Death);
             }
         }
+        //状態設定
         public void SetState(EnemyState state)
         {
             enemyState = state;
             if (state == EnemyState.Death) return; 
+            //待機や攻撃後の硬直
             else if (state == EnemyState.Wait || state == EnemyState.Freeze)
             {
                 /*if(anim != null)
@@ -139,8 +141,10 @@ namespace Enemys
             }
             else if(state == EnemyState.Move || state == EnemyState.ShortAttack || state == EnemyState.RangeAttack)
             {
+                //移動
                 isArrival = false;
                 startPosition = transform.position;
+                //ランダムに設定して移動
                 if (state == EnemyState.Move)
                 {
                     arrivalDistance = 0.25f;
@@ -148,24 +152,27 @@ namespace Enemys
                 }
                 else if (state == EnemyState.ShortAttack)
                 {
+                    //到着する距離を変更
                     arrivalDistance = 1.25f;
                 }
                 else if(state == EnemyState.RangeAttack) 
                 {
                     var random = UnityEngine.Random.Range(0, 2);
+                    //左か右の限界地ぎりぎりにランダムに移動
                     if(random == 1)
                     {
                         destination = new Vector2(leftTransform.position.x + 1.25f,player.transform.position.y);
                     }
                     else if (random == 0)
                     {
-                        destination = new Vector2(rightTransform.position.x + 1.25f, player.transform.position.y);
+                        destination = new Vector2(rightTransform.position.x - 1.25f, player.transform.position.y);
                     }
                 }
             }
             else if(state == EnemyState.Damage)
             {
                 isArrival = true;
+                SetState(EnemyState.Move);
             }
         }
         protected virtual void StateMove()
@@ -173,11 +180,7 @@ namespace Enemys
             //死んだらパーツを出して死ぬ
             if (enemyState == EnemyState.Death)
             {
-                var obj = Instantiate(PartsManager.Instance.PartsTypeObject(eachPartsType,bodyPartsType), transform.position, Quaternion.identity);
-                //各パーツの型
-                obj.GetComponent<EnemySpawnParts>().EnemyType = eachPartsType;
-                //どのパーツか
-                obj.GetComponent<EnemySpawnParts>().EnemySpawnPartsType = bodyPartsType;
+                ChangePartsUI.Instance.ShowPartsUI(bodyPartsType);
                 Destroy(gameObject);
             }
             else if (enemyState == EnemyState.Wait)
@@ -207,6 +210,9 @@ namespace Enemys
                 {
                     //ランダムに定めた目的地を移動する
                     transform.position = Vector2.MoveTowards(transform.position, destination, walkSpeed * Time.deltaTime);
+                    Vector2 direction = new Vector3(destination.x,destination.y , 1) - transform.position;
+                    var lookRotation = Quaternion.FromToRotation(Vector3.up, direction);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 0.1f);
                 }
                 if (Vector2.Distance(transform.position, destination) <= arrivalDistance)
                 {
@@ -225,6 +231,7 @@ namespace Enemys
                 {
                     /*if(anim != null)
                         anim.SetTrigger(armAttackAnimHash);*/
+                    Instantiate(rangeAttackObject,transform.position,Quaternion.identity);
                     isArrival = true;
                     SetState(EnemyState.Freeze);
                 }
@@ -234,14 +241,17 @@ namespace Enemys
                 if (!isArrival)
                 {
                     chaseTime += Time.deltaTime;
-                    if(chaseTime < maxChaseTime)
+                    if (chaseTime < maxChaseTime)
+                    {
                         transform.position = Vector2.MoveTowards(transform.position, player.gameObject.transform.position, walkSpeed * Time.deltaTime);
+                    }
                     else
                     {
                         CreateRandomPosition();
                         SetState(EnemyState.Move);
-                    }
+                    }                        
                 }
+                //到着したら放つ
                 if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= arrivalDistance)
                 {
                     /*if (anim != null)
