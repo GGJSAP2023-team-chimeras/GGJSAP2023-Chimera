@@ -905,6 +905,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4947318851288747983, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
+      propertyPath: bulletCount
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4947318851288747983, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
       propertyPath: bulletObject
       value: 
       objectReference: {fileID: 539435569}

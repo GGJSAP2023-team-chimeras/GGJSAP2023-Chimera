@@ -4,7 +4,8 @@ using UnityEngine;
 using Players;
 
 public class AttackPoint : MonoBehaviour
-{    public enum AttackTarget
+{
+    public enum AttackTarget
     {
         Player,
         Enemy

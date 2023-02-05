@@ -16,7 +16,7 @@ public class Barrage : MonoBehaviour
         {
             if(halfRadius >= degree)
             {
-                degree += 36;
+                degree += 30;
             }
             var obj = Instantiate(bulletObject, transform.position, Quaternion.identity);
             obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.x, obj.transform.rotation.y, degree);
