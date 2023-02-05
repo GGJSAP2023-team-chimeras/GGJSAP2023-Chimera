@@ -22,6 +22,7 @@ public class Barrage : MonoBehaviour
             obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.x, obj.transform.rotation.y, degree);
             count++;
         }
+        Destroy(gameObject);
     }
 
     // Update is called once per frame

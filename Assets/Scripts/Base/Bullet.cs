@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, 0.5f);
+        Destroy(gameObject, 2.5f);
     }
 
     // Update is called once per frame
@@ -21,5 +21,9 @@ public class Bullet : MonoBehaviour
         //自分の向いている方向に進む
         Vector3 velocity = transform.rotation * new Vector3(speed, 0, 0);
         rb.velocity = new Vector2(velocity.x, velocity.y);
-    }    
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Destroy(gameObject);
+    }
 }
