@@ -182,7 +182,7 @@ namespace Players
                 isGround = ground.IsGround();
                 isHead = head.IsGround();
 
-                //各種座用軸の速度を求める
+                //各種座標軸の速度を求める
                 float xSpeed = GetXSpeed();
                 SearchLimitY();
                 //アニメーション設定
@@ -389,5 +389,6 @@ namespace Players
                 isAnotherJump = false;
             }
         }
+
     }
 }
