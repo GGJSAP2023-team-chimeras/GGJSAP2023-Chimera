@@ -88,6 +88,7 @@ namespace Players
         private bool doubleJump = false;
         //攻撃を放てる
         private bool isFire = false;
+        [SerializeField]
         private Animator anim = null;
         private Rigidbody2D rb = null;
         private SpriteRenderer sr = null;
@@ -136,7 +137,7 @@ namespace Players
         void Start()
         {
             //コンポーネントのインスタンスを捕まえる
-            anim = GetComponent<Animator>();
+            //anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             inputs.Player.Move.performed += OnMove;
@@ -149,6 +150,13 @@ namespace Players
             currentHP = maxHP;
             beforeGravityPower = gravityPower;
             beforeWalkSpeed = walkSpeed;
+
+            // パーツの初期化処理
+            for (int i = 0; i < BodyPartsTypes.Length; i++)
+            {
+                Debug.Log(BodyPartsTypes[i]);
+                SetParts((PartsType.BodyPartsType)i, BodyPartsTypes[i]);
+            }
         }
         private void Update()
         {
@@ -278,6 +286,7 @@ namespace Players
 
             beforeKey = movePos.x;
             xSpeed *= dashCurve.Evaluate(dashTime);
+            anim.SetFloat(walkAnimHash, dashCurve.Evaluate(dashTime));
             return xSpeed;
         }
 
@@ -357,16 +366,19 @@ namespace Players
                 if (currentHP <= 0)
                 {
                     Debug.Log("死亡");
+                    Manager.BattleSceneManager.Instance.FinishGame();
                 }
             }
         }
         private void AttackStart()
         {
-            AttackColliders.enabled = true;
+            AttackColliders.ToList().ForEach(v => v.enabled = true);
+            //AttackColliders.enabled = true;
         }
         private void AttackEnd()
         {
-            AttackColliders.enabled = false;
+            AttackColliders.ToList().ForEach(v => v.enabled = false);
+            //AttackColliders.enabled = false;
         }
         //パーツが違うことによって出来る物をすべて無効に
         private void PartsSkillReset()

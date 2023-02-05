@@ -37,14 +37,14 @@ namespace Players
             {
                 isGroundEnter = true;
             }
-            if (Collision.gameObject.CompareTag("Enemy"))
-            {
-                var enemyBase = Collision.gameObject.GetComponent<EnemyBase>();
-                //踏んづけたものに対して踏んづけた事を通知する
-                enemyBase.PlayerStepOn = true;        
-                //ジャンプした位置を記録する
-                player.JumpPos = transform.position.y; 
-            }
+            //if (Collision.gameObject.CompareTag("Enemy"))
+            //{
+            //    var enemyBase = Collision.gameObject.GetComponent<EnemyBase>();
+            //    //踏んづけたものに対して踏んづけた事を通知する
+            //    enemyBase.PlayerStepOn = true;        
+            //    //ジャンプした位置を記録する
+            //    player.JumpPos = transform.position.y; 
+            //}
         }
 
         private void OnTriggerStay2D(Collider2D Collision)
