@@ -241,7 +241,6 @@ namespace Enemys
                         CreateRandomPosition();
                         SetState(EnemyState.Move);
                     }
-                        
                 }
                 if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= arrivalDistance)
                 {

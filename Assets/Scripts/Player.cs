@@ -35,7 +35,7 @@ namespace Players
         [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxFlashTime = 1.0f;
         //体の部位ごとに
         [NamedArray(new string[] { "頭", "体", "脚" })]
-        [SerializeField] private PartsType.EachPartsType[] bodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
+        [SerializeField] public static PartsType.EachPartsType[] BodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
         //体の部位のスプライト
         //[NamedArray(new string[] { "頭", "体", "脚" })]
         //[SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
@@ -146,6 +146,13 @@ namespace Players
             currentHP = maxHP;
             beforeGravityPower = gravityPower;
             beforeWalkSpeed = walkSpeed;
+
+            // パーツの初期化処理
+            for (int i = 0; i < BodyPartsTypes.Length; i++)
+            {
+                Debug.Log(BodyPartsTypes[i]);
+                SetParts((PartsType.BodyPartsType)i, BodyPartsTypes[i]);
+            }
         }
         private void Update()
         {
@@ -427,6 +434,8 @@ namespace Players
 
         public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
         {
+            BodyPartsTypes[(int)bodyPartsType] = partsType;
+            SpriteModelChecker.SetCheckModel(BodyPartsTypes[0], BodyPartsTypes[1], BodyPartsTypes[2]);
             switch (bodyPartsType)
             {
                 case PartsType.BodyPartsType.Head:

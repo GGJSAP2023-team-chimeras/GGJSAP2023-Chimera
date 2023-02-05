@@ -31,24 +31,24 @@ public class SpriteModelChanger : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            headsIndex = (headsIndex + 1) % heads.Length;
-            SetModels(heads, headsIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            bodysIndex = (bodysIndex + 1) % bodys.Length;
-            SetModels(bodys, bodysIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            legsIndex = (legsIndex + 1) % legs.Length;
-            SetModels(legs, legsIndex);
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        headsIndex = (headsIndex + 1) % heads.Length;
+    //        SetModels(heads, headsIndex);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        bodysIndex = (bodysIndex + 1) % bodys.Length;
+    //        SetModels(bodys, bodysIndex);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha3))
+    //    {
+    //        legsIndex = (legsIndex + 1) % legs.Length;
+    //        SetModels(legs, legsIndex);
+    //    }
+    //}
 
     void SetModels(GameObject[] objs, int index)
     {
