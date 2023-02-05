@@ -29,6 +29,7 @@ namespace Players
         #endregion
         #region//プライベート変数
 
+        [SerializeField]
         private Animator anim = null;
         private Rigidbody2D rb = null;
         private SpriteRenderer sr = null;
@@ -74,7 +75,7 @@ namespace Players
         void Start()
         {
             //コンポーネントのインスタンスを捕まえる
-            anim = GetComponent<Animator>();
+            //anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             inputs.Player.Move.performed += OnMove;
@@ -179,6 +180,8 @@ namespace Players
 
             beforeKey = movePos.x;
             xSpeed *= dashCurve.Evaluate(dashTime);
+            // FIXME: ここじゃない
+            anim.SetFloat(walkAnimHash, dashCurve.Evaluate(dashTime));
             return xSpeed;
         }
 
@@ -277,6 +280,15 @@ namespace Players
         {
             isDown = false;
             isJump = false;
+        }
+
+        private IEnumerator ArmAttack()
+        {
+            animator.SetLayerWeight(1, 1f);
+            animator.Play("ArmAttack");
+            yield return new WaitForSeconds(0.5f);
+            animator.SetLayerWeight(1, 0f);
+            animator.Play("ArmIdle");
         }
     }
 }
