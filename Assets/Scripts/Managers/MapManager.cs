@@ -77,9 +77,6 @@ namespace Manager
 
         public void GoNext(int routeIndex)
         {
-            Debug.Log("next");
-            Debug.Log(routeIndex);
-
             // 層を進むとインクリメント
             ResultManager.Instance.NumOfLayers++;
             // 現在のルート数を前のやつに
@@ -89,6 +86,7 @@ namespace Manager
             // ルートによってボスのタイプを変更
             BattleSceneManager.Instance.BossEnemyType = Routes[routeIndex];
             // シーン遷移
+            // FIXME: あらゆるシーンが呼ばれるたびに毎回呼ばれてる
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.ChangeScene(2);
         }
