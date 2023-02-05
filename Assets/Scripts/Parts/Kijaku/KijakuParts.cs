@@ -7,8 +7,9 @@ namespace BodyParts
     /// <summary>
     /// このクラスをつけたオブジェクトはプレイヤーの子に入れる
     /// </summary>
-    public class BakuParts : Parts
+    public class KijakuParts : Parts
     {
+        [SerializeField] private GameObject beamObject;
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -27,11 +28,12 @@ namespace BodyParts
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
             base.BodySkill(bodyType);
-            player.CanJumpFire = true;
+            player.GravityPower = player.BeforeGravityPower * 1.25f;
         }
         public override void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
         {
             base.FootSkill(footType);
+            player.WalkSpeed = player.BeforeWalkSpeed * 1.25f;
         }
     }
 }

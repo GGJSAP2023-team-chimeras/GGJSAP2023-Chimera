@@ -37,9 +37,12 @@ namespace Players
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] public static PartsType.EachPartsType[] BodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
         //体の部位のスプライト
-        //[NamedArray(new string[] { "頭", "体", "脚" })]
-        //[SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
-
+        [NamedArray(new string[] { "頭", "体", "脚" })]
+        [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
+        [SerializeField] private HPGauge playerGauge;
+        [SerializeField] public CircleCollider2D[] AttackColliders;
+        //弾幕発生オブジェクト
+        [SerializeField] private GameObject barrageObject;
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -77,7 +80,8 @@ namespace Players
         public bool CanJumpFire { get { return canJumpFire; } set { canJumpFire = value; } }
         #endregion
         #region//プライベート変数
-
+        //各アクティブスキル
+        private bool activeHeadSkill = false;
         //ジャンプ中
         private bool isJump = false;
         //ダブルジャンプ中
@@ -106,11 +110,10 @@ namespace Players
         private float dashTime = 0.0f;
         //反転した場合の前回の方向
         private float beforeKey = 0.0f;
+        private float headCoolTime = 0.0f;
+        private float maxHeadCoolTime = 2.0f;
         //体力
         private int currentHP = 0;
-        //パーツを感知したものをとる
-        private Sprite pickUPPartsSprite;
-        private EnemySpawnParts spawnParts;
         //移動インプット
         private Vector2 movePos = Vector2.zero;
         //プレイヤーインプットシステム
@@ -142,6 +145,7 @@ namespace Players
             inputs.Player.Fire.performed += OnFire;
             inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
+            inputs.Player.HeadSkill.performed += OnActiveHeadSkill;
             inputs.Player.Attack.performed += OnAttack;
             currentHP = maxHP;
             beforeGravityPower = gravityPower;
@@ -158,38 +162,21 @@ namespace Players
         {
             if (isDamage)
             {
-                //明滅　ついている時に戻る
-                if (blinkTime > 0.2f)
-                {
-                    sr.enabled = true;
-                    blinkTime = 0.0f;
-                }
-                //明滅　消えているとき
-                else if (blinkTime > 0.1f)
-                {
-                    sr.enabled = false;
-                }
-                //明滅　ついているとき
-                else
-                {
-                    sr.enabled = true;
-                }
-
+                flashTime += Time.deltaTime;
                 //maxFlashTime秒たったら明滅終わり
                 if (flashTime > maxFlashTime)
                 {
                     isDamage = false;
-                    blinkTime = 0f;
-                    flashTime = 0f;
-                    sr.enabled = true;
-                }
-                else
-                {
-                    blinkTime += Time.deltaTime;
-                    flashTime += Time.deltaTime;
                 }
             }
-            //PartsPickUP();
+            if (activeHeadSkill)
+            {
+                headCoolTime += Time.deltaTime;
+                if (headCoolTime >= maxHeadCoolTime)
+                {
+                    activeHeadSkill = false;
+                }
+            }
         }
         void FixedUpdate()
         {
@@ -200,7 +187,7 @@ namespace Players
                 isGround = ground.IsGround();
                 isHead = head.IsGround();
 
-                //各種座用軸の速度を求める
+                //各種座標軸の速度を求める
                 float xSpeed = GetXSpeed();
                 SearchLimitY();
                 //アニメーション設定
@@ -211,7 +198,6 @@ namespace Players
             {
                 rb.velocity = new Vector2(0, gravityPower);
             }
-            anim.SetBool("Ground", isGround);
         }
         private void OnMove(InputAction.CallbackContext context)
         {
@@ -227,11 +213,29 @@ namespace Players
                 isFire = false;
             }
         }
+        private void OnActiveHeadSkill(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            if (!activeHeadSkill)
+            {
+                activeHeadSkill = true;
+            }
+            if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
+            {
+                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+                obj.GetComponent<Barrage>().BulletSize = 0.6f;
+            }
+            else if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Baku)
+            {
+                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+                obj.GetComponent<Barrage>().BulletSize = 0.2f;
+            }
+        }
         private void OnJump(InputAction.CallbackContext context)
         {
             if (context.started)
             {
-                if (!jumpStart && isJump)
+                if (!jumpStart)
                 {
                     jumpStart = true;
                     //ジャンプの音
@@ -242,19 +246,7 @@ namespace Players
                     doubleJump = true;
                 }
                 isJump = true;
-                anim.Play("Jump");
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-            }
-        }
-        /// <summary>
-        /// 近距離
-        /// </summary>
-        /// <param name="context"></param>
-        private void OnAttack(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                StartCoroutine(ArmAttack());
             }
         }
         /// <summary>
@@ -294,7 +286,6 @@ namespace Players
 
             beforeKey = movePos.x;
             xSpeed *= dashCurve.Evaluate(dashTime);
-            // FIXME: ここじゃない
             anim.SetFloat(walkAnimHash, dashCurve.Evaluate(dashTime));
             return xSpeed;
         }
@@ -365,14 +356,30 @@ namespace Players
 
                     //anim.SetTrigger(damageAnimHash);
                 }
+                if (playerGauge != null)
+                    playerGauge.GaugeReduction(damage, currentHP, maxHP);
                 currentHP -= damage;
                 if (!isDamage)
                 {
                     isDamage = true;
                 }
+                if (currentHP <= 0)
+                {
+                    Debug.Log("死亡");
+                    Manager.BattleSceneManager.Instance.FinishGame();
+                }
             }
         }
-
+        private void AttackStart()
+        {
+            AttackColliders.ToList().ForEach(v => v.enabled = true);
+            //AttackColliders.enabled = true;
+        }
+        private void AttackEnd()
+        {
+            AttackColliders.ToList().ForEach(v => v.enabled = false);
+            //AttackColliders.enabled = false;
+        }
         //パーツが違うことによって出来る物をすべて無効に
         private void PartsSkillReset()
         {
@@ -390,29 +397,9 @@ namespace Players
             isDown = false;
             isJump = false;
         }
-        //private void PartsPickUP()
-        //{
-        //    if (isFire)
-        //    {
-        //        if (spawnParts != null && pickUPPartsSprite != null)
-        //        {
-        //            spriteBodyRenderer[(int)spawnParts.EnemySpawnPartsType].sprite = pickUPPartsSprite;
-        //            spawnParts.IsDestroy = true;
-        //            spawnParts = null;
-        //        }
-        //        isFire = false;
-        //    }
-        //}
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            //パーツ獲得しそう、決定ボタン押した
-            if (collision.gameObject.CompareTag("Parts"))
-            {
-                if (spawnParts == null)
-                    spawnParts = collision.gameObject.GetComponent<EnemySpawnParts>();
-                if (spawnParts != null)
-                    pickUPPartsSprite = PartsManager.Instance.PartsSprite(spawnParts.EnemyType, spawnParts.EnemySpawnPartsType);
-            }
+
             //地面についたらジャンプ可能に
             if (collision.gameObject.CompareTag("Ground"))
             {
@@ -423,15 +410,28 @@ namespace Players
             }
         }
 
+        /// <summary>
+        /// 近距離
+        /// </summary>
+        /// <param name="context"></param>
+        private void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                StartCoroutine(ArmAttack());
+            }
+        }
+
         private IEnumerator ArmAttack()
         {
+            AttackStart();
             anim.SetLayerWeight(1, 1f);
             anim.Play("ArmAttack");
             yield return new WaitForSeconds(0.5f);
             anim.SetLayerWeight(1, 0f);
             anim.Play("ArmIdle");
+            AttackEnd();
         }
-
         public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
         {
             BodyPartsTypes[(int)bodyPartsType] = partsType;

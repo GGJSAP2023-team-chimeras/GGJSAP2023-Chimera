@@ -8,7 +8,6 @@ namespace Manager
     {
         public GameObject ResultUIObject;
 
-        // FIXME: EnemyTypeå^Ç…Ç∑ÇÈ
         public BodyParts.PartsType.EachPartsType BossEnemyType;
 
         /// <summary>
@@ -37,6 +36,7 @@ namespace Manager
         /// </summary>
         public void FinishGame()
         {
+            ResultUI.Instance.ResultUIObject.SetActive(false);
             ResultUI.Instance.ShowResult();
         }
     }

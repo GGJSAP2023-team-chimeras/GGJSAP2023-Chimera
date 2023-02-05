@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BodyParts;
 using System.Linq;
 
 public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
@@ -19,15 +20,25 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     {
         base.Awake();
         ChangePartsUIObject.SetActive(false);
-        dropParts = Manager.BattleSceneManager.Instance.BossEnemyType;
     }
+
+    public void DebugShowPartsUI()
+    {
+        ShowPartsUI(PartsType.BodyPartsType.Body);
+    }
+
 
     // TODO: パーツを引数にとりたい
     /// <summary>
     /// ドロップしたパーツを表示する
     /// </summary>
-    public void ShowPartsUI()
+    /// <param name="bodyPartsType">身体のどのパーツか</param>
+    public void ShowPartsUI(PartsType.BodyPartsType bodyPartsType)
     {
+        Debug.Log(bodyPartsType);
+        Debug.Log(dropBodyParts);
+        dropParts = Manager.BattleSceneManager.Instance.BossEnemyType;
+        dropBodyParts = bodyPartsType;
         ChangePartsUIObject.SetActive(true);
         FirstSelectedButton.Select();
 
@@ -55,9 +66,9 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     {
         // TODO: パーツ入れ替え処理
         GameObject.FindWithTag("Player").GetComponent<Players.Player>().SetParts(dropBodyParts, dropParts);
-        // FIXME: Debug
         Manager.SceneManager.ChangeScene(1);
-        ChangePartsUIObject.SetActive(false);
+        // FIXME: Debug
+        //ChangePartsUIObject.SetActive(false);
 
     }
 

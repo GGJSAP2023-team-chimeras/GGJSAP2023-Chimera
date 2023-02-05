@@ -1,4 +1,4 @@
-ï»¿using DG.Tweening;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -6,21 +6,21 @@ using System.Collections;
 
 public class HPGauge : MonoBehaviour
 {
-    //è‰²ã‚’å¤‰åŒ–ã•ã›ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨è‰²
+    //F‚ğ•Ï‰»‚³‚¹‚éƒIƒuƒWƒFƒNƒg‚ÆF
     [SerializeField] private Image hpBarFill;
     [SerializeField] private Color color_1, color_2, color_3, color_4;
     [SerializeField] private Image backGauge;
-    //å¾Œã‚ã®ä½“åŠ›ã‚²ãƒ¼ã‚¸
+    //Œã‚ë‚Ì‘Ì—ÍƒQ[ƒW
     [SerializeField] private Slider backHPSlider;
-    //ç‚¹æ»…ã™ã‚‹ã‹ã©ã†ã‹
+    //“_–Å‚·‚é‚©‚Ç‚¤‚©
     [SerializeField] private bool isFlash = false;
     [SerializeField] private Slider hpSlider;
-    //dotween(å¾Œã‚ã®ä½“åŠ›ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³)
+    //dotween(Œã‚ë‚Ì‘Ì—Í‚ÌƒAƒjƒ[ƒVƒ‡ƒ“)
     private Tween backGaugeTween;
     private float valueFrom = 1;
     private float valueTo = 1;
     private float alpha_Sin = 0;
-    //å¤‰åŒ–ã™ã‚‹ã‚¹ãƒ”ãƒ¼ãƒ‰
+    //•Ï‰»‚·‚éƒXƒs[ƒh
     private float sinSpeed = 4;
     void Start()
     {
@@ -28,7 +28,7 @@ public class HPGauge : MonoBehaviour
     }
     private void Update()
     {
-        //å±é™ºãªã‚‰ç‚¹æ»…ã•ã›ã‚‹
+        //ŠëŒ¯‚È‚ç“_–Å‚³‚¹‚é
         if (valueTo < 0.2f && isFlash)
         {
             backGauge.color = Color.black;
@@ -37,24 +37,24 @@ public class HPGauge : MonoBehaviour
         }
     }
     /// <summary>
-    /// ä½“åŠ›ãƒãƒ¼ã®è¨­å®š
+    /// ‘Ì—Íƒo[‚Ìİ’è
     /// </summary>
-    /// <param name="reducationValue">ãƒ€ãƒ¡ãƒ¼ã‚¸å€¤</param>    
-    /// <param name="currentHP">ç¾åœ¨ã®ä½“åŠ›</param>
-    /// <param name="currentMaxHP">ç¾åœ¨ã®æœ€å¤§ä½“åŠ›</param>
-    /// <param name="delayTime">èƒŒä¸­ã§æ¸›ã‚‹ä½“åŠ›ãƒãƒ¼ã®é…å»¶æ™‚é–“</param>
+    /// <param name="reducationValue">ƒ_ƒ[ƒW’l</param>    
+    /// <param name="currentHP">Œ»İ‚Ì‘Ì—Í</param>
+    /// <param name="currentMaxHP">Œ»İ‚ÌÅ‘å‘Ì—Í</param>
+    /// <param name="delayTime">”w’†‚ÅŒ¸‚é‘Ì—Íƒo[‚Ì’x‰„ŠÔ</param>
     public void GaugeReduction(float reducationValue, int currentHP, int currentMaxHP, float delayTime = 0.5f)
     {
-        //ç¾åœ¨ã®ä½“åŠ›
+        //Œ»İ‚Ì‘Ì—Í
         valueFrom = (float)currentHP / currentMaxHP;
-        //æ¸›ã£ãŸå¾Œã®ä½“åŠ›
+        //Œ¸‚Á‚½Œã‚Ì‘Ì—Í
         valueTo = (currentHP - reducationValue) / currentMaxHP;
         float mul = 4.0f;
-        //ä½“åŠ›ãŒã‚ã£ãŸå ´åˆ
+        //‘Ì—Í‚ª‚ ‚Á‚½ê‡
         if (0 <= currentHP && Time.time > 0.01f)
         {
-            //1ã‹ã‚‰å§‹ã¾ã£ã¦ã‚ã‚‹ç¨‹åº¦ã§ä¸‹ãŒã‚‹
-            //è‰²å¤‰åŒ–
+            //1‚©‚çn‚Ü‚Á‚Ä‚ ‚é’ö“x‚Å‰º‚ª‚é
+            //F•Ï‰»
             if (valueFrom > 0.75f)
             {
                 hpBarFill.color = Color.Lerp(color_2, color_1, (valueFrom - 0.75f) * mul);
@@ -74,7 +74,7 @@ public class HPGauge : MonoBehaviour
             backGaugeTween.Kill();
         }
 
-        // èµ¤ã‚²ãƒ¼ã‚¸æ¸›å°‘
+        // ÔƒQ[ƒWŒ¸­
         backGaugeTween = DOTween.To(
             () => valueFrom,
             x =>
@@ -85,7 +85,7 @@ public class HPGauge : MonoBehaviour
             delayTime
         );
     }
-    //ä½“åŠ›ãƒãƒ¼ã‚’ç‚¹æ»…
+    //‘Ì—Íƒo[‚ğ“_–Å
     void ColorCoroutine()
     {
         Color _color = hpBarFill.color;

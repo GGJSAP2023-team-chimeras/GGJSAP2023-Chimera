@@ -5,9 +5,17 @@ using BodyParts;
 using Players;
 
 namespace Enemys
-{   
+{
     public class EnemyBase : MonoBehaviour, IDamageble
     {
+        // 体の部位を設定
+        [SerializeField]
+        GameObject[] heads;
+        [SerializeField]
+        GameObject[] bodys;
+        [SerializeField]
+        GameObject[] legs;
+
         public enum EnemyState
         {
             Move,        //歩行
@@ -19,18 +27,16 @@ namespace Enemys
             Death        //死亡
         }
         //最大体力
-        [Range(5,50),SerializeField] protected int maxHP = 10;
-        //攻撃力
-        [Range(5,20),SerializeField] protected int attackPoint = 5;
+        [Range(5, 50), SerializeField] protected int maxHP = 10;
         //手に入れる体パーツ
         [SerializeField] protected PartsType.BodyPartsType bodyPartsType = PartsType.BodyPartsType.Head;
         //体のパーツの種類
-        [Header("敵の種類でもあり、パーツの型"),SerializeField] protected PartsType.EachPartsType eachPartsType = PartsType.EachPartsType.Baku;
+        [Header("敵の種類でもあり、パーツの型"), SerializeField] public PartsType.EachPartsType EachPartsType = PartsType.EachPartsType.Baku;
         //最大待機時間
-        [Range(0.2f,3.0f),SerializeField] protected float maxWaitTime = 1.0f;
+        [Range(0.2f, 3.0f), SerializeField] protected float maxWaitTime = 1.0f;
         //遠距離攻撃で放つオブジェクト
         [SerializeField] private GameObject rangeAttackObject;
-        [Range(1.0f,10.0f),SerializeField] private float walkSpeed = 5.0f;
+        [Range(1.0f, 10.0f), SerializeField] private float walkSpeed = 5.0f;
         //攻撃をするために近距離に詰めに行く
         [SerializeField] private AnimationCurve shortAttackMove;
         //限界の範囲まで
@@ -40,7 +46,7 @@ namespace Enemys
         [SerializeField] private Transform downTransform;
         [SerializeField] private HPGauge enemyGauge;
         //プレイヤーが敵を踏んだ
-        protected bool playerStepOn =false;
+        protected bool playerStepOn = false;
         public bool PlayerStepOn { get { return playerStepOn; } set { playerStepOn = value; } }
         //プレイヤー
         protected Player player;
@@ -71,11 +77,20 @@ namespace Enemys
         //現在の状態
         private EnemyState enemyState;
         private int enemyHP = 0;
+        [SerializeField]
         private Animator anim;
         //前フレームの位置
         private Vector3 beforePosition;
         private Vector2 currentVelocity;
         private readonly float smoothTime = 2.5f;
+
+        private void Awake()
+        {
+            // 初期化処理
+            EachPartsType = Manager.BattleSceneManager.Instance.BossEnemyType;
+            bodyPartsType = (PartsType.BodyPartsType)Random.Range(0, 3);
+            SetParts(EachPartsType);
+        }
 
         void Start()
         {
@@ -83,7 +98,7 @@ namespace Enemys
             startPosition = transform.position;
             SetDestination(startPosition);
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
-            anim = GetComponent<Animator>();
+            //anim = GetComponent<Animator>();
         }
         void Update()
         {
@@ -101,7 +116,7 @@ namespace Enemys
             }*/
             StateMove();
             //範囲内を出た
-            if((transform.position.y < downTransform.position.y || transform.position.y > UpTransform.position.y)
+            if ((transform.position.y < downTransform.position.y || transform.position.y > UpTransform.position.y)
                 || (transform.position.x < leftTransform.position.x || transform.position.x > rightTransform.position.x))
             {
                 CreateRandomPosition();
@@ -109,6 +124,7 @@ namespace Enemys
         }
         public void ReceiveDamage(bool playDamageAnim, int damage)
         {
+            Debug.Log("damage enemy");
             //体力ゲージに反映
             enemyGauge.GaugeReduction(damage, enemyHP, maxHP);
             //体力を減少
@@ -126,10 +142,16 @@ namespace Enemys
                 SetState(EnemyState.Death);
             }
         }
+        //状態設定
         public void SetState(EnemyState state)
         {
             enemyState = state;
-            if (state == EnemyState.Death) return; 
+            if (state == EnemyState.Death)
+            {
+                StateMove();
+                return;
+            }
+            //待機や攻撃後の硬直
             else if (state == EnemyState.Wait || state == EnemyState.Freeze)
             {
                 /*if(anim != null)
@@ -137,10 +159,12 @@ namespace Enemys
                 transform.position = beforePosition;
                 isArrival = true;
             }
-            else if(state == EnemyState.Move || state == EnemyState.ShortAttack || state == EnemyState.RangeAttack)
+            else if (state == EnemyState.Move || state == EnemyState.ShortAttack || state == EnemyState.RangeAttack)
             {
+                //移動
                 isArrival = false;
                 startPosition = transform.position;
+                //ランダムに設定して移動
                 if (state == EnemyState.Move)
                 {
                     arrivalDistance = 0.25f;
@@ -148,24 +172,27 @@ namespace Enemys
                 }
                 else if (state == EnemyState.ShortAttack)
                 {
+                    //到着する距離を変更
                     arrivalDistance = 1.25f;
                 }
-                else if(state == EnemyState.RangeAttack) 
+                else if (state == EnemyState.RangeAttack)
                 {
                     var random = UnityEngine.Random.Range(0, 2);
-                    if(random == 1)
+                    //左か右の限界地ぎりぎりにランダムに移動
+                    if (random == 1)
                     {
-                        destination = new Vector2(leftTransform.position.x + 1.25f,player.transform.position.y);
+                        destination = new Vector2(leftTransform.position.x + 1.25f, player.transform.position.y);
                     }
                     else if (random == 0)
                     {
-                        destination = new Vector2(rightTransform.position.x + 1.25f, player.transform.position.y);
+                        destination = new Vector2(rightTransform.position.x - 1.25f, player.transform.position.y);
                     }
                 }
             }
-            else if(state == EnemyState.Damage)
+            else if (state == EnemyState.Damage)
             {
                 isArrival = true;
+                SetState(EnemyState.Move);
             }
         }
         protected virtual void StateMove()
@@ -173,11 +200,7 @@ namespace Enemys
             //死んだらパーツを出して死ぬ
             if (enemyState == EnemyState.Death)
             {
-                var obj = Instantiate(PartsManager.Instance.PartsTypeObject(eachPartsType,bodyPartsType), transform.position, Quaternion.identity);
-                //各パーツの型
-                obj.GetComponent<EnemySpawnParts>().EnemyType = eachPartsType;
-                //どのパーツか
-                obj.GetComponent<EnemySpawnParts>().EnemySpawnPartsType = bodyPartsType;
+                ChangePartsUI.Instance.ShowPartsUI(bodyPartsType);
                 Destroy(gameObject);
             }
             else if (enemyState == EnemyState.Wait)
@@ -200,20 +223,23 @@ namespace Enemys
                     }
                 }
             }
-            else if(enemyState == EnemyState.Move)
+            else if (enemyState == EnemyState.Move)
             {
                 //到着していない場合
                 if (!isArrival)
                 {
                     //ランダムに定めた目的地を移動する
                     transform.position = Vector2.MoveTowards(transform.position, destination, walkSpeed * Time.deltaTime);
+                    Vector2 direction = new Vector3(destination.x, destination.y, 1) - transform.position;
+                    var lookRotation = Quaternion.FromToRotation(Vector3.up, direction);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 0.1f);
                 }
                 if (Vector2.Distance(transform.position, destination) <= arrivalDistance)
                 {
                     SetState(EnemyState.Wait);
                 }
             }
-            else if(enemyState == EnemyState.RangeAttack)
+            else if (enemyState == EnemyState.RangeAttack)
             {
                 if (!isArrival)
                 {
@@ -225,23 +251,27 @@ namespace Enemys
                 {
                     /*if(anim != null)
                         anim.SetTrigger(armAttackAnimHash);*/
+                    Instantiate(rangeAttackObject, transform.position, Quaternion.identity);
                     isArrival = true;
                     SetState(EnemyState.Freeze);
                 }
             }
-            else if(enemyState == EnemyState.ShortAttack)
+            else if (enemyState == EnemyState.ShortAttack)
             {
                 if (!isArrival)
                 {
                     chaseTime += Time.deltaTime;
-                    if(chaseTime < maxChaseTime)
+                    if (chaseTime < maxChaseTime)
+                    {
                         transform.position = Vector2.MoveTowards(transform.position, player.gameObject.transform.position, walkSpeed * Time.deltaTime);
+                    }
                     else
                     {
                         CreateRandomPosition();
                         SetState(EnemyState.Move);
                     }
                 }
+                //到着したら放つ
                 if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= arrivalDistance)
                 {
                     /*if (anim != null)
@@ -250,10 +280,10 @@ namespace Enemys
                     SetState(EnemyState.Freeze);
                 }
             }
-            else if(enemyState == EnemyState.Freeze)
+            else if (enemyState == EnemyState.Freeze)
             {
                 freezeTime += Time.deltaTime;
-                if(freezeTime >= maxFreezeTime)
+                if (freezeTime >= maxFreezeTime)
                 {
                     freezeTime = 0;
                     SetState(EnemyState.Move);
@@ -264,9 +294,9 @@ namespace Enemys
         /// ランダムに目的地作成
         /// </summary>
         public void CreateRandomPosition()
-        {            
+        {
             //　ランダムなVector2の値を得る
-            var randDestination = new Vector2(UnityEngine.Random.Range(leftTransform.position.x,rightTransform.position.x),
+            var randDestination = new Vector2(UnityEngine.Random.Range(leftTransform.position.x, rightTransform.position.x),
                 UnityEngine.Random.Range(downTransform.position.y, UpTransform.position.y));
             //　現在地にランダムな位置を足して目的地とする
             SetDestination(new Vector2(randDestination.x, randDestination.y));
@@ -295,6 +325,22 @@ namespace Enemys
             {
                 //移動範囲再設定
                 CreateRandomPosition();
+            }
+        }
+
+        /// <summary>
+        /// パーツを入れ替える
+        /// </summary>
+        /// <param name="partsType"></param>
+        public void SetParts(PartsType.EachPartsType partsType)
+        {
+            //BodyPartsTypes[(int)bodyPartsType] = partsType;
+            //SpriteModelChecker.SetCheckModel(BodyPartsTypes[0], BodyPartsTypes[1], BodyPartsTypes[2]);
+            for (int i = 0; i < heads.Length; i++)
+            {
+                heads[i].SetActive(i == (int)partsType);
+                bodys[i].SetActive(i == (int)partsType);
+                legs[i].SetActive(i == (int)partsType);
             }
         }
 

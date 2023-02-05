@@ -112,7 +112,7 @@ public class SpriteModelChanger : MonoBehaviour
                 break;
             case BodyPartsType.Foot:
                 legType = eachPartsType;
-                SetModels(bodys, (int)legType);
+                SetModels(legs, (int)legType);
                 break;
         }
     }

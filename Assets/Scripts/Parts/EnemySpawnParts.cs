@@ -18,7 +18,7 @@ namespace BodyParts
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
             //スプライト設定
-            spriteRenderer.sprite = PartsManager.Instance.PartsSprite(enemyType, enemySpawnPartsType);
+            //spriteRenderer.sprite = PartsManager.Instance.PartsSprite(enemyType, enemySpawnPartsType);
         }
 
         // Update is called once per frame

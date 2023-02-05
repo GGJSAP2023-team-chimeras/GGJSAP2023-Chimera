@@ -93,7 +93,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
-                    ""id"": ""3921295b-4df1-4249-b419-5a81538b211e"",
+                    ""id"": ""db293805-2412-4752-bc3c-e3600549158a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -378,7 +378,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8257f20f-bc89-4afc-9b86-12c9e000ac92"",
+                    ""id"": ""8c148c95-d3ec-41cf-bb8a-00d09cf83d2d"",
                     ""path"": ""<Keyboard>/z"",
                     ""interactions"": """",
                     ""processors"": """",

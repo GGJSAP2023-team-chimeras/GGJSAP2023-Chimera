@@ -18,7 +18,7 @@ namespace BodyParts
         {
             None = 0,
             Kirin = 1,  //麒麟
-            Kada = 2,       //化蛇
+            Kijaku = 2,       //化蛇
             Baku = 3,       //獏
         }
     }
