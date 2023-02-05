@@ -16,10 +16,10 @@ namespace BodyParts
         //各部位の種類(もっと追加するかも)
         public enum EachPartsType
         {
-            Kirin = 0,  //麒麟
-            Kada = 1,       //化蛇
-            Baku = 2,       //獏
-            None
+            None = 0,
+            Kirin = 1,  //麒麟
+            Kada = 2,       //化蛇
+            Baku = 3,       //獏
         }
     }
 }
