@@ -345,11 +345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55131208d7c0b624e87986378bc00e95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &43468512 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5719375329865257864, guid: b4018f70099e136499461c0d932d789a, type: 3}
-  m_PrefabInstance: {fileID: 1151490231}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &43710112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1231,9 +1226,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 475129691}
+      - m_Target: {fileID: 475129689}
         m_TargetAssemblyTypeName: ChangePartsUI, Assembly-CSharp
-        m_MethodName: ShowPartsUI
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1666,6 +1661,27 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5719375329319353366, guid: b4018f70099e136499461c0d932d789a, type: 3}
   m_PrefabInstance: {fileID: 1151490231}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &862374991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2164898961723647108, guid: b4018f70099e136499461c0d932d789a, type: 3}
+  m_PrefabInstance: {fileID: 1151490231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &862374993
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862374991}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.57, y: 0}
+  serializedVersion: 2
+  m_Radius: 2.83
 --- !u!1 &1089001769
 GameObject:
   m_ObjectHideFlags: 0
@@ -2104,9 +2120,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   playerGauge: {fileID: 0}
+  attackCollider: {fileID: 0}
+  barrageObject: {fileID: 0}
   walkSpeed: 10
   gravityPower: -5
-  anim: {fileID: 43468512}
 --- !u!1 &1635926161
 GameObject:
   m_ObjectHideFlags: 0
@@ -2674,6 +2691,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1954921394 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2405796648708140137, guid: b4018f70099e136499461c0d932d789a, type: 3}
+  m_PrefabInstance: {fileID: 1151490231}
+  m_PrefabAsset: {fileID: 0}
+--- !u!58 &1954921396
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1954921394}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.67, y: 0}
+  serializedVersion: 2
+  m_Radius: 2.94
 --- !u!1 &1962275361
 GameObject:
   m_ObjectHideFlags: 0
@@ -6901,7 +6939,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 10
-  attackPoint: 5
   bodyPartsType: 0
   eachPartsType: 0
   maxWaitTime: 1
