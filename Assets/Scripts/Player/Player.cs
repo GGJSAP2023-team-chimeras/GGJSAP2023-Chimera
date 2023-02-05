@@ -40,6 +40,9 @@ namespace Players
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
         [SerializeField] private HPGauge playerGauge;
+        [SerializeField] private CircleCollider2D attackCollider;
+        //弾幕発生オブジェクト
+        [SerializeField] private GameObject barrageObject;
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -85,7 +88,6 @@ namespace Players
         private bool doubleJump = false;
         //攻撃を放てる
         private bool isFire = false;
-        [SerializeField]
         private Animator anim = null;
         private Rigidbody2D rb = null;
         private SpriteRenderer sr = null;
@@ -107,6 +109,8 @@ namespace Players
         private float dashTime = 0.0f;
         //反転した場合の前回の方向
         private float beforeKey = 0.0f;
+        private float headCoolTime = 0.0f;
+        private float maxHeadCoolTime = 2.0f;
         //体力
         private int currentHP = 0;
         //移動インプット
@@ -132,7 +136,7 @@ namespace Players
         void Start()
         {
             //コンポーネントのインスタンスを捕まえる
-            //anim = GetComponent<Animator>();
+            anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             sr = GetComponent<SpriteRenderer>();
             inputs.Player.Move.performed += OnMove;
@@ -140,17 +144,11 @@ namespace Players
             inputs.Player.Fire.performed += OnFire;
             inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
+            inputs.Player.HeadSkill.performed += OnActiveHeadSkill;
             inputs.Player.Attack.performed += OnAttack;
             currentHP = maxHP;
             beforeGravityPower = gravityPower;
             beforeWalkSpeed = walkSpeed;
-
-            // パーツの初期化処理
-            for (int i = 0; i < BodyPartsTypes.Length; i++)
-            {
-                Debug.Log(BodyPartsTypes[i]);
-                SetParts((PartsType.BodyPartsType)i, BodyPartsTypes[i]);
-            }
         }
         private void Update()
         {
@@ -163,7 +161,14 @@ namespace Players
                     isDamage = false;
                 }
             }
-            //PartsPickUP();
+            if (activeHeadSkill)
+            {
+                headCoolTime += Time.deltaTime;
+                if (headCoolTime >= maxHeadCoolTime)
+                {
+                    activeHeadSkill = false;
+                }
+            }
         }
         void FixedUpdate()
         {
@@ -185,7 +190,6 @@ namespace Players
             {
                 rb.velocity = new Vector2(0, gravityPower);
             }
-            anim.SetBool("Ground", isGround);
         }
         private void OnMove(InputAction.CallbackContext context)
         {
@@ -210,11 +214,13 @@ namespace Players
             }
             if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
             {
-
+                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+                obj.transform.localScale = Vector3.one * 0.7f;
             }
-            else if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kijaku)
+            else if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Baku)
             {
-
+                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+                obj.transform.localScale = Vector3.one * 0.4f;
             }
         }
         private void OnJump(InputAction.CallbackContext context)
@@ -233,17 +239,6 @@ namespace Players
                 }
                 isJump = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
-            }
-        }
-        /// <summary>
-        /// 近距離
-        /// </summary>
-        /// <param name="context"></param>
-        private void OnAttack(InputAction.CallbackContext context)
-        {
-            if (context.performed)
-            {
-                StartCoroutine(ArmAttack());
             }
         }
         /// <summary>
@@ -283,8 +278,6 @@ namespace Players
 
             beforeKey = movePos.x;
             xSpeed *= dashCurve.Evaluate(dashTime);
-            // FIXME: ここじゃない
-            anim.SetFloat(walkAnimHash, dashCurve.Evaluate(dashTime));
             return xSpeed;
         }
 
@@ -354,7 +347,8 @@ namespace Players
 
                     //anim.SetTrigger(damageAnimHash);
                 }
-                playerGauge.GaugeReduction(damage, currentHP, maxHP);
+                if (playerGauge != null)
+                    playerGauge.GaugeReduction(damage, currentHP, maxHP);
                 currentHP -= damage;
                 if (!isDamage)
                 {
@@ -366,7 +360,14 @@ namespace Players
                 }
             }
         }
-
+        private void AttackStart()
+        {
+            attackCollider.enabled = true;
+        }
+        private void AttackEnd()
+        {
+            attackCollider.enabled = false;
+        }
         //パーツが違うことによって出来る物をすべて無効に
         private void PartsSkillReset()
         {
@@ -394,6 +395,18 @@ namespace Players
                 doubleJump = false;
                 jumpStart = false;
                 isAnotherJump = false;
+            }
+        }
+
+        /// <summary>
+        /// 近距離
+        /// </summary>
+        /// <param name="context"></param>
+        private void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                StartCoroutine(ArmAttack());
             }
         }
 
