@@ -215,12 +215,12 @@ namespace Players
             if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
             {
                 var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
-                obj.transform.localScale = Vector3.one * 0.7f;
+                obj.GetComponent<Barrage>().BulletSize = 0.6f;
             }
             else if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Baku)
             {
                 var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
-                obj.transform.localScale = Vector3.one * 0.4f;
+                obj.GetComponent<Barrage>().BulletSize = 0.2f;
             }
         }
         private void OnJump(InputAction.CallbackContext context)
