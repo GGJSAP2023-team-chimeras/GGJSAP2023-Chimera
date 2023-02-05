@@ -31,6 +31,7 @@ namespace Players
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
         [SerializeField] private HPGauge playerGauge;
+        [SerializeField] private CircleCollider2D attackCollider;
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -333,7 +334,14 @@ namespace Players
                 }
             }
         }
-
+        private void AttackStart()
+        {
+            attackCollider.enabled = true;
+        }
+        private void AttackEnd()
+        {
+            attackCollider.enabled = false;
+        }
         //パーツが違うことによって出来る物をすべて無効に
         private void PartsSkillReset()
         {

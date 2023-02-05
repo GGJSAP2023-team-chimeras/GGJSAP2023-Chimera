@@ -4,19 +4,17 @@ using UnityEngine;
 using Players;
 
 public class AttackPoint : MonoBehaviour
-{
-    //攻撃力
-    [SerializeField] private int attackPoint;
-    public enum AttackTarget
+{    public enum AttackTarget
     {
         Player,
         Enemy
     }
+    //攻撃力
+    [SerializeField] private int attackPoint;
     //攻撃の目標を設定
     [SerializeField] private AttackTarget attackTarget = AttackTarget.Player;
     private string targetAttackTag = "Player";
     private Bullet bullet;
-    private Player player;
     // Start is called before the first frame update
     void Start()
     {
