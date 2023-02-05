@@ -47,6 +47,12 @@ public class SpriteModelChecker : MonoBehaviour
         return PlayerPrefs.GetInt($"ModelDiscovered{index}", 0) > 0;
     }
 
+    public static bool GetCheckModel(SpriteModelChanger smc)
+    {
+        int index = GetModelIndex(smc.GetEachPartsType(BodyPartsType.Head), smc.GetEachPartsType(BodyPartsType.Body), smc.GetEachPartsType(BodyPartsType.Foot));
+        return PlayerPrefs.GetInt($"ModelDiscovered{index}", 0) > 0;
+    }
+
     /// <summary>
     /// ƒ‚ƒfƒ‹‚Ì‘g‚Ý‡‚í‚¹‚ð”­Œ©Ï‚Ý‚É‚·‚é
     /// </summary>
