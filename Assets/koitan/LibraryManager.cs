@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 public class LibraryManager : MonoBehaviour
 {
     [SerializeField]
@@ -10,6 +12,9 @@ public class LibraryManager : MonoBehaviour
     Transform pivot;
     [SerializeField]
     GameObject hatena;
+    [SerializeField]
+    TMP_Text textMesh;
+    int scoreCount = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,14 +44,24 @@ public class LibraryManager : MonoBehaviour
                     if (SpriteModelChecker.GetCheckModel(i, k, j))
                     {
                         smc.SetColor(Color.white);
+                        scoreCount++;
                     }
                     else
                     {
-                        smc.SetColor(Color.black);
+                        if (Random.Range(0f, 1f) < 0.5f)
+                        {
+                            smc.SetColor(Color.black);
+                        }
+                        else
+                        {
+                            scoreCount++;
+                        }
                     }
                 }
             }
         }
+
+        textMesh.text = $"{(scoreCount * 100) / 64}%";
     }
 
     // Update is called once per frame
