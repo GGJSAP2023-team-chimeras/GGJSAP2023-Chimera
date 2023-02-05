@@ -10,7 +10,7 @@ namespace Players
     /// <summary>
     /// プレイヤーの基底クラス
     /// </summary>
-    public class Player : MonoBehaviour,IDamageble
+    public class Player : MonoBehaviour, IDamageble
     {
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
@@ -25,12 +25,12 @@ namespace Players
         [Header("最大体力"), Range(10, 50), SerializeField] private int maxHP = 50;
         [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxFlashTime = 1.0f;
         //体の部位ごとに
-        [NamedArray(new string[] { "頭","体","脚"})]
+        [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private PartsType.EachPartsType[] bodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
         //体の部位のスプライト
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
-       
+
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -54,7 +54,7 @@ namespace Players
         public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
         //ジャンプ開始
         private bool jumpStart = false;
-        public bool JumpStart { get { return jumpStart; }set { jumpStart = value; } }
+        public bool JumpStart { get { return jumpStart; } set { jumpStart = value; } }
 
         //元の重力
         private float beforeGravityPower = 0.0f;
@@ -133,6 +133,7 @@ namespace Players
             inputs.Player.Fire.performed += OnFire;
             inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
+            inputs.Player.Attack.performed += OnAttack;
             currentHP = maxHP;
             beforeGravityPower = gravityPower;
             beforeWalkSpeed = walkSpeed;
@@ -197,7 +198,7 @@ namespace Players
         }
         private void OnMove(InputAction.CallbackContext context)
         {
-            if(!isDamage)
+            if (!isDamage)
                 movePos = context.ReadValue<Vector2>();
         }
         private void OnFire(InputAction.CallbackContext context)
@@ -225,6 +226,17 @@ namespace Players
                 }
                 isJump = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+            }
+        }
+        /// <summary>
+        /// 近距離
+        /// </summary>
+        /// <param name="context"></param>
+        private void OnAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                StartCoroutine(ArmAttack());
             }
         }
         /// <summary>
@@ -380,7 +392,7 @@ namespace Players
             {
                 if (spawnParts == null)
                     spawnParts = collision.gameObject.GetComponent<EnemySpawnParts>();
-                if(spawnParts != null)
+                if (spawnParts != null)
                     pickUPPartsSprite = PartsManager.Instance.PartsSprite(spawnParts.EnemyType, spawnParts.EnemySpawnPartsType);
             }
             //地面についたらジャンプ可能に
@@ -393,13 +405,13 @@ namespace Players
             }
         }
 
-        //private IEnumerator ArmAttack()
-        //{
-        //    animator.SetLayerWeight(1, 1f);
-        //    animator.Play("ArmAttack");
-        //    yield return new WaitForSeconds(0.5f);
-        //    animator.SetLayerWeight(1, 0f);
-        //    animator.Play("ArmIdle");
-        //}
+        private IEnumerator ArmAttack()
+        {
+            anim.SetLayerWeight(1, 1f);
+            anim.Play("ArmAttack");
+            yield return new WaitForSeconds(0.5f);
+            anim.SetLayerWeight(1, 0f);
+            anim.Play("ArmIdle");
+        }
     }
 }
