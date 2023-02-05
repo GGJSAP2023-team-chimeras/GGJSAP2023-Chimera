@@ -48,6 +48,8 @@ public class LibraryManager : MonoBehaviour
                     }
                     else
                     {
+                        smc.SetColor(Color.black);
+                        /*
                         if (Random.Range(0f, 1f) < 0.5f)
                         {
                             smc.SetColor(Color.black);
@@ -56,6 +58,7 @@ public class LibraryManager : MonoBehaviour
                         {
                             scoreCount++;
                         }
+                        */
                     }
                 }
             }
