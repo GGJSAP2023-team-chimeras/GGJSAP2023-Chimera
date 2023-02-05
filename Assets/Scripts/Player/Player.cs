@@ -146,6 +146,7 @@ namespace Players
                     isDamage = false;
                 }
             }
+            Debug.Log(currentHP);
         }
         void FixedUpdate()
         {
@@ -322,7 +323,8 @@ namespace Players
 
                     //anim.SetTrigger(damageAnimHash);
                 }
-                playerGauge.GaugeReduction(damage, currentHP, maxHP);
+                if(playerGauge != null)
+                    playerGauge.GaugeReduction(damage, currentHP, maxHP);
                 currentHP -= damage;
                 if (!isDamage)
                 {
