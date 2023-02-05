@@ -23,6 +23,11 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
         dropParts = Manager.BattleSceneManager.Instance.BossEnemyType;
     }
 
+    public void DebugShowPartsUI()
+    {
+        ShowPartsUI(PartsType.BodyPartsType.Body);
+    }
+
 
     // TODO: ƒp[ƒc‚ğˆø”‚É‚Æ‚è‚½‚¢
     /// <summary>

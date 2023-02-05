@@ -40,7 +40,7 @@ namespace Players
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
         [SerializeField] private HPGauge playerGauge;
-        [SerializeField] private CircleCollider2D attackCollider;
+        [SerializeField] public CircleCollider2D[] AttackColliders;
         //弾幕発生オブジェクト
         [SerializeField] private GameObject barrageObject;
 
@@ -362,11 +362,11 @@ namespace Players
         }
         private void AttackStart()
         {
-            attackCollider.enabled = true;
+            AttackColliders.enabled = true;
         }
         private void AttackEnd()
         {
-            attackCollider.enabled = false;
+            AttackColliders.enabled = false;
         }
         //パーツが違うことによって出来る物をすべて無効に
         private void PartsSkillReset()
@@ -412,11 +412,13 @@ namespace Players
 
         private IEnumerator ArmAttack()
         {
+            AttackStart();
             anim.SetLayerWeight(1, 1f);
             anim.Play("ArmAttack");
             yield return new WaitForSeconds(0.5f);
             anim.SetLayerWeight(1, 0f);
             anim.Play("ArmIdle");
+            AttackEnd();
         }
         public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
         {
