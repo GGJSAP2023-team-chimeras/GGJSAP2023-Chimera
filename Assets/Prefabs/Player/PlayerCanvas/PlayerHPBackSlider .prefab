@@ -199,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1732114967605782273}
   - component: {fileID: 1732114967605782275}
-  - component: {fileID: 8559369265266667394}
+  - component: {fileID: 5896905622790739093}
   m_Layer: 5
   m_Name: PlayerHPSlider
   m_TagString: Untagged
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8559369265266667394
+--- !u!114 &5896905622790739093
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,18 +290,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1732114967605782286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eece2bbfcce9bd242bb9272b56314f2f, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c572f77023335647a20f290ed840ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpBarFill: {fileID: 1732114966537904426}
-  color_1: {r: 0.16587257, g: 1, b: 0, a: 1}
-  color_2: {r: 1, g: 0.7729807, b: 0, a: 1}
-  color_3: {r: 1, g: 0, b: 0, a: 1}
-  color_4: {r: 1, g: 0, b: 0.5651493, a: 1}
-  backGauge: {fileID: 1849647893059024648}
-  backHPSlider: {fileID: 1849647891991474465}
-  isFlash: 1
-  hpSlider: {fileID: 1732114967605782275}
+  hpBarFill: {fileID: 0}
+  color_1: {r: 0, g: 0, b: 0, a: 0}
+  color_2: {r: 0, g: 0, b: 0, a: 0}
+  color_3: {r: 0, g: 0, b: 0, a: 0}
+  color_4: {r: 0, g: 0, b: 0, a: 0}
+  backGauge: {fileID: 0}
+  backHPSlider: {fileID: 0}
+  isFlash: 0
+  hpSlider: {fileID: 0}
 --- !u!1 &1732114967692404093
 GameObject:
   m_ObjectHideFlags: 0
