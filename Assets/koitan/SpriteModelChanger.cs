@@ -31,24 +31,24 @@ public class SpriteModelChanger : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            headsIndex = (headsIndex + 1) % heads.Length;
-            SetModels(heads, headsIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            bodysIndex = (bodysIndex + 1) % bodys.Length;
-            SetModels(bodys, bodysIndex);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            legsIndex = (legsIndex + 1) % legs.Length;
-            SetModels(legs, legsIndex);
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Alpha1))
+    //    {
+    //        headsIndex = (headsIndex + 1) % heads.Length;
+    //        SetModels(heads, headsIndex);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha2))
+    //    {
+    //        bodysIndex = (bodysIndex + 1) % bodys.Length;
+    //        SetModels(bodys, bodysIndex);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Alpha3))
+    //    {
+    //        legsIndex = (legsIndex + 1) % legs.Length;
+    //        SetModels(legs, legsIndex);
+    //    }
+    //}
 
     void SetModels(GameObject[] objs, int index)
     {
@@ -70,6 +70,27 @@ public class SpriteModelChanger : MonoBehaviour
         SetModelParts(BodyPartsType.Head, headEachType);
         SetModelParts(BodyPartsType.Body, bodyEachType);
         SetModelParts(BodyPartsType.Foot, legEachType);
+    }
+
+    /// <summary>
+    /// ê}ä”óp
+    /// </summary>
+    /// <param name="h"></param>
+    /// <param name="b"></param>
+    /// <param name="l"></param>
+    public void SetModelPartsAllLibrary(int h, int b, int l)
+    {
+        SetModels(heads, h);
+        SetModels(bodys, b);
+        SetModels(legs, l);
+    }
+
+    public void SetColor(Color color)
+    {
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sr.color = color;
+        }
     }
 
     /// <summary>
@@ -101,7 +122,7 @@ public class SpriteModelChanger : MonoBehaviour
     /// </summary>
     /// <param name="eachPartsType"></param>
     /// <returns></returns>
-    EachPartsType GetEachPartsType(BodyPartsType eachPartsType)
+    public EachPartsType GetEachPartsType(BodyPartsType eachPartsType)
     {
         switch (eachPartsType)
         {

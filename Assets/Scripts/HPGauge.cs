@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -14,6 +15,8 @@ public class HPGauge : MonoBehaviour
     //点滅するかどうか
     [SerializeField] private bool isFlash = false;
     [SerializeField] private Slider hpSlider;
+    //dotween(後ろの体力のアニメーション)
+    private Tween backGaugeTween;
     private float valueFrom = 1;
     private float valueTo = 1;
     private float alpha_Sin = 0;
@@ -66,6 +69,21 @@ public class HPGauge : MonoBehaviour
             }
             hpSlider.value = valueTo;
         }
+        if (backGaugeTween != null)
+        {
+            backGaugeTween.Kill();
+        }
+
+        // 赤ゲージ減少
+        backGaugeTween = DOTween.To(
+            () => valueFrom,
+            x =>
+            {
+                backHPSlider.value = x;
+            },
+            valueTo,
+            delayTime
+        );
     }
     //体力バーを点滅
     void ColorCoroutine()

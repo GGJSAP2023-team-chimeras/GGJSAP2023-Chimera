@@ -84,7 +84,7 @@ namespace Manager
             // 選択したルートを保持
             PrevRouteIndex = routeIndex;
             // ルートによってボスのタイプを変更
-            BattleSceneManager.Instance.BossEnemyType = Routes[routeIndex];
+            BattleSceneManager.Instance.BossEnemyType = (BodyParts.PartsType.EachPartsType)Routes[routeIndex];
             // シーン遷移
             // FIXME: あらゆるシーンが呼ばれるたびに毎回呼ばれてる
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
