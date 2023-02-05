@@ -14,6 +14,10 @@ public class MapUI : MonoBehaviour
     // 通ったルートの画像
     public Sprite SelectedRouteSprite;
 
+    // ルート間の画像
+    public Sprite[] PathSprites;
+    public Image PathImage;
+
     // ボタンポジション
     // yだけ参照したい
     // xは、前とか現在で書き換えていく
@@ -42,12 +46,25 @@ public class MapUI : MonoBehaviour
 
     public void InitMapUI()
     {
+        var routes = Manager.MapManager.Instance.NumOfRoutes;
+        var prevRoutes = Manager.MapManager.Instance.NumOfPrevRoutes;
+        var prevSelectRoute = Manager.MapManager.Instance.PrevRouteIndex;
+
+        // パス画像選択
+        if (prevRoutes == 0)
+        {
+            PathImage.sprite = null;
+            PathImage.enabled = false;
+        }
+        else
+        {
+            PathImage.sprite = PathSprites.Where(s => s.name == $"{prevRoutes}_{routes}@2x").First();
+        }
         // 次のルート選択のボタン配置
         // 現在地点のやつにしたいので、xの調整
-        var routes = Manager.MapManager.Instance.NumOfRoutes;
         var positions = RouteButtonPositionsList[routes - 1]
                         .Positions
-                        .Select((v) => new Vector3(0, v.y, 0))
+                        .Select((v) => new Vector3(20.6f, v.y, 0))
                         .ToArray();
 
         // デフォルトでの選択状態を簡単に選択するために、逆順でforを回す
@@ -61,10 +78,7 @@ public class MapUI : MonoBehaviour
             var button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => OnPressRouteButton(idx));
 
-            var prevRoutes = Manager.MapManager.Instance.NumOfPrevRoutes;
-
             // 前のルートに応じたルート選択可能判定
-            var prevSelectRoute = Manager.MapManager.Instance.PrevRouteIndex;
             if (prevRoutes == 3 && routes == 2)
             {
                 // i = i-1 or i だったらenaable
@@ -91,7 +105,7 @@ public class MapUI : MonoBehaviour
         // 前の節を表示
         var prevPositions = RouteButtonPositionsList[Manager.MapManager.Instance.NumOfPrevRoutes - 1]
                 .Positions
-                .Select((v) => new Vector3(-240, v.y, 0))
+                .Select((v) => new Vector3(-152.1f, v.y, 0))
                 .ToArray();
         for (int i = 0; i < prevPositions.Length; i++)
         {
