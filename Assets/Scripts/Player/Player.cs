@@ -30,7 +30,7 @@ namespace Players
         //体の部位のスプライト
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
-        
+        [SerializeField] private HPGauge playerGauge;
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -99,8 +99,6 @@ namespace Players
         private float beforeKey = 0.0f;
         //体力
         private int currentHP = 0;
-        //パーツを感知したものをとる
-        private Sprite pickUPPartsSprite;
         //移動インプット
         private Vector2 movePos = Vector2.zero;
         //プレイヤーインプットシステム
@@ -323,10 +321,15 @@ namespace Players
 
                     //anim.SetTrigger(damageAnimHash);
                 }
+                playerGauge.GaugeReduction(damage, currentHP, maxHP);
                 currentHP -= damage;
                 if (!isDamage)
                 {
                     isDamage = true;
+                }
+                if(currentHP <= 0)
+                {
+                    Debug.Log("死亡");
                 }
             }
         }

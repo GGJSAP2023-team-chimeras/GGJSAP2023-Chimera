@@ -231,6 +231,7 @@ namespace Enemys
                 {
                     /*if(anim != null)
                         anim.SetTrigger(armAttackAnimHash);*/
+                    Instantiate(rangeAttackObject,transform.position,Quaternion.identity);
                     isArrival = true;
                     SetState(EnemyState.Freeze);
                 }

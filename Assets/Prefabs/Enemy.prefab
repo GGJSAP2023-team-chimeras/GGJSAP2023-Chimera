@@ -103,8 +103,19 @@ MonoBehaviour:
   bodyPartsType: 0
   eachPartsType: 0
   maxWaitTime: 1
-  rangeAttackObject: {fileID: 0}
+  rangeAttackObject: {fileID: 4947318851288747980, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
   walkSpeed: 5
+  shortAttackMove:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  leftTransform: {fileID: 0}
+  rightTransform: {fileID: 0}
+  UpTransform: {fileID: 0}
+  downTransform: {fileID: 0}
+  enemyGauge: {fileID: 0}
 --- !u!95 &4966455905695477324
 Animator:
   serializedVersion: 5

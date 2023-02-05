@@ -5,7 +5,6 @@ using Players;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private Sprite bulletSprite;
     //速度
     [SerializeField] private float speed = 15.0f;
     //スケールの倍数
@@ -16,11 +15,6 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         transform.localScale = Vector3.one * mulSize;
-        if (bulletSprite != null)
-        {
-            var spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.sprite = bulletSprite;
-        }
         rb = GetComponent<Rigidbody2D>();
     }
 
