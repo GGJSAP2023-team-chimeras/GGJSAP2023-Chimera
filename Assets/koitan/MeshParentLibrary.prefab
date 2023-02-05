@@ -2649,7 +2649,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
 --- !u!1 &5339462820169720862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3020,7 +3020,7 @@ Transform:
   m_GameObject: {fileID: 5705667337540213150}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 270, y: 270, z: 270}
+  m_LocalScale: {x: 60, y: 60, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6341433578882429992}
