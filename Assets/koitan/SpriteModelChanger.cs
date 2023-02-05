@@ -122,7 +122,7 @@ public class SpriteModelChanger : MonoBehaviour
     /// </summary>
     /// <param name="eachPartsType"></param>
     /// <returns></returns>
-    EachPartsType GetEachPartsType(BodyPartsType eachPartsType)
+    public EachPartsType GetEachPartsType(BodyPartsType eachPartsType)
     {
         switch (eachPartsType)
         {

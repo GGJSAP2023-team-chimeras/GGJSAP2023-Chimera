@@ -29,14 +29,28 @@ public class SpriteModelChecker : MonoBehaviour
     public static bool GetCheckModel(EachPartsType headType, EachPartsType bodyType, EachPartsType legType)
     {
         int index = GetModelIndex(headType, bodyType, legType);
-        if (PlayerPrefs.GetInt($"ModelDiscovered{index}", 0) > 0)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return PlayerPrefs.GetInt($"ModelDiscovered{index}", 0) > 0;
+    }
+
+    /// <summary>
+    /// モデルの組み合わせが発見かを返す（番号で）
+    /// 未発見 : false
+    /// 発見 : true
+    /// </summary>
+    /// <param name="headType"></param>
+    /// <param name="bodyType"></param>
+    /// <param name="legType"></param>
+    /// <returns></returns>
+    public static bool GetCheckModel(int h, int b, int l)
+    {
+        int index = h + b * 4 + l * 16;
+        return PlayerPrefs.GetInt($"ModelDiscovered{index}", 0) > 0;
+    }
+
+    public static bool GetCheckModel(SpriteModelChanger smc)
+    {
+        int index = GetModelIndex(smc.GetEachPartsType(BodyPartsType.Head), smc.GetEachPartsType(BodyPartsType.Body), smc.GetEachPartsType(BodyPartsType.Foot));
+        return PlayerPrefs.GetInt($"ModelDiscovered{index}", 0) > 0;
     }
 
     /// <summary>

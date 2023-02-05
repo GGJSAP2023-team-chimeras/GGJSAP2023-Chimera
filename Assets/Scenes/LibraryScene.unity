@@ -123,79 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &240637272
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 240637273}
-  - component: {fileID: 240637274}
-  m_Layer: 5
-  m_Name: MapUI
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &240637273
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240637272}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1247806305}
-  - {fileID: 1172892420818977005}
-  - {fileID: 584201034}
-  m_Father: {fileID: 818632169}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &240637274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 240637272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d8a393e838198546a86e54dd62837bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RouteButtonPrefab: {fileID: 1172892421209139907, guid: 40c7ad0b791dbd748a8c61a442e0d59b, type: 3}
-  PrevRouteImagePrefab: {fileID: 4292517856929494344, guid: 4b74b6e1bd2cc9548b8e65acaf55167c, type: 3}
-  SelectedRouteSprite: {fileID: 21300000, guid: 06976cfdfb841c34dbe7223957e5dd3e, type: 3}
-  PathSprites:
-  - {fileID: 21300000, guid: 14d3fbe201398f140a07ecc34afcd22b, type: 3}
-  - {fileID: 21300000, guid: 42085218f23d9554299c733245972919, type: 3}
-  - {fileID: 21300000, guid: 787233239a2b4be459bd901e89fb4122, type: 3}
-  - {fileID: 21300000, guid: 397c7f6984765a04c80e7674db37f37f, type: 3}
-  - {fileID: 21300000, guid: 3c36870a2d91a58469122606b4d9e7a9, type: 3}
-  - {fileID: 21300000, guid: 6eb3132319bdbf541a82e5579bf768c0, type: 3}
-  PathImage: {fileID: 0}
-  RouteButtonPositionsList:
-  - Positions:
-    - {x: 0, y: -7.9, z: 0}
-  - Positions:
-    - {x: 0, y: 82.8, z: 0}
-    - {x: 0, y: -96.8, z: 0}
-  - Positions:
-    - {x: 0, y: 82.8, z: 0}
-    - {x: 0, y: -7.9, z: 0}
-    - {x: 0, y: -96.8, z: 0}
 --- !u!1 &503030843
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +271,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 240637273}
+  m_Father: {fileID: 818632169}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -547,7 +474,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 240637273}
+  - {fileID: 1247806305}
+  - {fileID: 1172892420818977005}
+  - {fileID: 584201034}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -586,7 +515,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 240637273}
+  m_Father: {fileID: 818632169}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -724,12 +653,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1172892420818977006}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 240637273}
+  m_Father: {fileID: 818632169}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}

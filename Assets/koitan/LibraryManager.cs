@@ -36,7 +36,11 @@ public class LibraryManager : MonoBehaviour
                     var smc = Instantiate(spriteModelChangerOrigin, pivot);
                     smc.transform.localPosition = new Vector3(j * 360 + k * 80, i * -150);
                     smc.SetModelPartsAllLibrary(i, k, j);
-                    if (Random.Range(0f, 1f) < 0.5f)
+                    if (SpriteModelChecker.GetCheckModel(i, k, j))
+                    {
+                        smc.SetColor(Color.white);
+                    }
+                    else
                     {
                         smc.SetColor(Color.black);
                     }
