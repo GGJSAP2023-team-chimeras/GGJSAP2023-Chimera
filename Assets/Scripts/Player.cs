@@ -395,11 +395,11 @@ namespace Players
 
         private IEnumerator ArmAttack()
         {
-            animator.SetLayerWeight(1, 1f);
-            animator.Play("ArmAttack");
+            //animator.SetLayerWeight(1, 1f);
+            //animator.Play("ArmAttack");
             yield return new WaitForSeconds(0.5f);
-            animator.SetLayerWeight(1, 0f);
-            animator.Play("ArmIdle");
+            //animator.SetLayerWeight(1, 0f);
+            //animator.Play("ArmIdle");
         }
     }
 }

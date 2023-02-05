@@ -73,6 +73,27 @@ public class SpriteModelChanger : MonoBehaviour
     }
 
     /// <summary>
+    /// 図鑑用
+    /// </summary>
+    /// <param name="h"></param>
+    /// <param name="b"></param>
+    /// <param name="l"></param>
+    public void SetModelPartsAllLibrary(int h, int b, int l)
+    {
+        SetModels(heads, h);
+        SetModels(bodys, b);
+        SetModels(legs, l);
+    }
+
+    public void SetColor(Color color)
+    {
+        foreach (var sr in GetComponentsInChildren<SpriteRenderer>())
+        {
+            sr.color = color;
+        }
+    }
+
+    /// <summary>
     /// 一部のパーツを入れ替える
     /// </summary>
     /// <param name="bodyPartsType"></param>
