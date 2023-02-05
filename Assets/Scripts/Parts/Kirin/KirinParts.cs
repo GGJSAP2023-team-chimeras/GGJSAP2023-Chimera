@@ -11,8 +11,6 @@ namespace BodyParts
     {
         //大きい煙でダメージを与える出現させるオブジェクト
         [SerializeField] private GameObject spawnSmogObject;
-        //頭で扱うオブジェクト
-        [SerializeField] private GameObject smogObject;
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -27,7 +25,6 @@ namespace BodyParts
         public override void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             base.HeadSkill(headType);
-            smogObject.SetActive(true);
         }
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {

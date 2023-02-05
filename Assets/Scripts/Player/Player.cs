@@ -30,7 +30,7 @@ namespace Players
         //体の部位のスプライト
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
-       
+        
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -68,7 +68,8 @@ namespace Players
         public bool CanJumpFire { get { return canJumpFire; } set { canJumpFire = value; } }
         #endregion
         #region//プライベート変数
-
+        //各アクティブスキル
+        private bool activeHeadSkill = false;
         //ジャンプ中
         private bool isJump = false;
         //ダブルジャンプ中
@@ -100,7 +101,6 @@ namespace Players
         private int currentHP = 0;
         //パーツを感知したものをとる
         private Sprite pickUPPartsSprite;
-        private EnemySpawnParts spawnParts;
         //移動インプット
         private Vector2 movePos = Vector2.zero;
         //プレイヤーインプットシステム
@@ -140,38 +140,13 @@ namespace Players
         {
             if (isDamage)
             {
-                //明滅　ついている時に戻る
-                if (blinkTime > 0.2f)
-                {
-                    sr.enabled = true;
-                    blinkTime = 0.0f;
-                }
-                //明滅　消えているとき
-                else if (blinkTime > 0.1f)
-                {
-                    sr.enabled = false;
-                }
-                //明滅　ついているとき
-                else
-                {
-                    sr.enabled = true;
-                }
-
+                flashTime += Time.deltaTime;
                 //maxFlashTime秒たったら明滅終わり
                 if (flashTime > maxFlashTime)
                 {
                     isDamage = false;
-                    blinkTime = 0f;
-                    flashTime = 0f;
-                    sr.enabled = true;
-                }
-                else
-                {
-                    blinkTime += Time.deltaTime;
-                    flashTime += Time.deltaTime;
                 }
             }
-            PartsPickUP();
         }
         void FixedUpdate()
         {
@@ -206,6 +181,22 @@ namespace Players
             if (context.canceled)
             {
                 isFire = false;
+            }
+        }
+        private void OnActiveHeadSkill(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            if (!activeHeadSkill)
+            {
+                activeHeadSkill = true;
+            }
+            if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
+            {
+
+            }
+            else if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kijaku)
+            {
+
             }
         }
         private void OnJump(InputAction.CallbackContext context)
@@ -357,29 +348,9 @@ namespace Players
             isDown = false;
             isJump = false;
         }
-        private void PartsPickUP()
-        {
-            if (isFire)
-            {
-                if (spawnParts != null && pickUPPartsSprite != null)
-                {
-                    spriteBodyRenderer[(int)spawnParts.EnemySpawnPartsType].sprite = pickUPPartsSprite;
-                    spawnParts.IsDestroy = true;
-                    spawnParts = null;
-                }
-                isFire = false;
-            }
-        }
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            //パーツ獲得しそう、決定ボタン押した
-            if (collision.gameObject.CompareTag("Parts"))
-            {
-                if (spawnParts == null)
-                    spawnParts = collision.gameObject.GetComponent<EnemySpawnParts>();
-                if(spawnParts != null)
-                    pickUPPartsSprite = PartsManager.Instance.PartsSprite(spawnParts.EnemyType, spawnParts.EnemySpawnPartsType);
-            }
+
             //地面についたらジャンプ可能に
             if (collision.gameObject.CompareTag("Ground"))
             {

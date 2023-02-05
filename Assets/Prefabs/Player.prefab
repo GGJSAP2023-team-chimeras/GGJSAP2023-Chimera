@@ -93,10 +93,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2888434223382894978}
-  - component: {fileID: 2888434223382894982}
   - component: {fileID: 3377534219731244450}
   - component: {fileID: 439246188846279755}
   - component: {fileID: 2151749994309500961}
+  - component: {fileID: 8961978484418411420}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -124,59 +124,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2888434223382894982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2888434223382894983}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62347d9977bc54b4dac720f8efb24f01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpPower: 5
-  jumpLimitTime: 3.25
-  jumpHeight: 10
-  ground: {fileID: 7375685422132607698}
-  head: {fileID: 7508164026087456944}
-  dashCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  jumpSE: {fileID: 0}
-  downSE: {fileID: 0}
-  continueSE: {fileID: 0}
-  maxHP: 50
-  maxFlashTime: 1
-  bodyPartsTypes: 000000000100000002000000
-  spriteBodyRenderer:
-  - {fileID: 5503518968232856525}
-  - {fileID: 3813816507242208248}
-  - {fileID: 6238295826924870193}
-  walkSpeed: 10
-  gravityPower: -9.8
 --- !u!114 &3377534219731244450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +191,59 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.69}
   m_Size: {x: 1.17, y: 3.11}
   m_Direction: 0
+--- !u!114 &8961978484418411420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2888434223382894983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e80fc123d23cb6e41a16a81e3e518f40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpPower: 10
+  jumpLimitTime: 3.25
+  jumpHeight: 3
+  ground: {fileID: 3413074755888946180}
+  head: {fileID: 831495062775635834}
+  dashCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpSE: {fileID: 0}
+  downSE: {fileID: 0}
+  continueSE: {fileID: 0}
+  maxHP: 50
+  maxFlashTime: 1
+  bodyPartsTypes: 000000000000000000000000
+  spriteBodyRenderer:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  walkSpeed: 5
+  gravityPower: -5
 --- !u!1 &4573385791768392461
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,8 +337,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2616257627367349381}
-  - component: {fileID: 7508164026087456944}
   - component: {fileID: 6025130278395786734}
+  - component: {fileID: 831495062775635834}
   m_Layer: 0
   m_Name: HeadCheck
   m_TagString: Untagged
@@ -361,19 +361,6 @@ Transform:
   m_Father: {fileID: 2888434223382894978}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7508164026087456944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6470895904903106825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d385bae74ad2a74fa5814d5a820cdaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!61 &6025130278395786734
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -400,6 +387,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.15}
   m_EdgeRadius: 0
+--- !u!114 &831495062775635834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6470895904903106825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e81997ae48d5d41b2d56662c4924eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8961978484418411420}
 --- !u!1 &8305950096546582773
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,8 +493,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4510264098559577272}
-  - component: {fileID: 7375685422132607698}
   - component: {fileID: 8954520585781155125}
+  - component: {fileID: 3413074755888946180}
   m_Layer: 0
   m_Name: GroundCheck
   m_TagString: Untagged
@@ -517,19 +517,6 @@ Transform:
   m_Father: {fileID: 2888434223382894978}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7375685422132607698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8476279006706441716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d385bae74ad2a74fa5814d5a820cdaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!61 &8954520585781155125
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -556,3 +543,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.05}
   m_EdgeRadius: 0
+--- !u!114 &3413074755888946180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8476279006706441716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e81997ae48d5d41b2d56662c4924eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8961978484418411420}

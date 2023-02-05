@@ -180,11 +180,7 @@ namespace Enemys
             //死んだらパーツを出して死ぬ
             if (enemyState == EnemyState.Death)
             {
-                var obj = Instantiate(PartsManager.Instance.PartsTypeObject(eachPartsType,bodyPartsType), transform.position, Quaternion.identity);
-                //各パーツの型
-                obj.GetComponent<EnemySpawnParts>().EnemyType = eachPartsType;
-                //どのパーツか
-                obj.GetComponent<EnemySpawnParts>().EnemySpawnPartsType = bodyPartsType;
+                ChangePartsUI.Instance.ShowPartsUI(bodyPartsType);
                 Destroy(gameObject);
             }
             else if (enemyState == EnemyState.Wait)
@@ -214,6 +210,9 @@ namespace Enemys
                 {
                     //ランダムに定めた目的地を移動する
                     transform.position = Vector2.MoveTowards(transform.position, destination, walkSpeed * Time.deltaTime);
+                    Vector2 direction = new Vector3(destination.x,destination.y , 1) - transform.position;
+                    var lookRotation = Quaternion.FromToRotation(Vector3.up, direction);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, 0.1f);
                 }
                 if (Vector2.Distance(transform.position, destination) <= arrivalDistance)
                 {
@@ -241,15 +240,17 @@ namespace Enemys
                 if (!isArrival)
                 {
                     chaseTime += Time.deltaTime;
-                    if(chaseTime < maxChaseTime)
+                    if (chaseTime < maxChaseTime)
+                    {
                         transform.position = Vector2.MoveTowards(transform.position, player.gameObject.transform.position, walkSpeed * Time.deltaTime);
+                    }
                     else
                     {
                         CreateRandomPosition();
                         SetState(EnemyState.Move);
-                    }
-                        
+                    }                        
                 }
+                //到着したら放つ
                 if (Vector2.Distance(transform.position, player.gameObject.transform.position) <= arrivalDistance)
                 {
                     /*if (anim != null)
@@ -297,14 +298,5 @@ namespace Enemys
         {
             return destination;
         }
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.CompareTag("Ground"))
-            {
-                //移動範囲再設定
-                CreateRandomPosition();
-            }
-        }
-
     }
 }

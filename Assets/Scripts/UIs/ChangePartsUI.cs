@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using BodyParts;
 
 public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
 {
@@ -14,11 +15,13 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
         ChangePartsUIObject.SetActive(false);
     }
 
+
     // TODO: パーツを引数にとりたい
     /// <summary>
     /// ドロップしたパーツを表示する
     /// </summary>
-    public void ShowPartsUI()
+    /// <param name="bodyPartsType">身体のどのパーツか</param>
+    public void ShowPartsUI(PartsType.BodyPartsType bodyPartsType)
     {
         ChangePartsUIObject.SetActive(true);
         FirstSelectedButton.Select();

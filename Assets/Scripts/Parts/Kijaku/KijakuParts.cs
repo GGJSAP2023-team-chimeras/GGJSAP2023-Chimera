@@ -1,13 +1,13 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BodyParts;
 namespace BodyParts
 {
     /// <summary>
-    /// ‚±‚ÌƒNƒ‰ƒX‚ğ‚Â‚¯‚½ƒIƒuƒWƒFƒNƒg‚ÍƒvƒŒƒCƒ„[‚Ìq‚É“ü‚ê‚é
+    /// ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ã¤ã‘ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å­ã«å…¥ã‚Œã‚‹
     /// </summary>
-    public class KadaParts : Parts
+    public class KijakuParts : Parts
     {
         [SerializeField] private GameObject beamObject;
         // Start is called before the first frame update
