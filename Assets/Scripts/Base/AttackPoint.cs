@@ -5,18 +5,17 @@ using Players;
 
 public class AttackPoint : MonoBehaviour
 {
-    //攻撃力
-    [SerializeField] private int attackPoint;
     public enum AttackTarget
     {
         Player,
         Enemy
     }
+    //攻撃力
+    [SerializeField] private int attackPoint;
     //攻撃の目標を設定
     [SerializeField] private AttackTarget attackTarget = AttackTarget.Player;
     private string targetAttackTag = "Player";
     private Bullet bullet;
-    private Player player;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +32,7 @@ public class AttackPoint : MonoBehaviour
                 Debug.LogError("攻撃の目標を設定してください。攻撃判定クラスのエラーです。");
                 break;
         }
+        bullet = GetComponent<Bullet>();
     }
 
     // Update is called once per frame
@@ -51,12 +51,6 @@ public class AttackPoint : MonoBehaviour
                 damage.ReceiveDamage(true, attackPoint);
                 Destroy(gameObject);
             }
-        }
-        else
-        {
-            //自分が弾だった場合
-            if(bullet != null)
-                Destroy(gameObject);
         }
     }
 }

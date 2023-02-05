@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletCount: 20
-  bulletObject: {fileID: 0}
+  bulletObject: {fileID: 6479602891623058740, guid: d0215336a674c524080329160f5ae0bc, type: 3}

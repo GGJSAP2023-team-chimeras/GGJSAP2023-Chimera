@@ -20,8 +20,6 @@ namespace Enemys
         }
         //最大体力
         [Range(5,50),SerializeField] protected int maxHP = 10;
-        //攻撃力
-        [Range(5,20),SerializeField] protected int attackPoint = 5;
         //手に入れる体パーツ
         [SerializeField] protected PartsType.BodyPartsType bodyPartsType = PartsType.BodyPartsType.Head;
         //体のパーツの種類
