@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SkillManager : SingletonMonoBehaviour<SkillManager>
 {
-    [NamedArray(new string[] { "麒麟", "鬿雀","獏" }),SerializeField] private float[] maxHeadCoolTime;
-    public float[] MaxHeadSkillCoolTime { get { return maxHeadCoolTime; } }
     // Start is called before the first frame update
     void Start()
     {

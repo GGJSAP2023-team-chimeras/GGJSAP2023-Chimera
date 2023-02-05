@@ -1,16 +1,14 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BodyParts;
 namespace BodyParts
 {
     /// <summary>
-    /// ‚±‚ÌƒNƒ‰ƒX‚ğ‚Â‚¯‚½ƒIƒuƒWƒFƒNƒg‚ÍƒvƒŒƒCƒ„[‚Ìq‚É“ü‚ê‚é
+    /// ã“ã®ã‚¯ãƒ©ã‚¹ã‚’ã¤ã‘ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¯ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å­ã«å…¥ã‚Œã‚‹
     /// </summary>
     public class BakuParts : Parts
     {
-        //“ª‚Åˆµ‚¤ƒIƒuƒWƒFƒNƒg
-        [SerializeField] private GameObject smogObject;
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -25,8 +23,6 @@ namespace BodyParts
         public override void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             base.HeadSkill(headType);
-            smogObject.transform.localScale = Vector3.one * 0.3f;
-            smogObject.SetActive(true);
         }
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {

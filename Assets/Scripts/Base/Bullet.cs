@@ -7,15 +7,12 @@ public class Bullet : MonoBehaviour
 {
     //速度
     [SerializeField] private float speed = 15.0f;
-    //スケールの倍数
-    [Range(0.75f, 1.35f), SerializeField] private float mulSize = 1.0f;
-    public float MulSize { get { return mulSize; } set { mulSize = value; } }
     private Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
-        transform.localScale = Vector3.one * mulSize;
         rb = GetComponent<Rigidbody2D>();
+        Destroy(gameObject, 0.5f);
     }
 
     // Update is called once per frame

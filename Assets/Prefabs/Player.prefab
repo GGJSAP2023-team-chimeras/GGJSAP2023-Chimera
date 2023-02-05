@@ -242,6 +242,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  playerGauge: {fileID: 0}
+  attackCollider: {fileID: 0}
+  barrageObject: {fileID: 4947318851288747980, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
   walkSpeed: 5
   gravityPower: -5
 --- !u!1 &4573385791768392461

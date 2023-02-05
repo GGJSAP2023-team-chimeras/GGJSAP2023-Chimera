@@ -32,6 +32,8 @@ namespace Players
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
         [SerializeField] private HPGauge playerGauge;
         [SerializeField] private CircleCollider2D attackCollider;
+        //弾幕発生オブジェクト
+        [SerializeField] private GameObject barrageObject;
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -98,6 +100,8 @@ namespace Players
         private float dashTime = 0.0f;
         //反転した場合の前回の方向
         private float beforeKey = 0.0f;
+        private float headCoolTime = 0.0f;
+        private float maxHeadCoolTime = 2.0f;
         //体力
         private int currentHP = 0;
         //移動インプット
@@ -131,6 +135,7 @@ namespace Players
             inputs.Player.Fire.performed += OnFire;
             inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
+            inputs.Player.HeadSkill.performed += OnActiveHeadSkill;
             currentHP = maxHP;
             beforeGravityPower = gravityPower;
             beforeWalkSpeed = walkSpeed;
@@ -146,7 +151,14 @@ namespace Players
                     isDamage = false;
                 }
             }
-            Debug.Log(currentHP);
+            if (activeHeadSkill)
+            {
+                headCoolTime += Time.deltaTime;
+                if(headCoolTime >= maxHeadCoolTime)
+                {
+                    activeHeadSkill = false;
+                }
+            }
         }
         void FixedUpdate()
         {
@@ -192,11 +204,13 @@ namespace Players
             }
             if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
             {
-
+                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+                obj.transform.localScale = Vector3.one * 0.7f;
             }
-            else if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kijaku)
+            else if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Baku)
             {
-
+                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+                obj.transform.localScale = Vector3.one * 0.4f;
             }
         }
         private void OnJump(InputAction.CallbackContext context)

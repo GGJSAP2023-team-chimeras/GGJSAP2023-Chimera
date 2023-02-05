@@ -32,6 +32,7 @@ public class AttackPoint : MonoBehaviour
                 Debug.LogError("攻撃の目標を設定してください。攻撃判定クラスのエラーです。");
                 break;
         }
+        bullet = GetComponent<Bullet>();
     }
 
     // Update is called once per frame
@@ -50,12 +51,6 @@ public class AttackPoint : MonoBehaviour
                 damage.ReceiveDamage(true, attackPoint);
                 Destroy(gameObject);
             }
-        }
-        else
-        {
-            //自分が弾だった場合
-            if(bullet != null)
-                Destroy(gameObject);
         }
     }
 }
