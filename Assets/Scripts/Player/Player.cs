@@ -34,8 +34,8 @@ namespace Players
         [Header("最大体力"), Range(10, 50), SerializeField] private int maxHP = 50;
         [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxFlashTime = 1.0f;
         //体の部位ごとに
-        [NamedArray(new string[] { "頭","体","脚"})]
-        [SerializeField] private PartsType.EachPartsType[] bodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
+        [NamedArray(new string[] { "頭", "体", "脚" })]
+        [SerializeField] public static PartsType.EachPartsType[] BodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
         //体の部位のスプライト
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
@@ -63,7 +63,7 @@ namespace Players
         public bool CanDoubleJump { get { return canDoubleJump; } set { canDoubleJump = value; } }
         //ジャンプ開始
         private bool jumpStart = false;
-        public bool JumpStart { get { return jumpStart; }set { jumpStart = value; } }
+        public bool JumpStart { get { return jumpStart; } set { jumpStart = value; } }
 
         //元の重力
         private float beforeGravityPower = 0.0f;
@@ -207,11 +207,11 @@ namespace Players
             {
                 activeHeadSkill = true;
             }
-            if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
+            if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
             {
 
             }
-            else if(bodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kijaku)
+            else if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kijaku)
             {
 
             }
@@ -359,7 +359,7 @@ namespace Players
                 {
                     isDamage = true;
                 }
-                if(currentHP <= 0)
+                if (currentHP <= 0)
                 {
                     Debug.Log("死亡");
                 }
@@ -396,5 +396,41 @@ namespace Players
             }
         }
 
+        private IEnumerator ArmAttack()
+        {
+            anim.SetLayerWeight(1, 1f);
+            anim.Play("ArmAttack");
+            yield return new WaitForSeconds(0.5f);
+            anim.SetLayerWeight(1, 0f);
+            anim.Play("ArmIdle");
+        }
+        public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
+        {
+            BodyPartsTypes[(int)bodyPartsType] = partsType;
+            SpriteModelChecker.SetCheckModel(BodyPartsTypes[0], BodyPartsTypes[1], BodyPartsTypes[2]);
+            switch (bodyPartsType)
+            {
+                case PartsType.BodyPartsType.Head:
+                    for (int i = 0; i < heads.Length; i++)
+                    {
+                        heads[i].SetActive(i == (int)partsType);
+                    }
+                    break;
+                case PartsType.BodyPartsType.Body:
+                    for (int i = 0; i < heads.Length; i++)
+                    {
+                        bodys[i].SetActive(i == (int)partsType);
+                    }
+                    break;
+                case PartsType.BodyPartsType.Foot:
+                    for (int i = 0; i < heads.Length; i++)
+                    {
+                        legs[i].SetActive(i == (int)partsType);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
