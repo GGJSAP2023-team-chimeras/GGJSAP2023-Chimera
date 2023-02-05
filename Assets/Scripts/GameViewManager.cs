@@ -9,6 +9,8 @@ public class GameViewManager : MonoBehaviour
 {
     private void Awake()
     {
+# if UNITY_STANDALONE
         Screen.SetResolution(1280, 720, false);
+# endif
     }
 }

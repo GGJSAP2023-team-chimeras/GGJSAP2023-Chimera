@@ -53,6 +53,42 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""cdc5e18f-cd5b-4f3a-95e3-c784fa440b7e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HeadSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""01a0a3be-bf2c-4dce-b6ba-7ac62c105e9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BodySkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""dee10218-d1f0-46ef-9bfd-09c0e050863e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FootSkill"",
+                    ""type"": ""Button"",
+                    ""id"": ""df5d96d1-2e1a-4955-a190-2ea4ba05c223"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -273,6 +309,61 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""XR"",
                     ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a061db64-8a37-43e0-a9fc-5a50f04cafb2"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1fb23386-53b7-406d-977f-1996208d0bed"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16d3eaab-18a8-4395-9c3a-d8113e9870a3"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HeadSkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""201b16ef-d1d8-4849-8c79-569161d3c028"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BodySkill"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b401bd6c-4ad1-47df-b5fd-f779bef86a9d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FootSkill"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -863,6 +954,10 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
+        m_Player_HeadSkill = m_Player.FindAction("HeadSkill", throwIfNotFound: true);
+        m_Player_BodySkill = m_Player.FindAction("BodySkill", throwIfNotFound: true);
+        m_Player_FootSkill = m_Player.FindAction("FootSkill", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -937,6 +1032,10 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_Jump;
+    private readonly InputAction m_Player_HeadSkill;
+    private readonly InputAction m_Player_BodySkill;
+    private readonly InputAction m_Player_FootSkill;
     public struct PlayerActions
     {
         private @GGJSAP2023A m_Wrapper;
@@ -944,6 +1043,10 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @Jump => m_Wrapper.m_Player_Jump;
+        public InputAction @HeadSkill => m_Wrapper.m_Player_HeadSkill;
+        public InputAction @BodySkill => m_Wrapper.m_Player_BodySkill;
+        public InputAction @FootSkill => m_Wrapper.m_Player_FootSkill;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -962,6 +1065,18 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 @Fire.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFire;
+                @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
+                @HeadSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeadSkill;
+                @HeadSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeadSkill;
+                @HeadSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeadSkill;
+                @BodySkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodySkill;
+                @BodySkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodySkill;
+                @BodySkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodySkill;
+                @FootSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFootSkill;
+                @FootSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFootSkill;
+                @FootSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFootSkill;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -975,6 +1090,18 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @HeadSkill.started += instance.OnHeadSkill;
+                @HeadSkill.performed += instance.OnHeadSkill;
+                @HeadSkill.canceled += instance.OnHeadSkill;
+                @BodySkill.started += instance.OnBodySkill;
+                @BodySkill.performed += instance.OnBodySkill;
+                @BodySkill.canceled += instance.OnBodySkill;
+                @FootSkill.started += instance.OnFootSkill;
+                @FootSkill.performed += instance.OnFootSkill;
+                @FootSkill.canceled += instance.OnFootSkill;
             }
         }
     }
@@ -1134,6 +1261,10 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
+        void OnHeadSkill(InputAction.CallbackContext context);
+        void OnBodySkill(InputAction.CallbackContext context);
+        void OnFootSkill(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
