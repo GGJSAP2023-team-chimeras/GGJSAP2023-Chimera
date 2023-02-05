@@ -64,7 +64,7 @@ public class MapUI : MonoBehaviour
         // 現在地点のやつにしたいので、xの調整
         var positions = RouteButtonPositionsList[routes - 1]
                         .Positions
-                        .Select((v) => new Vector3(20.6f, v.y, 0))
+                        .Select((v) => new Vector3(93.7f, v.y, 0))
                         .ToArray();
 
         // デフォルトでの選択状態を簡単に選択するために、逆順でforを回す
@@ -105,7 +105,7 @@ public class MapUI : MonoBehaviour
         // 前の節を表示
         var prevPositions = RouteButtonPositionsList[Manager.MapManager.Instance.NumOfPrevRoutes - 1]
                 .Positions
-                .Select((v) => new Vector3(-152.1f, v.y, 0))
+                .Select((v) => new Vector3(-79f, v.y, 0))
                 .ToArray();
         for (int i = 0; i < prevPositions.Length; i++)
         {
