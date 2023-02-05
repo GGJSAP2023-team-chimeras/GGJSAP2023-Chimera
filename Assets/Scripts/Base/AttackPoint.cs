@@ -42,10 +42,11 @@ public class AttackPoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.tag);
         //攻撃の目標であった場合
         if (collision.gameObject.CompareTag(targetAttackTag))
         {
-            var damage = collision.gameObject.GetComponent<IDamageble>();
+            var damage = collision.transform.parent.GetComponent<IDamageble>();
             if (damage != null)
             {
                 damage.ReceiveDamage(true, attackPoint);
