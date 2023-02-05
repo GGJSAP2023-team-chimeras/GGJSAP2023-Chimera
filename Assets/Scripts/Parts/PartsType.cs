@@ -17,8 +17,8 @@ namespace BodyParts
         public enum EachPartsType
         {
             Kirin = 0,  //麒麟
-            Kada,       //化蛇
-            Baku,       //獏
+            Kada = 1,       //化蛇
+            Baku = 2,       //獏
             None
         }
     }
