@@ -49,7 +49,6 @@ public class AttackPoint : MonoBehaviour
             if (damage != null)
             {
                 damage.ReceiveDamage(true, attackPoint);
-                Destroy(gameObject);
             }
         }
     }
