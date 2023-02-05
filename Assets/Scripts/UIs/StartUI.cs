@@ -24,6 +24,8 @@ public class StartUI : MonoBehaviour
 
     public void OnPressBookButton()
     {
+        Manager.SceneManager.ChangeScene(3);
+
         Debug.Log("press book");
     }
 
