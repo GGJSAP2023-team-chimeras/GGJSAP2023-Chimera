@@ -85,6 +85,7 @@ namespace Players
         private bool doubleJump = false;
         //攻撃を放てる
         private bool isFire = false;
+        [SerializeField]
         private Animator anim = null;
         private Rigidbody2D rb = null;
         private SpriteRenderer sr = null;
