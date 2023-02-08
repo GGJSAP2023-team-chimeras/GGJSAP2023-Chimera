@@ -37,8 +37,6 @@ namespace Enemys
         //遠距離攻撃で放つオブジェクト
         [SerializeField] private GameObject rangeAttackObject;
         [Range(1.0f, 10.0f), SerializeField] private float walkSpeed = 5.0f;
-        //攻撃をするために近距離に詰めに行く
-        [SerializeField] private AnimationCurve shortAttackMove;
         //限界の範囲まで
         [SerializeField] private Transform leftTransform;
         [SerializeField] private Transform rightTransform;
@@ -81,8 +79,6 @@ namespace Enemys
         private Animator anim;
         //前フレームの位置
         private Vector3 beforePosition;
-        private Vector2 currentVelocity;
-        private readonly float smoothTime = 2.5f;
 
         private void Awake()
         {
@@ -102,18 +98,26 @@ namespace Enemys
         }
         void Update()
         {
-            beforePosition = transform.position;
-            /* if (anim != null)
+             if (anim != null)
             {
                 if (beforePosition != transform.position)
                 {
-                    anim.SetFloat(walkAnimHash, 1);
+                    if(beforePosition.x > transform.position.x)
+                    {
+                        transform.localScale = new Vector3(-1, 1, 1);
+                    }
+                    else if(beforePosition.x < transform.position.x)
+                    {
+                        transform.localScale = new Vector3(1, 1, 1);
+                    }
+                    //anim.SetFloat(walkAnimHash, 1);
                 }
                 else
                 {
-                    anim.SetFloat(walkAnimHash, 0);
+                    //anim.SetFloat(walkAnimHash, 0);
                 }
-            }*/
+            }
+            beforePosition = transform.position;
             StateMove();
             //範囲内を出た
             if ((transform.position.y < downTransform.position.y || transform.position.y > UpTransform.position.y)
@@ -157,6 +161,7 @@ namespace Enemys
                 /*if(anim != null)
                     anim.SetFloat(walkAnimHash, 0.0f);*/
                 transform.position = beforePosition;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
                 isArrival = true;
             }
             else if (state == EnemyState.Move || state == EnemyState.ShortAttack || state == EnemyState.RangeAttack)

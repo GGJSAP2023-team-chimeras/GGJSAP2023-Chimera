@@ -9,6 +9,8 @@ namespace BodyParts
     /// </summary>
     public class BakuParts : Parts
     {
+        //弾幕発生オブジェクト
+        [SerializeField] private GameObject barrageObject;
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -23,6 +25,8 @@ namespace BodyParts
         public override void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             base.HeadSkill(headType);
+            var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+            obj.GetComponent<Barrage>().BulletSize = spawnBulletSize;
         }
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {

@@ -15,7 +15,6 @@ public class AttackPoint : MonoBehaviour
     //攻撃の目標を設定
     [SerializeField] private AttackTarget attackTarget = AttackTarget.Player;
     private string targetAttackTag = "Player";
-    private Bullet bullet;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +31,6 @@ public class AttackPoint : MonoBehaviour
                 Debug.LogError("攻撃の目標を設定してください。攻撃判定クラスのエラーです。");
                 break;
         }
-        bullet = GetComponent<Bullet>();
     }
 
     // Update is called once per frame
@@ -40,17 +38,24 @@ public class AttackPoint : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void AddDamage(GameObject colObject)
     {
-        Debug.Log(collision.gameObject.tag);
-        //攻撃の目標であった場合
-        if (collision.gameObject.CompareTag(targetAttackTag))
+        if (colObject.CompareTag(targetAttackTag))
         {
-            var damage = collision.transform.parent.GetComponent<IDamageble>();
+            var damage = colObject.transform.parent.GetComponent<IDamageble>();
             if (damage != null)
             {
                 damage.ReceiveDamage(true, attackPoint);
             }
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.gameObject.tag);
+        AddDamage(collision.gameObject);
+    }
+    private void OnParticleCollision(GameObject other)
+    {
+        AddDamage(other);
     }
 }

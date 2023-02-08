@@ -24,11 +24,12 @@ namespace BodyParts
         public override void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             base.HeadSkill(headType);
+            Instantiate(beamObject,transform.position,Quaternion.identity);
         }
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
             base.BodySkill(bodyType);
-            player.GravityPower = player.BeforeGravityPower * 1.25f;
+            player.GravityPower = player.BeforeGravityPower * 0.5f;
         }
         public override void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
         {

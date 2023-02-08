@@ -9,8 +9,8 @@ namespace BodyParts
     /// </summary>
     public class KirinParts : Parts
     {
-        //大きい煙でダメージを与える出現させるオブジェクト
-        [SerializeField] private GameObject spawnSmogObject;
+        //弾幕発生オブジェクト
+        [SerializeField] private GameObject barrageObject;
         // Start is called before the first frame update
         protected override void Start()
         {
@@ -25,14 +25,15 @@ namespace BodyParts
         public override void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             base.HeadSkill(headType);
+            var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
+            obj.GetComponent<Barrage>().BulletSize = spawnBulletSize;
         }
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
             base.BodySkill(bodyType);
             if (player.JumpStart)
             {
-                var obj = Instantiate(spawnSmogObject, player.transform.position, Quaternion.identity);
-                Destroy(obj.gameObject, 0.3f);
+                Instantiate(barrageObject, player.transform.position, Quaternion.identity);
                 player.JumpStart = false;
             }
         }

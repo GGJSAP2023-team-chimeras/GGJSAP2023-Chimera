@@ -11,15 +11,20 @@ namespace BodyParts
     public class Parts : MonoBehaviour,IParts
     {
         //体のどのパーツなのか
-        [SerializeField] protected PartsType.BodyPartsType bodyPartsType;
+        [SerializeField] 
+        protected PartsType.BodyPartsType bodyPartsType;
         //頭の種類
-        [SerializeField] protected PartsType.EachPartsType headType = PartsType.EachPartsType.None;
-        //身体の種類
-        [SerializeField] protected PartsType.EachPartsType bodyType = PartsType.EachPartsType.None;
-        //足の種類
-        [SerializeField] protected PartsType.EachPartsType footType = PartsType.EachPartsType.None;
+        [SerializeField]
+        protected PartsType.EachPartsType eachPartsType = PartsType.EachPartsType.None;
         //プレイヤー
-        [SerializeField] protected Player player;
+        [SerializeField] 
+        protected Player player;
+        //アクティブスキルかどうか
+        [SerializeField]
+        protected bool isActiveSkill = false;
+        //頭の部位のスキルはアクティブスキルで弾幕のサイズを変更する可能性があるため
+        protected float spawnBulletSize = 0.5f;
+        public float BulletSize { get { return spawnBulletSize; } set { spawnBulletSize = value; } }
         // Start is called before the first frame update
         protected virtual void Start()
         {
@@ -34,26 +39,35 @@ namespace BodyParts
         //各パーツごとに行う
         private void EachParts()
         {
-            //体の部位ごとに
-            switch (bodyPartsType)
+            //アクティブスキルではなかった場合
+            if (!isActiveSkill)
             {
-                //頭
-                case PartsType.BodyPartsType.Head:
-                    HeadSkill(headType);
-                    break;
-                //身体
-                case PartsType.BodyPartsType.Body:
-                    BodySkill(bodyType);
-                    break;
-                //脚
-                case PartsType.BodyPartsType.Foot:
-                    FootSkill(footType);
-                    break;
-                default:
-                    Debug.LogError("何かおかしい、身体パーツエラー");
-                    break;
+                //体の部位ごとに
+                switch (bodyPartsType)
+                {
+                    //頭
+                    case PartsType.BodyPartsType.Head:
+                        HeadSkill(eachPartsType);
+                        break;
+                    //身体
+                    case PartsType.BodyPartsType.Body:
+                        BodySkill(eachPartsType);
+                        break;
+                    //脚
+                    case PartsType.BodyPartsType.Foot:
+                        FootSkill(eachPartsType);
+                        break;
+                    default:
+                        Debug.LogError("何かおかしい、身体パーツエラー");
+                        break;
+                }
             }
         }
+        /// <summary>
+        /// 頭のスキル
+        /// </summary>
+        /// <param name="headType">頭の部位のタイプ</param>
+        /// <param name="bulletSize">弾のサイズ</param>
         public virtual void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             if (headType == PartsType.EachPartsType.None) return;

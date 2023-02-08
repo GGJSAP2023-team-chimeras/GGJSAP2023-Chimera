@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Barrage : MonoBehaviour
 {
-    [SerializeField] private int bulletCount = 20;
+    [Range(5,20),SerializeField] private int bulletCount = 20;
     [SerializeField] private GameObject bulletObject;
     private float bulletSize = 0.0f;
     public float BulletSize { get { return bulletSize; } set { bulletSize = value; } }
