@@ -3441,7 +3441,7 @@ PrefabInstance:
     - target: {fileID: 6075749630201814461, guid: 25479aee881f22f478dc956fab0638c2, type: 3}
       propertyPath: rangeAttackObject
       value: 
-      objectReference: {fileID: 1688834786}
+      objectReference: {fileID: 4947318851288747980, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
     - target: {fileID: 6075749630201814462, guid: 25479aee881f22f478dc956fab0638c2, type: 3}
       propertyPath: m_RootOrder
       value: 8
