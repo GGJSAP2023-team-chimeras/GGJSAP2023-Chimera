@@ -792,7 +792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: 10
-  attackTarget: 0
+  Target: 0
 --- !u!1 &2263172753473862690
 GameObject:
   m_ObjectHideFlags: 0
@@ -5438,7 +5438,7 @@ MonoBehaviour:
   - {fileID: 3650995191757612239}
   - {fileID: 3650995190057433862}
   - {fileID: 3650995189860184532}
-  Bullet: {fileID: 6479602891623058740, guid: d0215336a674c524080329160f5ae0bc, type: 3}
+  Muzzle: {fileID: 268717124886521911, guid: 907470a5e69f6dc4ea2ab9ea06521f52, type: 3}
   Barrage: {fileID: 4947318851288747980, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
   Beam: {fileID: 5528131889277707132, guid: c949e5564b493ac4ebeaf36f55b378d1, type: 3}
   maxHP: 50

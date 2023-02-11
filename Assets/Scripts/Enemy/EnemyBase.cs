@@ -283,7 +283,8 @@ namespace Enemys
                 {
                     /*if(anim != null)
                         anim.SetTrigger(armAttackAnimHash);*/
-                    Instantiate(rangeAttackObject, transform.position, Quaternion.identity);
+                    var rotation = this.transform.localScale.x == -1 ? Quaternion.AngleAxis(180, Vector3.up) : this.transform.rotation;
+                    Instantiate(rangeAttackObject, transform.position, rotation);
                     isArrival = true;
                     SetState(EnemyState.Freeze);
                 }
