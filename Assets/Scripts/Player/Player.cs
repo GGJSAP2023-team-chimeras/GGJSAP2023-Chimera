@@ -160,7 +160,6 @@ namespace Players
             // パーツの初期化処理
             for (int i = 0; i < BodyPartsTypes.Length; i++)
             {
-                Debug.Log(BodyPartsTypes[i]);
                 SetParts((PartsType.BodyPartsType)i, BodyPartsTypes[i]);
             }
         }
