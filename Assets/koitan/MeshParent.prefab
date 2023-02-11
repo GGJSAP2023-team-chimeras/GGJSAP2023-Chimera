@@ -3928,6 +3928,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667337078320189}
+  - component: {fileID: 8863967716529030134}
   m_Layer: 0
   m_Name: LegsKirin
   m_TagString: Untagged
@@ -3950,8 +3951,25 @@ Transform:
   - {fileID: 7739840192548541305}
   - {fileID: 6265730205682217450}
   m_Father: {fileID: 5705667337429400518}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8863967716529030134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667337078320188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033e3fb449efd0348a5cf8d8652ae9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 2
+  eachPartsType: 1
+  player: {fileID: 0}
+  isActiveSkill: 0
+  barrageObject: {fileID: 0}
 --- !u!1 &5705667337157734982
 GameObject:
   m_ObjectHideFlags: 0
@@ -3961,6 +3979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667337157734983}
+  - component: {fileID: 7884400065629717677}
   m_Layer: 0
   m_Name: BodysBAKU
   m_TagString: Untagged
@@ -3984,8 +4003,25 @@ Transform:
   - {fileID: 7897859106737642046}
   - {fileID: 2545904233619807828}
   m_Father: {fileID: 5705667337777893683}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7884400065629717677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667337157734982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69060df1de2b7f5449ec91f0ba9f8166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 1
+  eachPartsType: 3
+  player: {fileID: 0}
+  isActiveSkill: 0
+  barrageObject: {fileID: 0}
 --- !u!1 &5705667337187749877
 GameObject:
   m_ObjectHideFlags: 0
@@ -4015,9 +4051,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5705667337318073059}
-  - {fileID: 5705667338146507348}
   - {fileID: 5705667338071979523}
   - {fileID: 5705667338071287758}
+  - {fileID: 5705667338146507348}
   m_Father: {fileID: 6341433578882429992}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4030,6 +4066,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667337318073059}
+  - component: {fileID: 7934594423102696778}
   m_Layer: 0
   m_Name: HeadsPanda
   m_TagString: Untagged
@@ -4060,6 +4097,22 @@ Transform:
   m_Father: {fileID: 5705667337187749882}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7934594423102696778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667337318073058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b309a9e68e2204fbd1a7465161d904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 0
+  eachPartsType: 0
+  player: {fileID: 0}
+  isActiveSkill: 0
 --- !u!1 &5705667337429400513
 GameObject:
   m_ObjectHideFlags: 0
@@ -4089,9 +4142,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5705667338270822767}
-  - {fileID: 5705667338402248996}
   - {fileID: 5705667337078320189}
   - {fileID: 5705667338876843002}
+  - {fileID: 5705667338402248996}
   m_Father: {fileID: 6341433578882429992}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4106,6 +4159,7 @@ GameObject:
   - component: {fileID: 5705667337540213151}
   - component: {fileID: 5705667337540213148}
   - component: {fileID: 5705667337540213149}
+  - component: {fileID: 2418061857211460572}
   m_Layer: 0
   m_Name: MeshParent
   m_TagString: Untagged
@@ -4176,6 +4230,21 @@ MonoBehaviour:
   - {fileID: 5705667338402248999}
   - {fileID: 5705667337078320188}
   - {fileID: 5705667338876842997}
+--- !u!114 &2418061857211460572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667337540213150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b8ee855a0bf9c4fbf6184f813358e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AttackColliders:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &5705667337686529509
 GameObject:
   m_ObjectHideFlags: 0
@@ -4185,6 +4254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667337686529514}
+  - component: {fileID: 9221029113799638195}
   m_Layer: 0
   m_Name: BodysPanda
   m_TagString: Untagged
@@ -4211,6 +4281,22 @@ Transform:
   m_Father: {fileID: 5705667337777893683}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9221029113799638195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667337686529509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b309a9e68e2204fbd1a7465161d904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 0
+  eachPartsType: 0
+  player: {fileID: 0}
+  isActiveSkill: 0
 --- !u!1 &5705667337777893682
 GameObject:
   m_ObjectHideFlags: 0
@@ -4240,9 +4326,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5705667337686529514}
-  - {fileID: 5705667337157734983}
   - {fileID: 5705667337948890732}
   - {fileID: 5705667338632950290}
+  - {fileID: 5705667337157734983}
   m_Father: {fileID: 6341433578882429992}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4255,6 +4341,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667337948890732}
+  - component: {fileID: 4563520062529185067}
   m_Layer: 0
   m_Name: BodysKirin
   m_TagString: Untagged
@@ -4280,8 +4367,25 @@ Transform:
   - {fileID: 3631322191270447222}
   - {fileID: 912561995148206960}
   m_Father: {fileID: 5705667337777893683}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4563520062529185067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667337948890735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033e3fb449efd0348a5cf8d8652ae9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 1
+  eachPartsType: 1
+  player: {fileID: 0}
+  isActiveSkill: 0
+  barrageObject: {fileID: 0}
 --- !u!1 &5705667338071287753
 GameObject:
   m_ObjectHideFlags: 0
@@ -4291,6 +4395,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338071287758}
+  - component: {fileID: 8673029920141518950}
   m_Layer: 0
   m_Name: HeadsKijaku
   m_TagString: Untagged
@@ -4316,8 +4421,25 @@ Transform:
   - {fileID: 4808264426907306805}
   - {fileID: 8570158996986813766}
   m_Father: {fileID: 5705667337187749882}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8673029920141518950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338071287753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8912f4cbdd2ff48479b748b4f46e33c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 0
+  eachPartsType: 2
+  player: {fileID: 0}
+  isActiveSkill: 1
+  beamObject: {fileID: 0}
 --- !u!1 &5705667338071979522
 GameObject:
   m_ObjectHideFlags: 0
@@ -4327,6 +4449,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338071979523}
+  - component: {fileID: 4852776950372783575}
   m_Layer: 0
   m_Name: HeadsKirin
   m_TagString: Untagged
@@ -4353,8 +4476,25 @@ Transform:
   - {fileID: 4689179884471881698}
   - {fileID: 2272336484558528721}
   m_Father: {fileID: 5705667337187749882}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4852776950372783575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338071979522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 033e3fb449efd0348a5cf8d8652ae9e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 0
+  eachPartsType: 1
+  player: {fileID: 0}
+  isActiveSkill: 1
+  barrageObject: {fileID: 0}
 --- !u!1 &5705667338146507351
 GameObject:
   m_ObjectHideFlags: 0
@@ -4364,6 +4504,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338146507348}
+  - component: {fileID: 8682017470782594291}
   m_Layer: 0
   m_Name: HeadsBAKU
   m_TagString: Untagged
@@ -4392,8 +4533,25 @@ Transform:
   - {fileID: 3260849093987524406}
   - {fileID: 5340840484173189138}
   m_Father: {fileID: 5705667337187749882}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8682017470782594291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338146507351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69060df1de2b7f5449ec91f0ba9f8166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 0
+  eachPartsType: 3
+  player: {fileID: 0}
+  isActiveSkill: 1
+  barrageObject: {fileID: 0}
 --- !u!1 &5705667338270822766
 GameObject:
   m_ObjectHideFlags: 0
@@ -4403,6 +4561,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338270822767}
+  - component: {fileID: 3686948583180515745}
   m_Layer: 0
   m_Name: LegsPanda
   m_TagString: Untagged
@@ -4427,6 +4586,22 @@ Transform:
   m_Father: {fileID: 5705667337429400518}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3686948583180515745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338270822766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b309a9e68e2204fbd1a7465161d904, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 0
+  eachPartsType: 0
+  player: {fileID: 0}
+  isActiveSkill: 0
 --- !u!1 &5705667338402248999
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,6 +4611,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338402248996}
+  - component: {fileID: 525545337484641389}
   m_Layer: 0
   m_Name: LegsBAKU
   m_TagString: Untagged
@@ -4458,8 +4634,25 @@ Transform:
   - {fileID: 745812937161009719}
   - {fileID: 7617520990196115884}
   m_Father: {fileID: 5705667337429400518}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &525545337484641389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338402248999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69060df1de2b7f5449ec91f0ba9f8166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 2
+  eachPartsType: 3
+  player: {fileID: 0}
+  isActiveSkill: 0
+  barrageObject: {fileID: 0}
 --- !u!1 &5705667338632950317
 GameObject:
   m_ObjectHideFlags: 0
@@ -4469,6 +4662,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338632950290}
+  - component: {fileID: 3147985585004831671}
   m_Layer: 0
   m_Name: BodysKijaku
   m_TagString: Untagged
@@ -4493,8 +4687,25 @@ Transform:
   - {fileID: 5984972226936599210}
   - {fileID: 6004928899866150548}
   m_Father: {fileID: 5705667337777893683}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3147985585004831671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338632950317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8912f4cbdd2ff48479b748b4f46e33c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 1
+  eachPartsType: 2
+  player: {fileID: 0}
+  isActiveSkill: 0
+  beamObject: {fileID: 0}
 --- !u!1 &5705667338876842997
 GameObject:
   m_ObjectHideFlags: 0
@@ -4504,6 +4715,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705667338876843002}
+  - component: {fileID: 7374552751038215571}
   m_Layer: 0
   m_Name: LegsKijaku
   m_TagString: Untagged
@@ -4528,8 +4740,25 @@ Transform:
   - {fileID: 4605710731134046312}
   - {fileID: 368764229793676412}
   m_Father: {fileID: 5705667337429400518}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7374552751038215571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5705667338876842997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8912f4cbdd2ff48479b748b4f46e33c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bodyPartsType: 2
+  eachPartsType: 2
+  player: {fileID: 0}
+  isActiveSkill: 0
+  beamObject: {fileID: 0}
 --- !u!1 &5875282713605491862
 GameObject:
   m_ObjectHideFlags: 0
@@ -5911,7 +6140,7 @@ MonoBehaviour:
   - {fileID: 6590164594665066095}
   - {fileID: 6020589851063842320}
   m_Bounds:
-    m_Center: {x: -0.94535446, y: 217.9332, z: 0}
+    m_Center: {x: -0.94535446, y: 217.93323, z: 0}
     m_Extent: {x: 2.11067, y: 4.3442, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1

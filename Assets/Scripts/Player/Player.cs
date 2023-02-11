@@ -14,12 +14,17 @@ namespace Players
     public class Player : MonoBehaviour, IDamageble
     {
         // 体の部位を設定
-        [SerializeField]
-        GameObject[] heads;
-        [SerializeField]
-        GameObject[] bodys;
-        [SerializeField]
-        GameObject[] legs;
+        [NamedArray(new string[] {"なし","麒麟", "鬿雀","獏" }),SerializeField]
+        private Parts[] heads;
+        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        private Parts[] bodys;
+        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        private Parts[] legs;
+
+        // 歩行スピードの調整用
+        public float WalkSpeedModifier = 1.0f;
+        // 重力調整用
+        public float GravityPowerModifier = 1.0f;
 
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
@@ -32,17 +37,12 @@ namespace Players
         [Header("やられた時のSE"), SerializeField] private AudioClip downSE;
         [Header("コンティニューしたときのSE"), SerializeField] private AudioClip continueSE;
         [Header("最大体力"), Range(10, 50), SerializeField] private int maxHP = 50;
-        [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxFlashTime = 1.0f;
-        //体の部位ごとに
+        [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxDamageTime = 1.0f;
+        // 各部位についているパーツ
         [NamedArray(new string[] { "頭", "体", "脚" })]
         [SerializeField] public static PartsType.EachPartsType[] BodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
-        //体の部位のスプライト
-        [NamedArray(new string[] { "頭", "体", "脚" })]
-        [SerializeField] private SpriteRenderer[] spriteBodyRenderer = new SpriteRenderer[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
         [SerializeField] private HPGauge playerGauge;
         [SerializeField] public CircleCollider2D[] AttackColliders;
-        //弾幕発生オブジェクト
-        [SerializeField] private GameObject barrageObject;
 
         [Header("歩行速度"), SerializeField] private float walkSpeed;
         public float WalkSpeed { get { return walkSpeed; } set { walkSpeed = value; } }
@@ -69,11 +69,11 @@ namespace Players
         public bool JumpStart { get { return jumpStart; } set { jumpStart = value; } }
 
         //元の重力
-        private float beforeGravityPower = 0.0f;
-        public float BeforeGravityPower { get { return beforeGravityPower; } }
+        private float defaltGravityPower = -5.0f;
+        public float DefaltGravityPower { get { return defaltGravityPower; } }
         //元の歩行速度
-        private float beforeWalkSpeed = 0.0f;
-        public float BeforeWalkSpeed { get { return beforeWalkSpeed; } }
+        private float defaltWalkSpeed = 10.0f;
+        public float DefaltWalkSpeed { get { return defaltWalkSpeed; } }
 
         //ジャンプ中でも攻撃を放てる
         private bool canJumpFire = false;
@@ -91,7 +91,6 @@ namespace Players
         [SerializeField]
         private Animator anim = null;
         private Rigidbody2D rb = null;
-        private SpriteRenderer sr = null;
         //地面判定
         private bool isGround = false;
         //頭が天井に当たった
@@ -101,9 +100,7 @@ namespace Players
         //コンティニュー
         private bool isDamage = false;
         //点滅続行時間
-        private float flashTime = 0.0f;
-        //絵が見えている時間
-        private float blinkTime = 0.0f;
+        private float damageTime = 0.0f;
         //ジャンプの最大時間
         private float jumpTime = 0.0f;
         //速度上昇時間
@@ -139,7 +136,6 @@ namespace Players
             //コンポーネントのインスタンスを捕まえる
             //anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-            sr = GetComponent<SpriteRenderer>();
             inputs.Player.Move.performed += OnMove;
             inputs.Player.Move.canceled += OnMove;
             inputs.Player.Fire.performed += OnFire;
@@ -148,8 +144,10 @@ namespace Players
             inputs.Player.HeadSkill.performed += OnActiveHeadSkill;
             inputs.Player.Attack.performed += OnAttack;
             currentHP = maxHP;
-            beforeGravityPower = gravityPower;
-            beforeWalkSpeed = walkSpeed;
+            defaltGravityPower = gravityPower;
+            defaltWalkSpeed = walkSpeed;
+
+            WalkSpeedModifier = 1.0f;
 
             // パーツの初期化処理
             for (int i = 0; i < BodyPartsTypes.Length; i++)
@@ -162,9 +160,9 @@ namespace Players
         {
             if (isDamage)
             {
-                flashTime += Time.deltaTime;
-                //maxFlashTime秒たったら明滅終わり
-                if (flashTime > maxFlashTime)
+                damageTime += Time.deltaTime;
+                //maxDamageTime秒たったらダメージから少しの猶予終わり
+                if (damageTime > maxDamageTime)
                 {
                     isDamage = false;
                 }
@@ -180,6 +178,10 @@ namespace Players
         }
         void FixedUpdate()
         {
+            if (!isGround)
+            {
+                rb.AddForce(new Vector2(0, gravityPower * GravityPowerModifier));
+            }
             //ダウンしていないとき、ゲームオーバーしていないとき
             if (!isDown/* && !GameManager.instance.isGameOver*/)
             {
@@ -196,7 +198,7 @@ namespace Players
             }
             else
             {
-                rb.velocity = new Vector2(0, gravityPower);
+                rb.velocity = new Vector2(0, gravityPower * GravityPowerModifier);
             }
         }
         private void OnMove(InputAction.CallbackContext context)
@@ -219,16 +221,26 @@ namespace Players
             if (!activeHeadSkill)
             {
                 activeHeadSkill = true;
-            }
-            if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Kirin)
-            {
-                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
-                obj.GetComponent<Barrage>().BulletSize = 0.6f;
-            }
-            else if (BodyPartsTypes[(int)PartsType.BodyPartsType.Head] == PartsType.EachPartsType.Baku)
-            {
-                var obj = Instantiate(barrageObject, transform.position, Quaternion.identity);
-                obj.GetComponent<Barrage>().BulletSize = 0.2f;
+                var bodyPartsType = BodyPartsTypes[(int)PartsType.BodyPartsType.Head];
+                switch (bodyPartsType)
+                {
+                    case PartsType.EachPartsType.None:
+                        break;
+                    case PartsType.EachPartsType.Kirin:
+                        heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
+                        heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
+                        break;
+                    case PartsType.EachPartsType.Kijaku:
+                        heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
+                        break;
+                    case PartsType.EachPartsType.Baku:
+                        heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
+                        heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
+                        break;
+                    default:
+                        Debug.LogError("体のパーツ頭の部分の型に関するエラーです。");
+                        break;
+                }
             }
         }
         private void OnJump(InputAction.CallbackContext context)
@@ -241,12 +253,21 @@ namespace Players
                     //ジャンプの音
                     //GameManager.instance.PlaySE(jumpSE);
                 }
+                //ジャンプ中であり、ダブルジャンプができる場合
                 if (isJump && canDoubleJump)
                 {
+                    Debug.Log("二度目"+ jumpPower);
                     doubleJump = true;
+                    isJump = false;
+                    rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 }
-                isJump = true;
-                rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+                if (isGround)
+                {//ジャンプをしていなくて地面を判定出来ている
+                    Debug.Log("一度目"+jumpPower);
+                    isJump = true;
+                    rb.velocity = new Vector2(rb.velocity.x, jumpPower);
+                }
+                Debug.Log("ジャンプ開始" + rb.velocity);
             }
         }
         /// <summary>
@@ -260,13 +281,13 @@ namespace Players
             {
                 transform.localScale = new Vector3(1, 1, 1);
                 dashTime += Time.deltaTime;
-                xSpeed = walkSpeed;
+                xSpeed = walkSpeed * WalkSpeedModifier;
             }
             else if (movePos.x < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
                 dashTime += Time.deltaTime;
-                xSpeed = -walkSpeed;
+                xSpeed = -walkSpeed * WalkSpeedModifier;
             }
             else
             {
@@ -307,7 +328,7 @@ namespace Players
                 bool canTime = jumpLimitTime <= jumpTime;
                 if (canHeight && canTime && !isHead)
                 {
-                    gravityPower = beforeGravityPower * 1.05f;
+                    gravityPower = defaltGravityPower * 1.05f;
                 }
             }
             //今の高さ
@@ -316,7 +337,7 @@ namespace Players
                 jumpPos = transform.position.y; //ジャンプした位置を記録する
             }
             //ジャンプ中
-            if (isJump)
+            if (isJump || doubleJump)
             {
                 //現在の高さが飛べる高さより上か
                 bool canHeight = jumpPos + jumpHeight <= transform.position.y;
@@ -325,7 +346,7 @@ namespace Players
 
                 if (canHeight && canTime && !isHead)
                 {
-                    gravityPower = beforeGravityPower * 1.05f;
+                    gravityPower = defaltGravityPower * 1.05f;
                 }
             }
         }
@@ -381,12 +402,29 @@ namespace Players
             //AttackColliders.enabled = false;
         }
         //パーツが違うことによって出来る物をすべて無効に
-        private void PartsSkillReset()
+        // パッシブスキルのみ
+        private void PartsSkillReset(PartsType.BodyPartsType bodyParts)
         {
-            canDoubleJump = false;
-            gravityPower = beforeGravityPower;
-            walkSpeed = beforeWalkSpeed;
-            canJumpFire = false;
+            switch (bodyParts)
+            {
+                case PartsType.BodyPartsType.Head:
+                    // 頭部はパッシブなし
+                    break;
+                case PartsType.BodyPartsType.Body:
+                    // キジャクスキル
+                    //gravityPower = defaltGravityPower;
+                    GravityPowerModifier = 1.0f;
+                    break;
+                case PartsType.BodyPartsType.Foot:
+                    // キリンスキル
+                    canDoubleJump = false;
+                    // キジャクスキル
+                    //walkSpeed = defaltWalkSpeed;
+                    WalkSpeedModifier = 1.0f;
+                    break;
+                default:
+                    break;
+            }
             jumpStart = false;
         }
         /// <summary>
@@ -434,6 +472,8 @@ namespace Players
         }
         public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
         {
+            // パーツのスキルを一旦リセット（パッシブ）
+            PartsSkillReset(bodyPartsType);
             BodyPartsTypes[(int)bodyPartsType] = partsType;
             SpriteModelChecker.SetCheckModel(BodyPartsTypes[0], BodyPartsTypes[1], BodyPartsTypes[2]);
             switch (bodyPartsType)
@@ -441,19 +481,42 @@ namespace Players
                 case PartsType.BodyPartsType.Head:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        heads[i].SetActive(i == (int)partsType);
+                        heads[i].gameObject.SetActive(i == (int)partsType);
                     }
                     break;
                 case PartsType.BodyPartsType.Body:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        bodys[i].SetActive(i == (int)partsType);
+                        bodys[i].gameObject.SetActive(i == (int)partsType);
+                    }
+
+                    // FIXME: ActiveSkillみたいな関数作ったほうがよさそう
+                    // キジャクだった場合のスキル
+                    if (partsType == PartsType.EachPartsType.Kijaku)
+                    {
+                        // 身軽にする
+                        GravityPowerModifier = 0.5f;
                     }
                     break;
                 case PartsType.BodyPartsType.Foot:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        legs[i].SetActive(i == (int)partsType);
+                        legs[i].gameObject.SetActive(i == (int)partsType);
+                    }
+                    // FIXME: ActiveSkillみたいな関数作ったほうがよさそう
+                    switch (partsType)
+                    {
+                        // キリンだった場合のスキル
+                        case PartsType.EachPartsType.Kirin:
+                            canDoubleJump = true;
+                            break;
+                        case PartsType.EachPartsType.Kijaku:
+                            WalkSpeedModifier = 1.25f;
+                            break;
+                        case PartsType.EachPartsType.Baku:
+                            break;
+                        default:
+                            break;
                     }
                     break;
                 default:
