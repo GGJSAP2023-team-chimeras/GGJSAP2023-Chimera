@@ -36,7 +36,7 @@ namespace Players
         [Header("ジャンプする時に鳴らすSE"), SerializeField] private AudioClip jumpSE;
         [Header("やられた時のSE"), SerializeField] private AudioClip downSE;
         [Header("コンティニューしたときのSE"), SerializeField] private AudioClip continueSE;
-        [Header("最大体力"), Range(10, 50), SerializeField] private int maxHP = 50;
+        [Header("最大体力"), SerializeField] private int maxHP = 50;
         [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxDamageTime = 1.0f;
         // 各部位についているパーツ
         [NamedArray(new string[] { "頭", "体", "脚" })]
@@ -379,7 +379,6 @@ namespace Players
             }
             else
             {
-                // FIXME: ダメージアニメーションの判断は引数ではなく状態でするべきかも
                 if (damageAnim)
                 {
                     //アニメーション再生
