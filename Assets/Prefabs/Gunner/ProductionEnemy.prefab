@@ -5438,7 +5438,7 @@ MonoBehaviour:
   - {fileID: 3650995191757612239}
   - {fileID: 3650995190057433862}
   - {fileID: 3650995189860184532}
-  maxHP: 10
+  maxHP: 50
   bodyPartsType: 0
   EachPartsType: 3
   maxWaitTime: 1

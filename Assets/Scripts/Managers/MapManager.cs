@@ -65,7 +65,7 @@ namespace Manager
             for (int i = 0; i < NumOfRoutes; i++)
             {
                 // FIXME: ‚Æ‚è‚ ‚¦‚¸3Ží—Þ‚ÅŒˆ‚ß‘Å‚¿
-                var rand = Random.Range(0, 3);
+                var rand = Random.Range(1, 4);
                 Routes.Add(rand);
             }
         }

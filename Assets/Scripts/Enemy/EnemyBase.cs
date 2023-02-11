@@ -85,6 +85,7 @@ namespace Enemys
             // 初期化処理
             EachPartsType = Manager.BattleSceneManager.Instance.BossEnemyType;
             bodyPartsType = (PartsType.BodyPartsType)Random.Range(0, 3);
+            Debug.Log("awake");
             SetParts(EachPartsType);
         }
 
@@ -95,6 +96,8 @@ namespace Enemys
             SetDestination(startPosition);
             player = GameObject.FindWithTag("Player").GetComponent<Player>();
             //anim = GetComponent<Animator>();
+
+            enemyHP = maxHP;
         }
         void Update()
         {
@@ -128,11 +131,14 @@ namespace Enemys
         }
         public void ReceiveDamage(bool playDamageAnim, int damage)
         {
+            Debug.Log($"hp: {enemyHP}");
+
             Debug.Log("damage enemy");
             //体力ゲージに反映
             enemyGauge.GaugeReduction(damage, enemyHP, maxHP);
             //体力を減少
             enemyHP -= damage;
+            Debug.Log($"damage: {damage}");
             //ダメージ音
             //GameManager.Instance.PlaySE(damageSE);
             //ダメージを受けた時アニメーションするか

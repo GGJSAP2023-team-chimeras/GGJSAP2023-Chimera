@@ -1482,6 +1482,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 862374994, guid: b4018f70099e136499461c0d932d789a, type: 3}
+      propertyPath: attackPoint
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1354785888, guid: b4018f70099e136499461c0d932d789a, type: 3}
       propertyPath: player
       value: 
@@ -1509,6 +1513,10 @@ PrefabInstance:
     - target: {fileID: 1927611601, guid: b4018f70099e136499461c0d932d789a, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.094
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954921397, guid: b4018f70099e136499461c0d932d789a, type: 3}
+      propertyPath: attackPoint
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3000764448664493912, guid: b4018f70099e136499461c0d932d789a, type: 3}
       propertyPath: m_Name
@@ -6622,7 +6630,7 @@ MonoBehaviour:
   - {fileID: 6624390034352880413}
   - {fileID: 6624390036151002324}
   - {fileID: 6624390036213476870}
-  maxHP: 10
+  maxHP: 50
   bodyPartsType: 0
   EachPartsType: 3
   maxWaitTime: 1

@@ -51,7 +51,6 @@ public class AttackPoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
         AddDamage(collision.gameObject);
     }
     private void OnParticleCollision(GameObject other)

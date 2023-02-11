@@ -71,17 +71,14 @@ namespace BodyParts
         public virtual void HeadSkill(PartsType.EachPartsType headType = PartsType.EachPartsType.None)
         {
             if (headType == PartsType.EachPartsType.None) return;
-            Debug.Log(headType.ToString());
         }
         public virtual void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
             if (bodyType == PartsType.EachPartsType.None) return;
-            Debug.Log(bodyType.ToString());
         }
         public virtual void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
         {
             if (footType == PartsType.EachPartsType.None) return;
-            Debug.Log(footType.ToString());
         }
     }
 }

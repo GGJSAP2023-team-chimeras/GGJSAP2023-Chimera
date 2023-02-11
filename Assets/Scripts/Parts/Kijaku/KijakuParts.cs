@@ -29,12 +29,12 @@ namespace BodyParts
         public override void BodySkill(PartsType.EachPartsType bodyType = PartsType.EachPartsType.None)
         {
             base.BodySkill(bodyType);
-            player.GravityPower = player.BeforeGravityPower * 0.5f;
+            player.GravityPower = player.DefaltGravityPower * 0.5f;
         }
         public override void FootSkill(PartsType.EachPartsType footType = PartsType.EachPartsType.None)
         {
             base.FootSkill(footType);
-            player.WalkSpeed = player.BeforeWalkSpeed * 1.25f;
+            player.WalkSpeed = player.DefaltWalkSpeed * 1.25f;
         }
     }
 }
