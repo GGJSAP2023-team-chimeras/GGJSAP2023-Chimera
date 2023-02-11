@@ -131,6 +131,14 @@ namespace Players
             // 有効化する必要がある
             inputs.Enable();
         }
+        private void OnDisable()
+        {
+            inputs.Disable();
+        }
+        private void OnDestroy()
+        {
+            inputs.Dispose();
+        }
         void Start()
         {
             //コンポーネントのインスタンスを捕まえる
@@ -371,6 +379,7 @@ namespace Players
             }
             else
             {
+                // FIXME: ダメージアニメーションの判断は引数ではなく状態でするべきかも
                 if (damageAnim)
                 {
                     //アニメーション再生
@@ -413,7 +422,8 @@ namespace Players
                 case PartsType.BodyPartsType.Body:
                     // キジャクスキル
                     //gravityPower = defaltGravityPower;
-                    GravityPowerModifier = 1.0f;
+                    //GravityPowerModifier = 1.0f;
+                    this.GetComponent<Rigidbody2D>().gravityScale = 1.0f;
                     break;
                 case PartsType.BodyPartsType.Foot:
                     // キリンスキル
@@ -495,7 +505,8 @@ namespace Players
                     if (partsType == PartsType.EachPartsType.Kijaku)
                     {
                         // 身軽にする
-                        GravityPowerModifier = 0.5f;
+                        //GravityPowerModifier = 0.5f;
+                        this.GetComponent<Rigidbody2D>().gravityScale = 0.5f;
                     }
                     break;
                 case PartsType.BodyPartsType.Foot:
