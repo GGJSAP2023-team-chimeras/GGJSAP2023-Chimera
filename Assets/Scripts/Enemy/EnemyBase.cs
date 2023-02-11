@@ -17,7 +17,7 @@ namespace Enemys
         GameObject[] legs;
 
         // 遠距離攻撃オブジェクト
-        public GameObject Bullet;
+        public GameObject Muzzle;
         public GameObject Barrage;
         public GameObject Beam;
 
@@ -97,7 +97,7 @@ namespace Enemys
             switch (EachPartsType)
             {
                 case PartsType.EachPartsType.Kirin:
-                    rangeAttackObject = Bullet;
+                    rangeAttackObject = Muzzle;
                     break;
                 case PartsType.EachPartsType.Kijaku:
                     rangeAttackObject = Beam;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Barrage : MonoBehaviour
 {
+    public AttackPoint.AttackTarget Target;
+
     //発射するタイプ
     public enum FireType
     {
@@ -49,6 +51,7 @@ public class Barrage : MonoBehaviour
             var obj = Instantiate(bulletObject, transform.position, Quaternion.identity);
             obj.transform.rotation = Quaternion.Euler(obj.transform.rotation.x, obj.transform.rotation.y, degree);
             obj.transform.localScale = Vector3.one * bulletSize;
+            obj.GetComponent<AttackPoint>().Target = this.Target;
             //徐々に出すタイプであれば待つ
             if (fireType == FireType.Barrage)
                 yield return new WaitForSeconds(0.01f);
