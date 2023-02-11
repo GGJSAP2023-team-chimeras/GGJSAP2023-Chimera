@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using BodyParts;
 using System.Linq;
+using System;
 
 public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
 {
@@ -46,7 +47,7 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
         var parts = Players.Player.BodyPartsTypes;
         BeforeModel.SetModelPartsAll(parts[0], parts[1], parts[2]);
 
-        var newParts = parts;
+        var newParts = (PartsType.EachPartsType[])parts.Clone();
         newParts[(int)dropBodyParts] = dropParts;
 
         AfterModel.SetModelPartsAll(parts[0], parts[1], parts[2]);
@@ -64,16 +65,16 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     /// </summary>
     public void OnPressYesButton()
     {
-        // TODO: パーツ入れ替え処理
         GameObject.FindWithTag("Player").GetComponent<Players.Player>().SetParts(dropBodyParts, dropParts);
         Manager.SceneManager.ChangeScene(1);
-        // FIXME: Debug
-        //ChangePartsUIObject.SetActive(false);
 
     }
 
+    /// <summary>
+    /// パーツの差し替えで「いいえ」を選んだ時
+    /// </summary>
     public void OnPressNoButton()
     {
-        ChangePartsUIObject.SetActive(false);
+        Manager.SceneManager.ChangeScene(1);
     }
 }
