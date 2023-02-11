@@ -16,6 +16,11 @@ namespace Enemys
         [SerializeField]
         GameObject[] legs;
 
+        // 遠距離攻撃オブジェクト
+        public GameObject Muzzle;
+        public GameObject Barrage;
+        public GameObject Beam;
+
         public enum EnemyState
         {
             Move,        //歩行
@@ -84,9 +89,25 @@ namespace Enemys
         {
             // 初期化処理
             EachPartsType = Manager.BattleSceneManager.Instance.BossEnemyType;
+            // ドロップするパーツをランダムで
             bodyPartsType = (PartsType.BodyPartsType)Random.Range(0, 3);
-            Debug.Log("awake");
             SetParts(EachPartsType);
+
+            // 遠距離攻撃オブジェクトの設定
+            switch (EachPartsType)
+            {
+                case PartsType.EachPartsType.Kirin:
+                    rangeAttackObject = Muzzle;
+                    break;
+                case PartsType.EachPartsType.Kijaku:
+                    rangeAttackObject = Beam;
+                    break;
+                case PartsType.EachPartsType.Baku:
+                    rangeAttackObject = Barrage;
+                    break;
+                default:
+                    break;
+            }
         }
 
         void Start()
@@ -262,7 +283,8 @@ namespace Enemys
                 {
                     /*if(anim != null)
                         anim.SetTrigger(armAttackAnimHash);*/
-                    Instantiate(rangeAttackObject, transform.position, Quaternion.identity);
+                    var rotation = this.transform.localScale.x == -1 ? Quaternion.AngleAxis(180, Vector3.up) : this.transform.rotation;
+                    Instantiate(rangeAttackObject, transform.position, rotation);
                     isArrival = true;
                     SetState(EnemyState.Freeze);
                 }

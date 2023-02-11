@@ -13,13 +13,13 @@ public class AttackPoint : MonoBehaviour
     //攻撃力
     [SerializeField] private int attackPoint;
     //攻撃の目標を設定
-    [SerializeField] private AttackTarget attackTarget = AttackTarget.Player;
+    [SerializeField] public AttackTarget Target = AttackTarget.Player;
     private string targetAttackTag = "Player";
     // Start is called before the first frame update
     void Start()
     {
         //攻撃を与える目標設定
-        switch (attackTarget)
+        switch (Target)
         {
             case AttackTarget.Player:
                 targetAttackTag = "Player";
