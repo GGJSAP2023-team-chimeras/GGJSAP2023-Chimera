@@ -1466,6 +1466,10 @@ PrefabInstance:
       propertyPath: playerGauge
       value: 
       objectReference: {fileID: 983354633}
+    - target: {fileID: 1616144458, guid: b4018f70099e136499461c0d932d789a, type: 3}
+      propertyPath: maxDamageTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3000764448664493912, guid: b4018f70099e136499461c0d932d789a, type: 3}
       propertyPath: m_Name
       value: ProductionPlayer
@@ -2423,7 +2427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResultUIObject: {fileID: 359755402}
-  BossEnemyType: 1
+  BossEnemyType: 3
   IsFinishGame: 0
 --- !u!4 &1962275363
 Transform:

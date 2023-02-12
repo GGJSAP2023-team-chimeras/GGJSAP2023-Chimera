@@ -158,8 +158,10 @@ namespace Players
             //コンポーネントのインスタンスを捕まえる
             //anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-            inputs.Player.Move.performed += OnMove;
-            inputs.Player.Move.canceled += OnMove;
+            // Moveはこれだと移動がおかしくなるような
+            //inputs.Player.Move.performed += OnMove;
+            //inputs.Player.Move.canceled += OnMove;
+
             //inputs.Player.Fire.performed += OnFire;
             //inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
@@ -190,6 +192,7 @@ namespace Players
                 if (damageTime > maxDamageTime)
                 {
                     isDamage = false;
+                    damageTime = 0;
                 }
             }
             if (activeHeadSkill)
@@ -226,6 +229,16 @@ namespace Players
             {
                 rb.velocity = new Vector2(0, gravityPower * GravityPowerModifier);
             }
+
+            // 足がバクだったらダメージ受けてても動ける
+            if (!isDamage || BodyPartsTypes[(int)PartsType.BodyPartsType.Foot] == PartsType.EachPartsType.Baku)
+            {
+                movePos = inputs.Player.Move.ReadValue<Vector2>();
+            }
+            else
+            {
+                movePos = Vector2.zero;
+            }
         }
         private void OnMove(InputAction.CallbackContext context)
         {
@@ -238,15 +251,6 @@ namespace Players
                 movePos = Vector2.zero;
             }
         }
-        //private void OnFire(InputAction.CallbackContext context)
-        //{
-        //    if (!context.performed) return;
-        //    isFire = true;
-        //    if (context.canceled)
-        //    {
-        //        isFire = false;
-        //    }
-        //}
         private void OnShoot(InputAction.CallbackContext context)
         {
             //if (!context.performed) return;
@@ -267,22 +271,19 @@ namespace Players
                     case PartsType.EachPartsType.Kirin:
                         //heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
                         //heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
-                        var muzzle = Muzzle;
+                        var muzzle = Instantiate(Muzzle, this.transform.position, rotation);
                         muzzle.GetComponent<Muzzle>().Target = AttackPoint.AttackTarget.Enemy;
-                        Instantiate(muzzle, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Kijaku:
                         //heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
-                        var beam = Beam;
+                        var beam = Instantiate(Beam, this.transform.position, rotation);
                         beam.GetComponentInChildren<Beam>().Target = AttackPoint.AttackTarget.Enemy;
-                        Instantiate(beam, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Baku:
                         //heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
                         //heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
-                        var barrage = Barrage;
+                        var barrage = Instantiate(Barrage, this.transform.position, rotation);
                         barrage.GetComponent<Barrage>().Target = AttackPoint.AttackTarget.Enemy;
-                        Instantiate(Barrage, this.transform.position, rotation);
                         break;
                     default:
                         Debug.LogError("体のパーツ頭の部分の型に関するエラーです。");
@@ -412,7 +413,8 @@ namespace Players
         /// <param name="damageAnim"></param>
         public void ReceiveDamage(bool damageAnim, int damage)
         {
-            if (isDown)
+            // 死んでるかダメージ受けてたら何もない
+            if (isDown || isDamage)
             {
                 return;
             }
@@ -422,7 +424,7 @@ namespace Players
                 {
                     //アニメーション再生
 
-                    //anim.SetTrigger(damageAnimHash);
+                    anim.SetTrigger(damageAnimHash);
                 }
                 if (playerGauge != null)
                     playerGauge.GaugeReduction(damage, currentHP, maxHP);
@@ -445,6 +447,8 @@ namespace Players
             Manager.BattleSceneManager.Instance.FinishGame();
 
             this.enabled = false;
+
+            isDown = true;
         }
 
         private void AttackStart()
