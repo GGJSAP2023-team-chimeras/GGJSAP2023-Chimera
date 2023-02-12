@@ -14,7 +14,7 @@ namespace Players
     public class Player : MonoBehaviour, IDamageble
     {
         // 体の部位を設定
-        [NamedArray(new string[] {"なし","麒麟", "鬿雀","獏" }),SerializeField]
+        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
         private Parts[] heads;
         [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
         private Parts[] bodys;
@@ -216,7 +216,13 @@ namespace Players
         private void OnMove(InputAction.CallbackContext context)
         {
             if (!isDamage)
+            {
                 movePos = context.ReadValue<Vector2>();
+            }
+            else
+            {
+                movePos = Vector2.zero;
+            }
         }
         //private void OnFire(InputAction.CallbackContext context)
         //{
@@ -277,14 +283,14 @@ namespace Players
                 //ジャンプ中であり、ダブルジャンプができる場合
                 if (isJump && canDoubleJump)
                 {
-                    Debug.Log("二度目"+ jumpPower);
+                    Debug.Log("二度目" + jumpPower);
                     doubleJump = true;
                     isJump = false;
                     rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 }
                 if (isGround)
                 {//ジャンプをしていなくて地面を判定出来ている
-                    Debug.Log("一度目"+jumpPower);
+                    Debug.Log("一度目" + jumpPower);
                     isJump = true;
                     rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 }
@@ -401,7 +407,7 @@ namespace Players
                 if (playerGauge != null)
                     playerGauge.GaugeReduction(damage, currentHP, maxHP);
                 currentHP -= damage;
-                if (!isDamage)
+                if (!isDamage && damageAnim)
                 {
                     isDamage = true;
                 }

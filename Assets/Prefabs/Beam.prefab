@@ -126,6 +126,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Target: 0
   AttackPoint: 10
+  IsDamaged: 0
+  slipInterval: 0.3
 --- !u!1 &5528131889277707132
 GameObject:
   m_ObjectHideFlags: 0
