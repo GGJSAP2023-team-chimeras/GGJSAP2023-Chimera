@@ -31,6 +31,10 @@ namespace Players
         public GameObject Barrage;
         public GameObject Beam;
 
+        // コルーチン保存用
+        // FIXME: もっといいやりかたありそう
+        private Coroutine attackCoroutine;
+
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
         [Header("ジャンプ制限時間"), SerializeField] private float jumpLimitTime;
@@ -172,6 +176,10 @@ namespace Players
             {
                 SetParts((PartsType.BodyPartsType)i, BodyPartsTypes[i]);
             }
+
+            // 攻撃用コライダーの初期化
+            AttackColliders.ToList().ForEach(v => v.enabled = false);
+
         }
         private void Update()
         {
@@ -510,7 +518,11 @@ namespace Players
             }
             if (context.performed)
             {
-                StartCoroutine(ArmAttack());
+                if (attackCoroutine != null)
+                {
+                    StopCoroutine(attackCoroutine);
+                }
+                attackCoroutine = StartCoroutine(ArmAttack());
             }
         }
 
@@ -523,6 +535,7 @@ namespace Players
             anim.SetLayerWeight(1, 0f);
             anim.Play("ArmIdle");
             AttackEnd();
+            attackCoroutine = null;
         }
         public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
         {
