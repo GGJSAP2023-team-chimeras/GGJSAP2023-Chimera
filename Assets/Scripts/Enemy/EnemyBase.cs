@@ -8,6 +8,10 @@ namespace Enemys
 {
     public class EnemyBase : MonoBehaviour, IDamageble
     {
+        // どれくらい強くなっていくか
+        public int HitPointPowerUpModifier = 10;
+        public float AttackRateUpModifier = 0.1f;
+
         // 体の部位を設定
         [SerializeField]
         GameObject[] heads;
@@ -21,6 +25,9 @@ namespace Enemys
         public GameObject Barrage;
         public GameObject Beam;
 
+        // 攻撃頻度
+        public float RangeAttackRate = 0.1f;
+
         public enum EnemyState
         {
             Move,        //歩行
@@ -32,7 +39,7 @@ namespace Enemys
             Death        //死亡
         }
         //最大体力
-        [Range(5, 50), SerializeField] protected int maxHP = 10;
+        [SerializeField] protected int maxHP = 10;
         //手に入れる体パーツ
         [SerializeField] protected PartsType.BodyPartsType bodyPartsType = PartsType.BodyPartsType.Head;
         //体のパーツの種類
@@ -112,6 +119,16 @@ namespace Enemys
 
         void Start()
         {
+            // 強さをステージごとに変える
+            var layers = Manager.ResultManager.Instance.NumOfLayers;
+            maxHP = layers * HitPointPowerUpModifier;
+            // FIXME: 中ボスの単位も別途参照したい
+            RangeAttackRate = RangeAttackRate + (layers / (5 + 1)) * AttackRateUpModifier;
+            if (RangeAttackRate >= 0.8f)
+            {
+                RangeAttackRate = 0.8f;
+            }
+
             //初期位置を設定
             startPosition = transform.position;
             SetDestination(startPosition);
@@ -122,15 +139,15 @@ namespace Enemys
         }
         void Update()
         {
-             if (anim != null)
+            if (anim != null)
             {
                 if (beforePosition != transform.position)
                 {
-                    if(beforePosition.x > transform.position.x)
+                    if (beforePosition.x > transform.position.x)
                     {
                         transform.localScale = new Vector3(-1, 1, 1);
                     }
-                    else if(beforePosition.x < transform.position.x)
+                    else if (beforePosition.x < transform.position.x)
                     {
                         transform.localScale = new Vector3(1, 1, 1);
                     }
@@ -240,15 +257,17 @@ namespace Enemys
                 waitTime += Time.deltaTime;
                 if (waitTime >= maxWaitTime)
                 {
-                    int random = UnityEngine.Random.Range(0, 10);
-                    if (random >= 8)
+                    // 攻撃に遷移する確率
+                    var random = Random.Range(0f, 1f);
+                    if (random <= RangeAttackRate)
                     {
                         SetState(EnemyState.RangeAttack);
                     }
-                    else if (random >= 6)
-                    {
-                        SetState(EnemyState.ShortAttack);
-                    }
+                    // TODO; 近接攻撃は未実装
+                    //else if (random <= 6)
+                    //{
+                    //    SetState(EnemyState.ShortAttack);
+                    //}
                     else
                     {
                         SetState(EnemyState.Move);
