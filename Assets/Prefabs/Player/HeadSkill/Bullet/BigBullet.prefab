@@ -41,7 +41,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_LocalRotation.x
@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_ConstrainProportionsScale
@@ -82,6 +82,22 @@ PrefabInstance:
     - target: {fileID: 6479602891623058742, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: destroyTime
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6479602891623058743, guid: d0215336a674c524080329160f5ae0bc, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c8b0777c6940e284fb2925fed186d4e9, type: 3}
+    - target: {fileID: 6479602891623058749, guid: d0215336a674c524080329160f5ae0bc, type: 3}
+      propertyPath: m_Radius
+      value: 4.2823186
+      objectReference: {fileID: 0}
+    - target: {fileID: 6479602891623058749, guid: d0215336a674c524080329160f5ae0bc, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.71592873
+      objectReference: {fileID: 0}
+    - target: {fileID: 6479602891623058749, guid: d0215336a674c524080329160f5ae0bc, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.1758425
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0215336a674c524080329160f5ae0bc, type: 3}

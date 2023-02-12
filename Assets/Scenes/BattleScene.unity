@@ -2373,7 +2373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResultUIObject: {fileID: 359755402}
-  BossEnemyType: 2
+  BossEnemyType: 1
 --- !u!4 &1962275363
 Transform:
   m_ObjectHideFlags: 0
@@ -3760,6 +3760,10 @@ PrefabInstance:
       propertyPath: rightTransform
       value: 
       objectReference: {fileID: 512672342}
+    - target: {fileID: 6075749630201814461, guid: 25479aee881f22f478dc956fab0638c2, type: 3}
+      propertyPath: RangeAttackRate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6075749630201814462, guid: 25479aee881f22f478dc956fab0638c2, type: 3}
       propertyPath: m_RootOrder
       value: 8

@@ -45,7 +45,7 @@ namespace Players
         [Header("ダメージ時点滅持続時間"), Range(0.2f, 1.0f), SerializeField] private float maxDamageTime = 1.0f;
         // 各部位についているパーツ
         [NamedArray(new string[] { "頭", "体", "脚" })]
-        [SerializeField] public static PartsType.EachPartsType[] BodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.EachPartsType)).Length];
+        [SerializeField] public static PartsType.EachPartsType[] BodyPartsTypes = new PartsType.EachPartsType[Enum.GetValues(typeof(PartsType.BodyPartsType)).Length];
         [SerializeField] private HPGauge playerGauge;
         [SerializeField] public CircleCollider2D[] AttackColliders;
 
