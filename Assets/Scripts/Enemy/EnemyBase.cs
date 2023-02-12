@@ -249,6 +249,7 @@ namespace Enemys
             //死んだらパーツを出して死ぬ
             if (enemyState == EnemyState.Death)
             {
+                Manager.BattleSceneManager.Instance.StopGame();
                 ChangePartsUI.Instance.ShowPartsUI(bodyPartsType);
                 Destroy(gameObject);
             }

@@ -47,8 +47,6 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     /// <param name="bodyPartsType">身体のどのパーツか</param>
     public void ShowPartsUI(PartsType.BodyPartsType bodyPartsType)
     {
-        Debug.Log(bodyPartsType);
-        Debug.Log(dropBodyParts);
         dropParts = Manager.BattleSceneManager.Instance.BossEnemyType;
         dropBodyParts = bodyPartsType;
         ChangePartsUIObject.SetActive(true);
@@ -99,6 +97,9 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
 
     public IEnumerator SoundFinishCoroutine(Action action)
     {
+        // ボタンを全部disabledに
+        FindObjectsOfType<Button>().ToList().ForEach(button => button.interactable = false);
+
         FadePanel.gameObject.SetActive(true);
         DOTween.ToAlpha(() => FadePanel.color, color => FadePanel.color = color, 1f, 1f);
 

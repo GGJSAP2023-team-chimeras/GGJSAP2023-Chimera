@@ -13,13 +13,19 @@ namespace Players
     /// </summary>
     public class Player : MonoBehaviour, IDamageble
     {
-        // 体の部位を設定
-        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
-        private Parts[] heads;
-        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
-        private Parts[] bodys;
-        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
-        private Parts[] legs;
+        //// 体の部位を設定
+        //[NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        //private Parts[] heads;
+        //[NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        //private Parts[] bodys;
+        //[NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        //private Parts[] legs;
+        [SerializeField]
+        GameObject[] heads;
+        [SerializeField]
+        GameObject[] bodys;
+        [SerializeField]
+        GameObject[] legs;
 
         // 歩行スピードの調整用
         public float WalkSpeedModifier = 1.0f;
@@ -420,7 +426,8 @@ namespace Players
             }
             else
             {
-                if (damageAnim)
+                // バクだったらスーパーアーマー
+                if (damageAnim && BodyPartsTypes[(int)PartsType.BodyPartsType.Foot] != PartsType.EachPartsType.Baku)
                 {
                     //アニメーション再生
 
@@ -444,6 +451,7 @@ namespace Players
         {
             Debug.Log("死亡");
             anim.SetTrigger(deadAnimHash);
+            Manager.BattleSceneManager.Instance.StopGame();
             Manager.BattleSceneManager.Instance.FinishGame();
 
             this.enabled = false;
@@ -552,13 +560,15 @@ namespace Players
                 case PartsType.BodyPartsType.Head:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        heads[i].gameObject.SetActive(i == (int)partsType);
+                        //heads[i].gameObject.SetActive(i == (int)partsType);
+                        heads[i].SetActive(i == (int)partsType);
                     }
                     break;
                 case PartsType.BodyPartsType.Body:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        bodys[i].gameObject.SetActive(i == (int)partsType);
+                        //bodys[i].gameObject.SetActive(i == (int)partsType);
+                        bodys[i].SetActive(i == (int)partsType);
                     }
 
                     // FIXME: ActiveSkillみたいな関数作ったほうがよさそう
@@ -573,7 +583,8 @@ namespace Players
                 case PartsType.BodyPartsType.Foot:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        legs[i].gameObject.SetActive(i == (int)partsType);
+                        //legs[i].gameObject.SetActive(i == (int)partsType);
+                        legs[i].SetActive(i == (int)partsType);
                     }
                     // FIXME: ActiveSkillみたいな関数作ったほうがよさそう
                     switch (partsType)

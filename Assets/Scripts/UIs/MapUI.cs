@@ -62,6 +62,9 @@ public class MapUI : MonoBehaviour
     //        せめてコールバック的に呼べるようにすれば共通化できる？
     public IEnumerator SoundFinishCoroutine(float soundLength, int routeIdx)
     {
+        // ボタンを全部disabledに
+        FindObjectsOfType<Button>().ToList().ForEach(button => button.interactable = false);
+
         yield return new WaitForSeconds(soundLength);
         Manager.MapManager.Instance.GoNext(routeIdx);
     }

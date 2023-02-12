@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using DG.Tweening;
+using System.Linq;
 
 // ResultUIオブジェクト(空オブジェクト)にアタッチ
 public class ResultUI : SingletonMonoBehaviour<ResultUI>
@@ -49,11 +50,13 @@ public class ResultUI : SingletonMonoBehaviour<ResultUI>
     // タイトルに戻る処理
     public void OnPressBackTitleButton()
     {
-        Manager.SceneManager.ChangeScene(0);
+        StartCoroutine(SoundFinishCoroutine(() => Manager.SceneManager.ChangeScene(0)));
     }
 
     public IEnumerator SoundFinishCoroutine(Action action)
     {
+        // ボタンを全部disabledに
+        FindObjectsOfType<Button>().ToList().ForEach(button => button.interactable = false);
         Source.loop = false;
         Source.clip = DecisionSound;
         Source.Play();
