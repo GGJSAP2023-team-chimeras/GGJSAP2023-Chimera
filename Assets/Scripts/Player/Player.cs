@@ -13,13 +13,19 @@ namespace Players
     /// </summary>
     public class Player : MonoBehaviour, IDamageble
     {
-        // 体の部位を設定
-        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
-        private Parts[] heads;
-        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
-        private Parts[] bodys;
-        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
-        private Parts[] legs;
+        //// 体の部位を設定
+        //[NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        //private Parts[] heads;
+        //[NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        //private Parts[] bodys;
+        //[NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
+        //private Parts[] legs;
+        [SerializeField]
+        GameObject[] heads;
+        [SerializeField]
+        GameObject[] bodys;
+        [SerializeField]
+        GameObject[] legs;
 
         // 歩行スピードの調整用
         public float WalkSpeedModifier = 1.0f;
@@ -30,6 +36,10 @@ namespace Players
         public GameObject Muzzle;
         public GameObject Barrage;
         public GameObject Beam;
+
+        // コルーチン保存用
+        // FIXME: もっといいやりかたありそう
+        private Coroutine attackCoroutine;
 
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
@@ -154,8 +164,10 @@ namespace Players
             //コンポーネントのインスタンスを捕まえる
             //anim = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
-            inputs.Player.Move.performed += OnMove;
-            inputs.Player.Move.canceled += OnMove;
+            // Moveはこれだと移動がおかしくなるような
+            //inputs.Player.Move.performed += OnMove;
+            //inputs.Player.Move.canceled += OnMove;
+
             //inputs.Player.Fire.performed += OnFire;
             //inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
@@ -172,6 +184,10 @@ namespace Players
             {
                 SetParts((PartsType.BodyPartsType)i, BodyPartsTypes[i]);
             }
+
+            // 攻撃用コライダーの初期化
+            AttackColliders.ToList().ForEach(v => v.enabled = false);
+
         }
         private void Update()
         {
@@ -182,6 +198,7 @@ namespace Players
                 if (damageTime > maxDamageTime)
                 {
                     isDamage = false;
+                    damageTime = 0;
                 }
             }
             if (activeHeadSkill)
@@ -218,6 +235,16 @@ namespace Players
             {
                 rb.velocity = new Vector2(0, gravityPower * GravityPowerModifier);
             }
+
+            // 足がバクだったらダメージ受けてても動ける
+            if (!isDamage || BodyPartsTypes[(int)PartsType.BodyPartsType.Foot] == PartsType.EachPartsType.Baku)
+            {
+                movePos = inputs.Player.Move.ReadValue<Vector2>();
+            }
+            else
+            {
+                movePos = Vector2.zero;
+            }
         }
         private void OnMove(InputAction.CallbackContext context)
         {
@@ -230,15 +257,6 @@ namespace Players
                 movePos = Vector2.zero;
             }
         }
-        //private void OnFire(InputAction.CallbackContext context)
-        //{
-        //    if (!context.performed) return;
-        //    isFire = true;
-        //    if (context.canceled)
-        //    {
-        //        isFire = false;
-        //    }
-        //}
         private void OnShoot(InputAction.CallbackContext context)
         {
             //if (!context.performed) return;
@@ -259,22 +277,19 @@ namespace Players
                     case PartsType.EachPartsType.Kirin:
                         //heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
                         //heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
-                        var muzzle = Muzzle;
+                        var muzzle = Instantiate(Muzzle, this.transform.position, rotation);
                         muzzle.GetComponent<Muzzle>().Target = AttackPoint.AttackTarget.Enemy;
-                        Instantiate(muzzle, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Kijaku:
                         //heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
-                        var beam = Beam;
+                        var beam = Instantiate(Beam, this.transform.position, rotation);
                         beam.GetComponentInChildren<Beam>().Target = AttackPoint.AttackTarget.Enemy;
-                        Instantiate(beam, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Baku:
                         //heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
                         //heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
-                        var barrage = Barrage;
+                        var barrage = Instantiate(Barrage, this.transform.position, rotation);
                         barrage.GetComponent<Barrage>().Target = AttackPoint.AttackTarget.Enemy;
-                        Instantiate(Barrage, this.transform.position, rotation);
                         break;
                     default:
                         Debug.LogError("体のパーツ頭の部分の型に関するエラーです。");
@@ -404,17 +419,19 @@ namespace Players
         /// <param name="damageAnim"></param>
         public void ReceiveDamage(bool damageAnim, int damage)
         {
-            if (isDown)
+            // 死んでるかダメージ受けてたら何もない
+            if (isDown || isDamage)
             {
                 return;
             }
             else
             {
-                if (damageAnim)
+                // バクだったらスーパーアーマー
+                if (damageAnim && BodyPartsTypes[(int)PartsType.BodyPartsType.Foot] != PartsType.EachPartsType.Baku)
                 {
                     //アニメーション再生
 
-                    //anim.SetTrigger(damageAnimHash);
+                    anim.SetTrigger(damageAnimHash);
                 }
                 if (playerGauge != null)
                     playerGauge.GaugeReduction(damage, currentHP, maxHP);
@@ -434,9 +451,12 @@ namespace Players
         {
             Debug.Log("死亡");
             anim.SetTrigger(deadAnimHash);
+            Manager.BattleSceneManager.Instance.StopGame();
             Manager.BattleSceneManager.Instance.FinishGame();
 
             this.enabled = false;
+
+            isDown = true;
         }
 
         private void AttackStart()
@@ -510,7 +530,11 @@ namespace Players
             }
             if (context.performed)
             {
-                StartCoroutine(ArmAttack());
+                if (attackCoroutine != null)
+                {
+                    StopCoroutine(attackCoroutine);
+                }
+                attackCoroutine = StartCoroutine(ArmAttack());
             }
         }
 
@@ -523,6 +547,7 @@ namespace Players
             anim.SetLayerWeight(1, 0f);
             anim.Play("ArmIdle");
             AttackEnd();
+            attackCoroutine = null;
         }
         public void SetParts(PartsType.BodyPartsType bodyPartsType, PartsType.EachPartsType partsType)
         {
@@ -535,13 +560,15 @@ namespace Players
                 case PartsType.BodyPartsType.Head:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        heads[i].gameObject.SetActive(i == (int)partsType);
+                        //heads[i].gameObject.SetActive(i == (int)partsType);
+                        heads[i].SetActive(i == (int)partsType);
                     }
                     break;
                 case PartsType.BodyPartsType.Body:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        bodys[i].gameObject.SetActive(i == (int)partsType);
+                        //bodys[i].gameObject.SetActive(i == (int)partsType);
+                        bodys[i].SetActive(i == (int)partsType);
                     }
 
                     // FIXME: ActiveSkillみたいな関数作ったほうがよさそう
@@ -556,7 +583,8 @@ namespace Players
                 case PartsType.BodyPartsType.Foot:
                     for (int i = 0; i < heads.Length; i++)
                     {
-                        legs[i].gameObject.SetActive(i == (int)partsType);
+                        //legs[i].gameObject.SetActive(i == (int)partsType);
+                        legs[i].SetActive(i == (int)partsType);
                     }
                     // FIXME: ActiveSkillみたいな関数作ったほうがよさそう
                     switch (partsType)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Linq;
 
 public class StartUI : MonoBehaviour
 {
@@ -37,6 +38,9 @@ public class StartUI : MonoBehaviour
 
     public IEnumerator SoundFinishCoroutine(Action action)
     {
+        // ƒ{ƒ^ƒ“‚ð‘S•”disabled‚É
+        FindObjectsOfType<Button>().ToList().ForEach(button => button.interactable = false);
+
         Source.loop = false;
         Source.clip = DecisionSound;
         Source.Play();
