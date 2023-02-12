@@ -63,7 +63,7 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
         AfterModel.SetModelParts(dropBodyParts, dropParts);
         // éüÇÃÉpÅ[Éc
         var isCheck = SpriteModelChecker.GetCheckModel(newParts[0], newParts[1], newParts[2]);
-        if (isCheck)
+        if (!isCheck)
         {
             AfterModel.SetColor(Color.black);
         }
