@@ -113,6 +113,8 @@ namespace Players
         //反転した場合の前回の方向
         private float beforeKey = 0.0f;
         private float headCoolTime = 0.0f;
+        // 遠距離攻撃のインターバル
+        [SerializeField]
         private float maxHeadCoolTime = 2.0f;
         //体力
         private int currentHP = 0;
@@ -185,6 +187,7 @@ namespace Players
                 if (headCoolTime >= maxHeadCoolTime)
                 {
                     activeHeadSkill = false;
+                    headCoolTime = 0;
                 }
             }
         }
