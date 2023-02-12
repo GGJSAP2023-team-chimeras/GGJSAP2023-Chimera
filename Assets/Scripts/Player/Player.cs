@@ -14,7 +14,7 @@ namespace Players
     public class Player : MonoBehaviour, IDamageble
     {
         // 体の部位を設定
-        [NamedArray(new string[] {"なし","麒麟", "鬿雀","獏" }),SerializeField]
+        [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
         private Parts[] heads;
         [NamedArray(new string[] { "なし", "麒麟", "鬿雀", "獏" }), SerializeField]
         private Parts[] bodys;
@@ -25,6 +25,11 @@ namespace Players
         public float WalkSpeedModifier = 1.0f;
         // 重力調整用
         public float GravityPowerModifier = 1.0f;
+
+        // 遠距離攻撃オブジェクト
+        public GameObject Muzzle;
+        public GameObject Barrage;
+        public GameObject Beam;
 
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
@@ -108,6 +113,8 @@ namespace Players
         //反転した場合の前回の方向
         private float beforeKey = 0.0f;
         private float headCoolTime = 0.0f;
+        // 遠距離攻撃のインターバル
+        [SerializeField]
         private float maxHeadCoolTime = 2.0f;
         //体力
         private int currentHP = 0;
@@ -146,11 +153,11 @@ namespace Players
             rb = GetComponent<Rigidbody2D>();
             inputs.Player.Move.performed += OnMove;
             inputs.Player.Move.canceled += OnMove;
-            inputs.Player.Fire.performed += OnFire;
-            inputs.Player.Fire.canceled += OnFire;
+            //inputs.Player.Fire.performed += OnFire;
+            //inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
-            inputs.Player.HeadSkill.performed += OnActiveHeadSkill;
-            inputs.Player.Attack.performed += OnAttack;
+            inputs.Player.Shoot.performed += OnShoot;
+            inputs.Player.Fire.performed += OnFire;
             currentHP = maxHP;
             defaltGravityPower = gravityPower;
             defaltWalkSpeed = walkSpeed;
@@ -180,6 +187,7 @@ namespace Players
                 if (headCoolTime >= maxHeadCoolTime)
                 {
                     activeHeadSkill = false;
+                    headCoolTime = 0;
                 }
             }
         }
@@ -211,38 +219,59 @@ namespace Players
         private void OnMove(InputAction.CallbackContext context)
         {
             if (!isDamage)
-                movePos = context.ReadValue<Vector2>();
-        }
-        private void OnFire(InputAction.CallbackContext context)
-        {
-            if (!context.performed) return;
-            isFire = true;
-            if (context.canceled)
             {
-                isFire = false;
+                movePos = context.ReadValue<Vector2>();
+            }
+            else
+            {
+                movePos = Vector2.zero;
             }
         }
-        private void OnActiveHeadSkill(InputAction.CallbackContext context)
+        //private void OnFire(InputAction.CallbackContext context)
+        //{
+        //    if (!context.performed) return;
+        //    isFire = true;
+        //    if (context.canceled)
+        //    {
+        //        isFire = false;
+        //    }
+        //}
+        private void OnShoot(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
+            //if (!context.performed) return;
             if (!activeHeadSkill)
             {
+                // FIXME: 入れ子汚い
+                // キリンのパーツじゃなかったらジャンプ撃ちできない
+                if (isJump && BodyPartsTypes[(int)PartsType.BodyPartsType.Body] != PartsType.EachPartsType.Kirin)
+                {
+                    return;
+                }
                 activeHeadSkill = true;
                 var bodyPartsType = BodyPartsTypes[(int)PartsType.BodyPartsType.Head];
+                var rotation = this.transform.localScale.x == -1 ? Quaternion.AngleAxis(180, Vector3.up) : this.transform.rotation;
                 switch (bodyPartsType)
                 {
-                    case PartsType.EachPartsType.None:
-                        break;
+                    // FIXME: ターゲット設定周りはもう少しきれいにかけそう
                     case PartsType.EachPartsType.Kirin:
-                        heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
-                        heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
+                        //heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
+                        //heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
+                        var muzzle = Muzzle;
+                        muzzle.GetComponent<Muzzle>().Target = AttackPoint.AttackTarget.Enemy;
+                        Instantiate(muzzle, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Kijaku:
-                        heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
+                        //heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
+                        var beam = Beam;
+                        beam.GetComponentInChildren<Beam>().Target = AttackPoint.AttackTarget.Enemy;
+                        Instantiate(beam, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Baku:
-                        heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
-                        heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
+                        //heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
+                        //heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
+                        var barrage = Barrage;
+                        barrage.GetComponent<Barrage>().Target = AttackPoint.AttackTarget.Enemy;
+                        Instantiate(Barrage, this.transform.position, rotation);
                         break;
                     default:
                         Debug.LogError("体のパーツ頭の部分の型に関するエラーです。");
@@ -263,14 +292,14 @@ namespace Players
                 //ジャンプ中であり、ダブルジャンプができる場合
                 if (isJump && canDoubleJump)
                 {
-                    Debug.Log("二度目"+ jumpPower);
+                    Debug.Log("二度目" + jumpPower);
                     doubleJump = true;
                     isJump = false;
                     rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 }
                 if (isGround)
                 {//ジャンプをしていなくて地面を判定出来ている
-                    Debug.Log("一度目"+jumpPower);
+                    Debug.Log("一度目" + jumpPower);
                     isJump = true;
                     rb.velocity = new Vector2(rb.velocity.x, jumpPower);
                 }
@@ -387,7 +416,7 @@ namespace Players
                 if (playerGauge != null)
                     playerGauge.GaugeReduction(damage, currentHP, maxHP);
                 currentHP -= damage;
-                if (!isDamage)
+                if (!isDamage && damageAnim)
                 {
                     isDamage = true;
                 }
@@ -460,8 +489,13 @@ namespace Players
         /// 近距離
         /// </summary>
         /// <param name="context"></param>
-        private void OnAttack(InputAction.CallbackContext context)
+        private void OnFire(InputAction.CallbackContext context)
         {
+            // バクのパーツじゃなかったらジャンプ攻撃できない
+            if (isJump && BodyPartsTypes[(int)PartsType.BodyPartsType.Body] != PartsType.EachPartsType.Baku)
+            {
+                return;
+            }
             if (context.performed)
             {
                 StartCoroutine(ArmAttack());

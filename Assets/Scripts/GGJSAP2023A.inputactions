@@ -42,7 +42,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "HeadSkill",
+                    "name": "Shoot",
                     "type": "Button",
                     "id": "01a0a3be-bf2c-4dce-b6ba-7ac62c105e9d",
                     "expectedControlType": "Button",
@@ -301,6 +301,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ed728b94-1cf5-4abd-aa34-6b351cff50ab",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a061db64-8a37-43e0-a9fc-5a50f04cafb2",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -328,7 +339,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "HeadSkill",
+                    "action": "Shoot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -351,17 +362,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "FootSkill",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8c148c95-d3ec-41cf-bb8a-00d09cf83d2d",
-                    "path": "<Keyboard>/z",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
