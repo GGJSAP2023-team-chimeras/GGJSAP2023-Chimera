@@ -14,6 +14,8 @@ public class Beam : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        Debug.Log(collision.tag);
+        Debug.Log(collision.name);
         // FIXME: –{—ˆ‚Ítostring‚Å‚Í‚È‚­“Æ©‚Éˆ—‚ğ‘‚¢‚½•û‚ª‚¢‚¢
         if (collision.CompareTag(Target.ToString()))
         {

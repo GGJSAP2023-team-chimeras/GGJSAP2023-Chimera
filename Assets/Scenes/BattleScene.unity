@@ -1631,6 +1631,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1616144458, guid: b4018f70099e136499461c0d932d789a, type: 3}
+      propertyPath: Beam
+      value: 
+      objectReference: {fileID: 5528131889277707132, guid: c949e5564b493ac4ebeaf36f55b378d1, type: 3}
+    - target: {fileID: 1616144458, guid: b4018f70099e136499461c0d932d789a, type: 3}
+      propertyPath: Muzzle
+      value: 
+      objectReference: {fileID: 268717124886521911, guid: 907470a5e69f6dc4ea2ab9ea06521f52, type: 3}
+    - target: {fileID: 1616144458, guid: b4018f70099e136499461c0d932d789a, type: 3}
+      propertyPath: Barrage
+      value: 
+      objectReference: {fileID: 4947318851288747980, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
+    - target: {fileID: 1616144458, guid: b4018f70099e136499461c0d932d789a, type: 3}
       propertyPath: playerGauge
       value: 
       objectReference: {fileID: 983354633}
@@ -1684,6 +1696,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4018f70099e136499461c0d932d789a, type: 3}
+--- !u!1 &1548117321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6075749630201814463, guid: 25479aee881f22f478dc956fab0638c2, type: 3}
+  m_PrefabInstance: {fileID: 7585327774137753554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!50 &1548117324
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1548117321}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &1589874054
 GameObject:
   m_ObjectHideFlags: 0
@@ -2414,7 +2452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ResultUIObject: {fileID: 359755402}
-  BossEnemyType: 3
+  BossEnemyType: 2
 --- !u!4 &1962275363
 Transform:
   m_ObjectHideFlags: 0
@@ -3902,5 +3940,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProductionEnemy
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6075749631557828524, guid: 25479aee881f22f478dc956fab0638c2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 25479aee881f22f478dc956fab0638c2, type: 3}

@@ -64,7 +64,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""HeadSkill"",
+                    ""name"": ""Shoot"",
                     ""type"": ""Button"",
                     ""id"": ""01a0a3be-bf2c-4dce-b6ba-7ac62c105e9d"",
                     ""expectedControlType"": ""Button"",
@@ -323,6 +323,17 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ed728b94-1cf5-4abd-aa34-6b351cff50ab"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""a061db64-8a37-43e0-a9fc-5a50f04cafb2"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
@@ -350,7 +361,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""HeadSkill"",
+                    ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -373,17 +384,6 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""FootSkill"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8c148c95-d3ec-41cf-bb8a-00d09cf83d2d"",
-                    ""path"": ""<Keyboard>/z"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -975,7 +975,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_HeadSkill = m_Player.FindAction("HeadSkill", throwIfNotFound: true);
+        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_BodySkill = m_Player.FindAction("BodySkill", throwIfNotFound: true);
         m_Player_FootSkill = m_Player.FindAction("FootSkill", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
@@ -1054,7 +1054,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_HeadSkill;
+    private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_BodySkill;
     private readonly InputAction m_Player_FootSkill;
     private readonly InputAction m_Player_Attack;
@@ -1066,7 +1066,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @HeadSkill => m_Wrapper.m_Player_HeadSkill;
+        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @BodySkill => m_Wrapper.m_Player_BodySkill;
         public InputAction @FootSkill => m_Wrapper.m_Player_FootSkill;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
@@ -1091,9 +1091,9 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @HeadSkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeadSkill;
-                @HeadSkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeadSkill;
-                @HeadSkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHeadSkill;
+                @Shoot.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShoot;
                 @BodySkill.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodySkill;
                 @BodySkill.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodySkill;
                 @BodySkill.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBodySkill;
@@ -1119,9 +1119,9 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @HeadSkill.started += instance.OnHeadSkill;
-                @HeadSkill.performed += instance.OnHeadSkill;
-                @HeadSkill.canceled += instance.OnHeadSkill;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
                 @BodySkill.started += instance.OnBodySkill;
                 @BodySkill.performed += instance.OnBodySkill;
                 @BodySkill.canceled += instance.OnBodySkill;
@@ -1291,7 +1291,7 @@ public partial class @GGJSAP2023A : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnHeadSkill(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
         void OnBodySkill(InputAction.CallbackContext context);
         void OnFootSkill(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);

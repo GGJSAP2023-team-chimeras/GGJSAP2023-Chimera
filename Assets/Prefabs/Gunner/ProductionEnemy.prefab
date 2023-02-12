@@ -5386,6 +5386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6075749630201814462}
+  - component: {fileID: 1548117324}
   - component: {fileID: 6075749630201814461}
   m_Layer: 0
   m_Name: ProductionEnemy
@@ -5411,6 +5412,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &1548117324
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6075749630201814463}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!114 &6075749630201814461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5443,7 +5465,7 @@ MonoBehaviour:
   Beam: {fileID: 5528131889277707132, guid: c949e5564b493ac4ebeaf36f55b378d1, type: 3}
   maxHP: 50
   bodyPartsType: 0
-  EachPartsType: 3
+  EachPartsType: 1
   maxWaitTime: 1
   rangeAttackObject: {fileID: 4947318851288747980, guid: 831dc8ce7df11e84a9eae08e30b2ed12, type: 3}
   walkSpeed: 5
@@ -5464,7 +5486,6 @@ GameObject:
   - component: {fileID: 6075749631557828521}
   - component: {fileID: 6075749631557828527}
   - component: {fileID: 6075749631557828520}
-  - component: {fileID: 6075749631557828524}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Enemy
@@ -5565,27 +5586,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &6075749631557828524
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6075749631557828522}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!1 &6257817873203042894
 GameObject:
   m_ObjectHideFlags: 0

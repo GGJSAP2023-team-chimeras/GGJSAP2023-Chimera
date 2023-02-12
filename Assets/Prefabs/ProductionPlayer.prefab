@@ -1060,7 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: 10
-  attackTarget: 1
+  Target: 1
 --- !u!1 &2405796648708140137 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2383192517508114045, guid: 3a3c780a9c9e39e42ad67d7446efe493, type: 3}
@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: 10
-  attackTarget: 1
+  Target: 1
 --- !u!114 &3161020665069382051 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3147985585004831671, guid: 3a3c780a9c9e39e42ad67d7446efe493, type: 3}

@@ -26,6 +26,11 @@ namespace Players
         // 重力調整用
         public float GravityPowerModifier = 1.0f;
 
+        // 遠距離攻撃オブジェクト
+        public GameObject Muzzle;
+        public GameObject Barrage;
+        public GameObject Beam;
+
         #region//インスペクターで設定する
         [Header("ジャンプ速度"), SerializeField] private float jumpPower;
         [Header("ジャンプ制限時間"), SerializeField] private float jumpLimitTime;
@@ -146,11 +151,11 @@ namespace Players
             rb = GetComponent<Rigidbody2D>();
             inputs.Player.Move.performed += OnMove;
             inputs.Player.Move.canceled += OnMove;
-            inputs.Player.Fire.performed += OnFire;
-            inputs.Player.Fire.canceled += OnFire;
+            //inputs.Player.Fire.performed += OnFire;
+            //inputs.Player.Fire.canceled += OnFire;
             inputs.Player.Jump.started += OnJump;
-            inputs.Player.HeadSkill.performed += OnActiveHeadSkill;
-            inputs.Player.Attack.performed += OnAttack;
+            inputs.Player.Shoot.performed += OnShoot;
+            inputs.Player.Fire.performed += OnFire;
             currentHP = maxHP;
             defaltGravityPower = gravityPower;
             defaltWalkSpeed = walkSpeed;
@@ -213,36 +218,45 @@ namespace Players
             if (!isDamage)
                 movePos = context.ReadValue<Vector2>();
         }
-        private void OnFire(InputAction.CallbackContext context)
+        //private void OnFire(InputAction.CallbackContext context)
+        //{
+        //    if (!context.performed) return;
+        //    isFire = true;
+        //    if (context.canceled)
+        //    {
+        //        isFire = false;
+        //    }
+        //}
+        private void OnShoot(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            isFire = true;
-            if (context.canceled)
-            {
-                isFire = false;
-            }
-        }
-        private void OnActiveHeadSkill(InputAction.CallbackContext context)
-        {
-            if (!context.performed) return;
+            //if (!context.performed) return;
             if (!activeHeadSkill)
             {
                 activeHeadSkill = true;
                 var bodyPartsType = BodyPartsTypes[(int)PartsType.BodyPartsType.Head];
+                var rotation = this.transform.localScale.x == -1 ? Quaternion.AngleAxis(180, Vector3.up) : this.transform.rotation;
                 switch (bodyPartsType)
                 {
-                    case PartsType.EachPartsType.None:
-                        break;
+                    // FIXME: ターゲット設定周りはもう少しきれいにかけそう
                     case PartsType.EachPartsType.Kirin:
-                        heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
-                        heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
+                        //heads[(int)PartsType.EachPartsType.Kirin].BulletSize = 0.6f;
+                        //heads[(int)PartsType.EachPartsType.Kirin].HeadSkill();
+                        var muzzle = Muzzle;
+                        muzzle.GetComponent<Muzzle>().Target = AttackPoint.AttackTarget.Enemy;
+                        Instantiate(muzzle, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Kijaku:
-                        heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
+                        //heads[(int)PartsType.EachPartsType.Kijaku].HeadSkill();
+                        var beam = Beam;
+                        beam.GetComponentInChildren<Beam>().Target = AttackPoint.AttackTarget.Enemy;
+                        Instantiate(beam, this.transform.position, rotation);
                         break;
                     case PartsType.EachPartsType.Baku:
-                        heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
-                        heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
+                        //heads[(int)PartsType.EachPartsType.Baku].BulletSize = 0.2f;
+                        //heads[(int)PartsType.EachPartsType.Baku].HeadSkill();
+                        var barrage = Barrage;
+                        barrage.GetComponent<Barrage>().Target = AttackPoint.AttackTarget.Enemy;
+                        Instantiate(Barrage, this.transform.position, rotation);
                         break;
                     default:
                         Debug.LogError("体のパーツ頭の部分の型に関するエラーです。");
@@ -460,7 +474,7 @@ namespace Players
         /// 近距離
         /// </summary>
         /// <param name="context"></param>
-        private void OnAttack(InputAction.CallbackContext context)
+        private void OnFire(InputAction.CallbackContext context)
         {
             if (context.performed)
             {
