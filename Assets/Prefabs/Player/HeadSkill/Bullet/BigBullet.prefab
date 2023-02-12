@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6479602891623058736, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: attackPoint
-      value: 100
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6479602891623058737, guid: d0215336a674c524080329160f5ae0bc, type: 3}
       propertyPath: m_RootOrder

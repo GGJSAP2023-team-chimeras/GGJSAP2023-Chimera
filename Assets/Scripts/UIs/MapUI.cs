@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using DG.Tweening;
 
 public class MapUI : MonoBehaviour
 {
+    // 決定音
+    public AudioClip DecisionSound;
+    public AudioSource Source;
+
     // ルート選択ボタンのプレハブ
     public GameObject RouteButtonPrefab;
     // 前のルート選択の画像プレハブ
@@ -22,6 +27,9 @@ public class MapUI : MonoBehaviour
     // yだけ参照したい
     // xは、前とか現在で書き換えていく
     public List<RouteButtonPositions> RouteButtonPositionsList;
+
+    // フェード用パネル
+    public Image FadePanel;
 
     [System.Serializable]
     public class RouteButtonPositions
@@ -41,11 +49,26 @@ public class MapUI : MonoBehaviour
     /// <param name="routeIdx">上から何個目か（0始まり）</param>
     public void OnPressRouteButton(int routeIdx)
     {
+        Source.loop = false;
+        Source.clip = DecisionSound;
+        Source.Play();
+        StartCoroutine(SoundFinishCoroutine(DecisionSound.length, routeIdx));
+
+        FadePanel.gameObject.SetActive(true);
+        DOTween.ToAlpha(() => FadePanel.color, color => FadePanel.color = color, 1f, 1f);
+    }
+
+    // FIXME: SEが終了したときの処理もう少しきれいに書けそう
+    //        せめてコールバック的に呼べるようにすれば共通化できる？
+    public IEnumerator SoundFinishCoroutine(float soundLength, int routeIdx)
+    {
+        yield return new WaitForSeconds(soundLength);
         Manager.MapManager.Instance.GoNext(routeIdx);
     }
 
     public void InitMapUI()
     {
+        FadePanel.gameObject.SetActive(false);
         var routes = Manager.MapManager.Instance.NumOfRoutes;
         var prevRoutes = Manager.MapManager.Instance.NumOfPrevRoutes;
         var prevSelectRoute = Manager.MapManager.Instance.PrevRouteIndex;

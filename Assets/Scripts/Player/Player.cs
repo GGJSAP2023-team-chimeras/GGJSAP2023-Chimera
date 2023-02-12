@@ -127,6 +127,9 @@ namespace Players
         private int walkAnimHash = Animator.StringToHash("Walk");
         private int damageAnimHash = Animator.StringToHash("Damage");
         private int jumpAnimHash = Animator.StringToHash("Jump");
+
+        private int deadAnimHash = Animator.StringToHash("Dead");
+
         #endregion
         protected virtual void Awake()
         {
@@ -422,11 +425,20 @@ namespace Players
                 }
                 if (currentHP <= 0)
                 {
-                    Debug.Log("死亡");
-                    Manager.BattleSceneManager.Instance.FinishGame();
+                    Dead();
                 }
             }
         }
+
+        public void Dead()
+        {
+            Debug.Log("死亡");
+            anim.SetTrigger(deadAnimHash);
+            Manager.BattleSceneManager.Instance.FinishGame();
+
+            this.enabled = false;
+        }
+
         private void AttackStart()
         {
             AttackColliders.ToList().ForEach(v => v.enabled = true);

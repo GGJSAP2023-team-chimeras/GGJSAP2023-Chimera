@@ -10,6 +10,8 @@ namespace Manager
 
         public BodyParts.PartsType.EachPartsType BossEnemyType;
 
+        public bool IsFinishGame = false;
+
         /// <summary>
         /// ƒV[ƒ“‘JˆÚ‚Åíœ‚µ‚Ä‚Ù‚µ‚­‚È‚¢
         /// </summary>
@@ -36,8 +38,14 @@ namespace Manager
         /// </summary>
         public void FinishGame()
         {
+            if (IsFinishGame)
+            {
+                return;
+            }
             ResultUI.Instance.ResultUIObject.SetActive(false);
             ResultUI.Instance.ShowResult();
+
+            IsFinishGame = true;
         }
     }
 }

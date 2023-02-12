@@ -5,9 +5,17 @@ using UnityEngine.UI;
 using BodyParts;
 using System.Linq;
 using System;
+using DG.Tweening;
 
 public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
 {
+    // 決定音
+    public AudioClip DecisionSound;
+    public AudioSource Source;
+
+    // フェードアウト用パネル
+    public Image FadePanel;
+
     public GameObject ChangePartsUIObject;
     public Button FirstSelectedButton;
 
@@ -21,6 +29,9 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     {
         base.Awake();
         ChangePartsUIObject.SetActive(false);
+
+        // フェーダーを非表示に
+        FadePanel.gameObject.SetActive(false);
     }
 
     public void DebugShowPartsUI()
@@ -65,9 +76,15 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     /// </summary>
     public void OnPressYesButton()
     {
-        GameObject.FindWithTag("Player").GetComponent<Players.Player>().SetParts(dropBodyParts, dropParts);
-        Manager.SceneManager.ChangeScene(1);
-
+        StartCoroutine(
+            SoundFinishCoroutine(
+                () =>
+                    {
+                        GameObject.FindWithTag("Player").GetComponent<Players.Player>().SetParts(dropBodyParts, dropParts);
+                        Manager.SceneManager.ChangeScene(1);
+                    }
+                )
+            );
     }
 
     /// <summary>
@@ -75,6 +92,22 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
     /// </summary>
     public void OnPressNoButton()
     {
-        Manager.SceneManager.ChangeScene(1);
+        StartCoroutine(
+            SoundFinishCoroutine(() => Manager.SceneManager.ChangeScene(1))
+            );
+    }
+
+    public IEnumerator SoundFinishCoroutine(Action action)
+    {
+        FadePanel.gameObject.SetActive(true);
+        DOTween.ToAlpha(() => FadePanel.color, color => FadePanel.color = color, 1f, 1f);
+
+        Source.loop = false;
+        Source.clip = DecisionSound;
+        Source.Play();
+
+        yield return new WaitForSeconds(DecisionSound.length);
+
+        action();
     }
 }

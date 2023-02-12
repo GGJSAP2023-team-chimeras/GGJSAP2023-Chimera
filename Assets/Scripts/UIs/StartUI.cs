@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class StartUI : MonoBehaviour
 {
@@ -11,22 +13,47 @@ public class StartUI : MonoBehaviour
     public GameObject ConfirmDialogue;
     public Button FirstSelectedButton;
 
+    // 決定音
+    public AudioClip DecisionSound;
+    public AudioSource Source;
+
+    // フェードアウト用パネル
+    public Image FadePanel;
+
     private void Awake()
     {
         ConfirmDialogue.SetActive(false);
         FirstSelectedButton.Select();
+
+        FadePanel.gameObject.SetActive(false);
     }
 
     public void OnPressStartButton()
     {
-        Manager.SceneManager.ChangeScene(1);
+        StartCoroutine(SoundFinishCoroutine(
+            () => Manager.SceneManager.ChangeScene(1)
+            ));
+    }
+
+    public IEnumerator SoundFinishCoroutine(Action action)
+    {
+        Source.loop = false;
+        Source.clip = DecisionSound;
+        Source.Play();
+
+        FadePanel.gameObject.SetActive(true);
+        DOTween.ToAlpha(() => FadePanel.color, color => FadePanel.color = color, 1f, 1f);
+        yield return new WaitForSeconds(DecisionSound.length);
+
+        action();
     }
 
     public void OnPressBookButton()
     {
-        Manager.SceneManager.ChangeScene(3);
+        StartCoroutine(SoundFinishCoroutine(
+            () => Manager.SceneManager.ChangeScene(3)
+            ));
 
-        Debug.Log("press book");
     }
 
     public void OnPressExitButton()
@@ -34,7 +61,9 @@ public class StartUI : MonoBehaviour
         //// 一回確認用モーダル出す
         //ConfirmDialogue.SetActive(true);
         // TODO: 一旦モーダル出さずにQuit処理
-        OnPressDialogueExitButton();
+        StartCoroutine(SoundFinishCoroutine(
+            () => OnPressDialogueExitButton()
+            ));
     }
 
     public void OnPressDialogueExitButton()
