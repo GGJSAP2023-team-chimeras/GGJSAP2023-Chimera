@@ -241,6 +241,12 @@ namespace Players
             //if (!context.performed) return;
             if (!activeHeadSkill)
             {
+                // FIXME: 入れ子汚い
+                // キリンのパーツじゃなかったらジャンプ撃ちできない
+                if (isJump && BodyPartsTypes[(int)PartsType.BodyPartsType.Body] != PartsType.EachPartsType.Kirin)
+                {
+                    return;
+                }
                 activeHeadSkill = true;
                 var bodyPartsType = BodyPartsTypes[(int)PartsType.BodyPartsType.Head];
                 var rotation = this.transform.localScale.x == -1 ? Quaternion.AngleAxis(180, Vector3.up) : this.transform.rotation;
@@ -485,6 +491,11 @@ namespace Players
         /// <param name="context"></param>
         private void OnFire(InputAction.CallbackContext context)
         {
+            // バクのパーツじゃなかったらジャンプ攻撃できない
+            if (isJump && BodyPartsTypes[(int)PartsType.BodyPartsType.Body] != PartsType.EachPartsType.Baku)
+            {
+                return;
+            }
             if (context.performed)
             {
                 StartCoroutine(ArmAttack());
