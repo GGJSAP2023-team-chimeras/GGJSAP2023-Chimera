@@ -78,7 +78,8 @@ public class ChangePartsUI : SingletonMonoBehaviour<ChangePartsUI>
             SoundFinishCoroutine(
                 () =>
                     {
-                        GameObject.FindWithTag("Player").GetComponent<Players.Player>().SetParts(dropBodyParts, dropParts);
+                        //GameObject.FindWithTag("Player").GetComponent<Players.Player>().SetParts(dropBodyParts, dropParts);
+                        FindObjectOfType<Players.Player>().SetParts(dropBodyParts, dropParts);
                         Manager.SceneManager.ChangeScene(1);
                     }
                 )
